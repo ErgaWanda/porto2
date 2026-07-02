@@ -1,17 +1,64 @@
+"use client";
+import { motion } from "framer-motion";
+
 export default function EducationSection() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+        delayChildren: 0.2,
+      },
+    },
+  } as const;
+
+  const tagVariants = {
+    hidden: { scale: 0.8, opacity: 0 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 150, damping: 12 },
+    },
+  } as const;
+
   return (
     <section className="section" id="pendidikan">
       <div className="container">
         {/* Header */}
-        <div className="section-header-line reveal">
+        <motion.div 
+          className="section-header-line"
+          initial={{ width: 0, opacity: 0 }}
+          whileInView={{ width: "100%", opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
           <span className="t-label">Pendidikan</span>
-        </div>
-        <h2 className="t-h1 reveal reveal-delay-1" style={{ marginBottom: "48px", marginTop: "12px" }}>
+        </motion.div>
+        <motion.h2 
+          className="t-h1" 
+          style={{ marginBottom: "48px", marginTop: "12px" }}
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
           Latar<br />
           <span style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Akademik</span>
-        </h2>
+        </motion.h2>
 
-        <div className="edu-card reveal reveal-delay-2">
+        <motion.div 
+          className="edu-card"
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ type: "spring", stiffness: 80, damping: 15 }}
+          whileHover={{ 
+            borderColor: "var(--primary)",
+            boxShadow: "0 10px 30px rgba(99, 102, 241, 0.06)",
+            y: -2
+          }}
+        >
           <div>
             <div className="t-label" style={{ marginBottom: "12px" }}>
               2021 — 2025
@@ -22,13 +69,17 @@ export default function EducationSection() {
             </div>
 
             {/* Courses / highlights */}
-            <div
+            <motion.div
               style={{
                 marginTop: "24px",
                 display: "flex",
                 flexWrap: "wrap",
                 gap: "8px",
               }}
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
             >
               {[
                 "Struktur Data",
@@ -40,17 +91,22 @@ export default function EducationSection() {
                 "Kecerdasan Buatan",
                 "Rekayasa Perangkat Lunak",
               ].map((c) => (
-                <span key={c} className="skill-tag">
+                <motion.span 
+                  key={c} 
+                  className="skill-tag"
+                  variants={tagVariants}
+                  whileHover={{ scale: 1.05, borderColor: "var(--primary)", backgroundColor: "rgba(99, 102, 241, 0.03)" }}
+                >
                   {c}
-                </span>
+                </motion.span>
               ))}
-            </div>
+            </motion.div>
           </div>
 
           <div className="edu-gpa-container">
             <div className="edu-gpa">3.23</div>
             <div className="edu-gpa-label">IPK / 4.0</div>
-            <div
+            <motion.div
               style={{
                 marginTop: "24px",
                 padding: "12px 20px",
@@ -59,6 +115,7 @@ export default function EducationSection() {
                 display: "inline-block",
                 borderRadius: "var(--radius-sm)",
               }}
+              whileHover={{ borderColor: "var(--accent)" }}
             >
               <div
                 style={{
@@ -83,9 +140,9 @@ export default function EducationSection() {
               >
                 Lulus 2025
               </div>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

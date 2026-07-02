@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function ContactSection() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
@@ -65,47 +66,102 @@ export default function ContactSection() {
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  } as const;
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 100, damping: 15 },
+    },
+  } as const;
+
   return (
     <section className="section" id="kontak">
       <div className="container">
         {/* Header */}
-        <div className="section-header-line reveal">
+        <motion.div 
+          className="section-header-line"
+          initial={{ width: 0, opacity: 0 }}
+          whileInView={{ width: "100%", opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
           <span className="t-label">Kontak</span>
-        </div>
-        <h2 className="t-h1 reveal reveal-delay-1" style={{ marginBottom: "48px", marginTop: "12px" }}>
+        </motion.div>
+        <motion.h2 
+          className="t-h1" 
+          style={{ marginBottom: "48px", marginTop: "12px" }}
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
           Mari<br />
           <span style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Berkolaborasi</span>
-        </h2>
+        </motion.h2>
 
         <div className="contact-grid">
           {/* Info */}
-          <div className="contact-info reveal reveal-delay-1">
-            <p style={{ fontFamily: "var(--font-body)", fontSize: "15px", lineHeight: 1.8, color: "var(--text-dim)", marginBottom: "8px" }}>
+          <motion.div 
+            className="contact-info"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+          >
+            <motion.p 
+              style={{ fontFamily: "var(--font-body)", fontSize: "15px", lineHeight: 1.8, color: "var(--text)", marginBottom: "8px" }}
+              variants={itemVariants}
+            >
               Saya terbuka untuk proyek freelance, kerja sama jangka panjang,
               maupun posisi full-time. Jangan ragu menghubungi saya.
-            </p>
+            </motion.p>
 
             {contacts.map((c) => (
-              <a
+              <motion.a
                 key={c.label}
                 href={c.href}
                 target={c.href.startsWith("http") ? "_blank" : undefined}
                 rel="noopener noreferrer"
                 className="contact-item"
                 style={{ display: "flex", textDecoration: "none" }}
+                variants={itemVariants}
+                whileHover={{ 
+                  scale: 1.02, 
+                  x: 5, 
+                  borderColor: "var(--primary)",
+                  boxShadow: "0 10px 25px rgba(99, 102, 241, 0.05)"
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
                 <div className="contact-item-icon">{c.icon}</div>
                 <div>
                   <div className="contact-item-label">{c.label}</div>
                   <div className="contact-item-value">{c.value}</div>
                 </div>
-              </a>
+              </motion.a>
             ))}
-          </div>
+          </motion.div>
 
           {/* Form */}
-          <form className="contact-form reveal reveal-delay-2" onSubmit={handleSubmit}>
-
+          <motion.form 
+            className="contact-form" 
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ type: "spring", stiffness: 80, damping: 15 }}
+          >
             <div className="form-group">
               <label className="form-label" htmlFor="contact-name">Nama</label>
               <input
@@ -161,29 +217,31 @@ export default function ContactSection() {
               />
             </div>
 
-            <button
+            <motion.button
               type="submit"
               className="btn btn-primary"
               style={{ width: "100%", justifyContent: "center" }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               {sent ? (
                 <>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: "6px" }}>
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                   Transmisi Terkirim
                 </>
               ) : (
                 <>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: "6px" }}>
                     <line x1="22" y1="2" x2="11" y2="13"/>
                     <polygon points="22 2 15 22 11 13 2 9 22 2"/>
                   </svg>
                   Kirim Transmisi
                 </>
               )}
-            </button>
-          </form>
+            </motion.button>
+          </motion.form>
         </div>
       </div>
     </section>

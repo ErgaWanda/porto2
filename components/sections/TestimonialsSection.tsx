@@ -1,3 +1,6 @@
+"use client";
+import { motion } from "framer-motion";
+
 const testimonials = [
   {
     text: "Erga menunjukkan kemampuan luar biasa dalam membangun sistem manajemen internal yang kami butuhkan. Proyek selesai tepat waktu dengan kualitas yang melampaui ekspektasi. Dia sangat antusias belajar teknologi baru dan cepat beradaptasi.",
@@ -26,23 +29,69 @@ const testimonials = [
 ];
 
 export default function TestimonialsSection() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  } as const;
+
+  const cardVariants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 80, damping: 15 },
+    },
+  } as const;
+
   return (
     <section className="section" id="ulasan">
       <div className="container">
         {/* Header */}
-        <div className="section-header-line reveal">
+        <motion.div 
+          className="section-header-line"
+          initial={{ width: 0, opacity: 0 }}
+          whileInView={{ width: "100%", opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
           <span className="t-label">Ulasan</span>
-        </div>
-        <h2 className="t-h1 reveal reveal-delay-1" style={{ marginBottom: "48px", marginTop: "12px" }}>
+        </motion.div>
+        <motion.h2 
+          className="t-h1" 
+          style={{ marginBottom: "48px", marginTop: "12px" }}
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
           Yang Mereka<br />
           <span style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Katakan</span>
-        </h2>
+        </motion.h2>
 
-        <div className="testimonials-grid">
+        <motion.div 
+          className="testimonials-grid"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+        >
           {testimonials.map((t, i) => (
-            <div
+            <motion.div
               key={i}
-              className={`testimonial-card reveal reveal-delay-${Math.min(i + 1, 4)}`}
+              className="testimonial-card"
+              variants={cardVariants}
+              whileHover={{ 
+                scale: 1.01, 
+                y: -4, 
+                borderColor: "var(--primary)",
+                boxShadow: "0 10px 25px rgba(99, 102, 241, 0.05)"
+              }}
+              transition={{ type: "spring", stiffness: 200, damping: 15 }}
             >
               <p className="testimonial-text">"{t.text}"</p>
               <div className="testimonial-author">
@@ -52,9 +101,9 @@ export default function TestimonialsSection() {
                   <div className="testimonial-role">{t.role}</div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

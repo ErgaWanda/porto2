@@ -1,3 +1,6 @@
+"use client";
+import { motion } from "framer-motion";
+
 const experiences = [
   {
     role: "Full Stack Developer",
@@ -24,23 +27,62 @@ const experiences = [
 ];
 
 export default function ExperienceSection() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  } as const;
+
+  const itemVariants = {
+    hidden: { x: -30, opacity: 0 },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 85, damping: 15 },
+    },
+  } as const;
+
   return (
     <section className="section" id="pengalaman">
       <div className="container">
         {/* Header */}
-        <div className="section-header-line reveal">
+        <motion.div 
+          className="section-header-line"
+          initial={{ width: 0, opacity: 0 }}
+          whileInView={{ width: "100%", opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
           <span className="t-label">Pengalaman Kerja</span>
-        </div>
-        <h2 className="t-h1 reveal reveal-delay-1" style={{ marginBottom: "64px", marginTop: "12px" }}>
+        </motion.div>
+        <motion.h2 
+          className="t-h1" 
+          style={{ marginBottom: "64px", marginTop: "12px" }}
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
           Riwayat<br />
           <span style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Penugasan</span>
-        </h2>
+        </motion.h2>
 
-        <div className="timeline">
-          {experiences.map((exp, i) => (
-            <div
+        <motion.div 
+          className="timeline"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          {experiences.map((exp) => (
+            <motion.div
               key={exp.org}
-              className={`timeline-item reveal reveal-delay-${Math.min(i + 1, 4)}`}
+              className="timeline-item"
+              variants={itemVariants}
             >
               <div className="timeline-date">
                 {exp.date.split("\n").map((line, li) => (
@@ -50,7 +92,16 @@ export default function ExperienceSection() {
 
               <div className={`timeline-dot${exp.current ? "" : " timeline-dot-dim"}`} />
 
-              <div className="timeline-card">
+              <motion.div 
+                className="timeline-card"
+                whileHover={{ 
+                  scale: 1.01, 
+                  x: 6,
+                  borderColor: "var(--primary)",
+                  boxShadow: "0 10px 25px rgba(99, 102, 241, 0.05)"
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
                 {exp.current && (
                   <div style={{
                     position: "absolute",
@@ -74,10 +125,10 @@ export default function ExperienceSection() {
                     <li key={pi} className="timeline-point">{pt}</li>
                   ))}
                 </ul>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

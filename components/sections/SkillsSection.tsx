@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
 const categories = [
   {
@@ -50,92 +50,141 @@ const techTags = [
 ];
 
 export default function SkillsSection() {
-  const barRefs = useRef<HTMLDivElement[]>([]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const el = entry.target as HTMLDivElement;
-            const pct = el.getAttribute("data-pct");
-            if (pct) el.style.setProperty("--skill-pct", pct + "%");
-            observer.unobserve(el);
-          }
-        });
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
       },
-      { threshold: 0.3 }
-    );
+    },
+  } as const;
 
-    barRefs.current.forEach((el) => {
-      if (el) observer.observe(el);
-    });
+  const cardVariants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 80, damping: 15 },
+    },
+  } as const;
 
-    return () => observer.disconnect();
-  }, []);
-
-  let refIdx = 0;
+  const tagVariants = {
+    hidden: { scale: 0.8, opacity: 0 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 120, damping: 12 },
+    },
+  } as const;
 
   return (
     <section className="section" id="keahlian">
       <div className="container">
         {/* Header */}
-        <div className="section-header-line reveal">
+        <motion.div 
+          className="section-header-line"
+          initial={{ width: 0, opacity: 0 }}
+          whileInView={{ width: "100%", opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
           <span className="t-label">Keahlian Teknis</span>
-        </div>
-        <h2 className="t-h1 reveal reveal-delay-1" style={{ marginBottom: "48px", marginTop: "12px" }}>
+        </motion.div>
+        <motion.h2 
+          className="t-h1" 
+          style={{ marginBottom: "48px", marginTop: "12px" }}
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
           Stack &<br />
           <span style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Kemampuan</span>
-        </h2>
+        </motion.h2>
 
-        <div className="skills-grid">
-          {categories.map((cat, ci) => (
-            <div
+        <motion.div 
+          className="skills-grid"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+        >
+          {categories.map((cat) => (
+            <motion.div
               key={cat.title}
-              className={`skills-category reveal reveal-delay-${Math.min(ci + 1, 4)}`}
+              className="skills-category"
+              variants={cardVariants}
+              whileHover={{ 
+                borderColor: "var(--primary)",
+                boxShadow: "0 10px 25px rgba(99, 102, 241, 0.05)",
+                y: -3
+              }}
+              transition={{ type: "spring", stiffness: 200, damping: 15 }}
             >
               <div className="skills-category-title">
-                <span style={{ color: "var(--amber)", fontFamily: "var(--font-mono)" }}>
+                <span style={{ color: "var(--accent)", fontFamily: "var(--font-mono)" }}>
                   {cat.icon}
                 </span>
                 {cat.title}
               </div>
 
-              {cat.skills.map((skill) => {
-                const idx = refIdx++;
-                return (
-                  <div key={skill.name} className="skill-item">
-                    <div className="skill-header">
-                      <span className="skill-name">{skill.name}</span>
-                      <span className="skill-pct">{skill.pct}%</span>
-                    </div>
-                    <div
-                      className="skill-bar"
-                      ref={(el) => {
-                        if (el) barRefs.current[idx] = el;
+              {cat.skills.map((skill) => (
+                <div key={skill.name} className="skill-item">
+                  <div className="skill-header">
+                    <span className="skill-name">{skill.name}</span>
+                    <span className="skill-pct">{skill.pct}%</span>
+                  </div>
+                  <div className="skill-bar">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${skill.pct}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                      style={{
+                        height: "100%",
+                        background: "linear-gradient(90deg, var(--primary), var(--accent))",
+                        borderRadius: "2px",
                       }}
-                      data-pct={skill.pct}
                     />
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              ))}
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Tech tag cloud */}
-        <div className="reveal reveal-delay-2" style={{ marginTop: "48px" }}>
-          <div className="t-label" style={{ marginBottom: "16px", color: "var(--muted-bright)" }}>
+        <motion.div 
+          style={{ marginTop: "48px" }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="t-label" style={{ marginBottom: "16px", color: "var(--text-bright)" }}>
             Teknologi Tambahan
           </div>
-          <div className="skill-tag-cloud">
+          <motion.div 
+            className="skill-tag-cloud"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             {techTags.map((tag) => (
-              <span key={tag} className="skill-tag">
+              <motion.span 
+                key={tag} 
+                className="skill-tag"
+                variants={tagVariants}
+                whileHover={{ scale: 1.05, borderColor: "var(--primary)", backgroundColor: "rgba(99, 102, 241, 0.05)" }}
+                whileTap={{ scale: 0.95 }}
+              >
                 {tag}
-              </span>
+              </motion.span>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

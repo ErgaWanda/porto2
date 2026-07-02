@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 
 export interface Project {
   id: number;
@@ -42,143 +43,149 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
     };
   }, [project, onClose]);
 
-  if (!project) return null;
-
   const statusColor =
-    project.status === "live"
+    project?.status === "live"
       ? "var(--success)"
-      : project.status === "wip"
+      : project?.status === "wip"
       ? "var(--primary)"
       : "var(--text-dim)";
 
   const statusLabel =
-    project.status === "live" ? "Live" : project.status === "wip" ? "WIP" : "Archived";
+    project?.status === "live" ? "Live" : project?.status === "wip" ? "WIP" : "Archived";
 
   return (
-    <div
-      ref={overlayRef}
-      onClick={(e) => e.target === overlayRef.current && onClose()}
-      className="modal-overlay"
-    >
-      <style>{`
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-        .modal-scroll::-webkit-scrollbar { width: 4px; }
-        .modal-scroll::-webkit-scrollbar-track { background: var(--bg); }
-        .modal-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-        .modal-tab { font-family: var(--font-display); font-size: 12px; font-weight: 600; padding: 10px 20px; color: var(--text); border: 1px solid transparent; cursor: pointer; background: none; transition: all 0.2s; }
-        .modal-tab:hover { color: var(--text-bright); }
-        .modal-tab.active { color: var(--primary); border-color: var(--border); background: rgba(99, 102, 241, 0.05); }
-        .ss-thumb { cursor: pointer; border: 1px solid var(--border); overflow: hidden; transition: border-color 0.2s; flex-shrink: 0; border-radius: var(--radius-sm); }
-        .ss-thumb:hover { border-color: var(--primary); }
-        .ss-thumb.selected { border-color: var(--primary); }
+    <AnimatePresence>
+      {project && (
+        <motion.div
+          ref={overlayRef}
+          onClick={(e) => e.target === overlayRef.current && onClose()}
+          className="modal-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+        >
+          <style>{`
+            .modal-scroll::-webkit-scrollbar { width: 4px; }
+            .modal-scroll::-webkit-scrollbar-track { background: var(--bg); }
+            .modal-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+            .modal-tab { font-family: var(--font-display); font-size: 12px; font-weight: 600; padding: 10px 20px; color: var(--text); border: 1px solid transparent; cursor: pointer; background: none; transition: all 0.2s; }
+            .modal-tab:hover { color: var(--text-bright); }
+            .modal-tab.active { color: var(--primary); border-color: var(--border); background: rgba(99, 102, 241, 0.05); }
+            .ss-thumb { cursor: pointer; border: 1px solid var(--border); overflow: hidden; transition: border-color 0.2s; flex-shrink: 0; border-radius: var(--radius-sm); }
+            .ss-thumb:hover { border-color: var(--primary); }
+            .ss-thumb.selected { border-color: var(--primary); }
 
-        .modal-overlay {
-          position: fixed;
-          inset: 0;
-          z-index: 200;
-          background: rgba(5, 5, 5, 0.85);
-          backdrop-filter: blur(16px);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 24px;
-          animation: fadeIn 0.2s ease;
-        }
-        @media (max-width: 768px) {
-          .modal-overlay {
-            padding: 12px;
-          }
-        }
+            .modal-overlay {
+              position: fixed;
+              inset: 0;
+              z-index: 200;
+              background: rgba(3, 3, 3, 0.9);
+              backdrop-filter: blur(16px);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 24px;
+            }
+            @media (max-width: 768px) {
+              .modal-overlay {
+                padding: 12px;
+              }
+            }
 
-        .modal-panel {
-          width: 100%;
-          max-width: 1000px;
-          max-height: 90vh;
-          background: var(--bg-sub);
-          border: 1px solid var(--border);
-          display: flex;
-          flex-direction: column;
-          position: relative;
-          animation: slideUp 0.25s ease;
-          overflow: hidden;
-          border-radius: var(--radius-lg);
-        }
-        @media (max-width: 768px) {
-          .modal-panel {
-            max-height: 95vh;
-            border-radius: var(--radius-md);
-          }
-        }
+            .modal-panel {
+              width: 100%;
+              max-width: 1000px;
+              max-height: 90vh;
+              background: var(--bg-sub);
+              border: 1px solid var(--border);
+              display: flex;
+              flex-direction: column;
+              position: relative;
+              overflow: hidden;
+              border-radius: var(--radius-lg);
+            }
+            @media (max-width: 768px) {
+              .modal-panel {
+                max-height: 95vh;
+                border-radius: var(--radius-md);
+              }
+            }
 
-        .modal-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 20px 28px;
-          border-bottom: 1px solid var(--border);
-          flex-shrink: 0;
-        }
-        @media (max-width: 768px) {
-          .modal-header {
-            padding: 16px 20px;
-          }
-        }
+            .modal-header {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              padding: 20px 28px;
+              border-bottom: 1px solid var(--border);
+              flex-shrink: 0;
+            }
+            @media (max-width: 768px) {
+              .modal-header {
+                padding: 16px 20px;
+              }
+            }
 
-        .modal-hero-banner {
-          position: relative;
-          width: 100%;
-          aspect-ratio: 16/7;
-          background: var(--bg);
-          overflow: hidden;
-        }
-        @media (max-width: 768px) {
-          .modal-hero-banner {
-            aspect-ratio: 16/10;
-          }
-        }
+            .modal-hero-banner {
+              position: relative;
+              width: 100%;
+              aspect-ratio: 16/7;
+              background: var(--bg);
+              overflow: hidden;
+            }
+            @media (max-width: 768px) {
+              .modal-hero-banner {
+                aspect-ratio: 16/10;
+              }
+            }
 
-        .modal-hero-title-overlay {
-          position: absolute;
-          bottom: 24px;
-          left: 28px;
-          right: 28px;
-          z-index: 2;
-        }
-        @media (max-width: 768px) {
-          .modal-hero-title-overlay {
-            bottom: 16px;
-            left: 20px;
-            right: 20px;
-          }
-        }
+            .modal-hero-title-overlay {
+              position: absolute;
+              bottom: 24px;
+              left: 28px;
+              right: 28px;
+              z-index: 2;
+            }
+            @media (max-width: 768px) {
+              .modal-hero-title-overlay {
+                bottom: 16px;
+                left: 20px;
+                right: 20px;
+              }
+            }
 
-        .modal-body-content {
-          padding: 28px 28px 32px;
-        }
-        @media (max-width: 768px) {
-          .modal-body-content {
-            padding: 20px 20px 24px;
-          }
-        }
+            .modal-body-content {
+              padding: 28px 28px 32px;
+            }
+            @media (max-width: 768px) {
+              .modal-body-content {
+                padding: 20px 20px 24px;
+              }
+            }
 
-        .modal-grid {
-          display: grid;
-          grid-template-columns: 1fr 320px;
-          gap: 32px;
-        }
-        @media (max-width: 768px) {
-          .modal-grid {
-            grid-template-columns: 1fr;
-            gap: 24px;
-          }
-        }
-      `}</style>
+            .modal-grid {
+              display: grid;
+              grid-template-columns: 1fr 320px;
+              gap: 32px;
+            }
+            @media (max-width: 768px) {
+              .modal-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+              }
+            }
+          `}</style>
 
-      {/* Modal Panel */}
-      <div className="modal-panel">
-        {/* Header */}
-        <div className="modal-header">
+          {/* Modal Panel */}
+          <motion.div 
+            className="modal-panel"
+            initial={{ opacity: 0, y: 40, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 40, scale: 0.97 }}
+            transition={{ type: "spring", damping: 25, stiffness: 180 }}
+          >
+            {/* Header */}
+            <div className="modal-header">
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
             {/* Status */}
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -523,7 +530,9 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
   );
 }

@@ -5,21 +5,23 @@
 
 :root {
   /* --- Color Tokens --- */
-  --bg:           #050505;       /* Obsidian black */
-  --bg-sub:       #0d0d12;       /* Soft card grey */
-  --border:       #1f2937;       /* Thin elegant border */
-  --border-dim:   #111827;       /* Muted border */
-  --text:         #9ca3af;       /* Neutral muted text */
-  --text-bright:  #f3f4f6;       /* Clean high-contrast white */
-  --text-dim:     #6b7280;       /* Deep muted grey */
+  --bg:           #f7f5ef;       /* Warm cream/beige background */
+  --bg-sub:       #ffffff;       /* Crisp white card background */
+  --border:       #000000;       /* Thick elegant black border */
+  --border-dim:   #27272a;       /* Lighter border grey */
+  --text:         #1a1a1a;       /* Dark charcoal grey body text */
+  --text-bright:  #000000;       /* Deep solid black for headings */
+  --text-dim:     #4b5563;       /* Muted grey for descriptions */
   
-  /* Creative Accent Colors */
-  --primary:      #6366f1;       /* Indigo */
-  --primary-glow: rgba(99, 102, 241, 0.15);
-  --accent:       #a855f7;       /* Purple */
-  --accent-glow:  rgba(168, 85, 247, 0.15);
-  --success:      #10b981;       /* Emerald */
-  --success-glow: rgba(16, 185, 129, 0.1);
+  /* Creative Accent Colors (Neubrutalism Vibrant Pastels) */
+  --primary:      #facc15;       /* Neubrutalism Yellow-400 */
+  --primary-glow: rgba(250, 204, 21, 0.1);
+  --accent:       #ff7a30;       /* Neubrutalism Bold Orange */
+  --accent-glow:  rgba(255, 122, 48, 0.1);
+  --success:      #4ade80;       /* Neubrutalism Green-400 */
+  --success-glow: rgba(74, 222, 128, 0.08);
+  --cyan:         #38bdf8;       /* Neubrutalism Pastel Blue/Cyan */
+  --cyan-dim:     rgba(56, 189, 248, 0.1);
 
   /* --- Typography --- */
   --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
@@ -68,33 +70,23 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  /* Premium Dark Dotted Grid Background on Beige */
+  background-image: 
+    radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    radial-gradient(rgba(0, 0, 0, 0.03) 1.5px, transparent 1.5px);
+  background-size: 24px 24px, 48px 48px;
+  background-position: 0 0, 12px 12px;
+  border: 8px solid #000000 !important;
+  min-height: 100vh;
 }
 
-/* Subtle background glow effect */
+/* Hide blurry background glow effect in Light Neubrutalism */
 body::before {
-  content: '';
-  position: fixed;
-  top: -10%;
-  left: 30%;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-  filter: blur(80px);
+  display: none !important;
 }
 
 body::after {
-  content: '';
-  position: fixed;
-  bottom: -10%;
-  right: 10%;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-  filter: blur(80px);
+  display: none !important;
 }
 
 ::selection {
@@ -244,38 +236,52 @@ button {
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--sp-sm);
   padding: 12px 28px;
   font-family: var(--font-display);
   font-size: 14px;
-  font-weight: 600;
-  border-radius: var(--radius-md);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 0px !important;
+  border: 3px solid #000000 !important;
+  transition: transform 0.1s, box-shadow 0.1s;
   position: relative;
   overflow: hidden;
 }
 
 .btn-primary {
-  background: var(--text-bright);
-  color: var(--bg);
-  border: 1px solid var(--text-bright);
+  background: var(--primary);
+  color: var(--text-bright);
+  box-shadow: 4px 4px 0px 0px #000000 !important;
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.12);
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0px 0px #000000 !important;
+}
+
+.btn-primary:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 2px 2px 0px 0px #000000 !important;
 }
 
 .btn-ghost {
-  background: transparent;
+  background: var(--bg-sub);
   color: var(--text-bright);
-  border: 1px solid var(--border);
+  box-shadow: 4px 4px 0px 0px #000000 !important;
 }
 
 .btn-ghost:hover {
   background: rgba(255, 255, 255, 0.03);
-  border-color: var(--text-dim);
-  transform: translateY(-2px);
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0px 0px #000000 !important;
+}
+
+.btn-ghost:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 2px 2px 0px 0px #000000 !important;
 }
 
 /* ============================================================
@@ -1523,7 +1529,541 @@ button {
    SCROLLBAR
    ============================================================ */
 
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+::-webkit-scrollbar {
+  width: 14px !important;
+  background: var(--bg) !important;
+  border-left: 4px solid #000000 !important;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary) !important;
+  border: 3px solid #000000 !important;
+  border-radius: 0px !important;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent) !important;
+}
+
+/* ============================================================
+   NEUBRUTALISM UI OVERRIDES
+   ============================================================ */
+
+.work-card, 
+.about-stat, 
+.about-info-item, 
+.skills-category, 
+.timeline-card, 
+.edu-card, 
+.service-card, 
+.testimonial-card, 
+.contact-item, 
+.contact-form {
+  border: 4px solid #000000 !important;
+  box-shadow: 8px 8px 0px 0px #000000 !important;
+  border-radius: 0px !important;
+  background: var(--bg-sub) !important;
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, background-color 0.15s ease-out !important;
+}
+
+/* Hover translates up-left and expands flat black shadow with pastel background shift */
+.work-card:hover, 
+.about-stat:hover, 
+.about-info-item:hover, 
+.skills-category:hover, 
+.timeline-card:hover, 
+.edu-card:hover, 
+.service-card:hover, 
+.testimonial-card:hover, 
+.contact-item:hover {
+  transform: translate(-4px, -4px) !important;
+  box-shadow: 12px 12px 0px 0px #000000 !important;
+  border-color: #000000 !important;
+}
+
+/* Color-coded collage for skills category */
+.skills-grid > div:nth-child(1) { background: #fef08a !important; } /* light yellow */
+.skills-grid > div:nth-child(2) { background: #fed7aa !important; } /* light orange/peach */
+.skills-grid > div:nth-child(3) { background: #bbf7d0 !important; } /* light green */
+.skills-grid > div:nth-child(4) { background: #bae6fd !important; } /* light blue */
+
+/* Pastel backgrounds on hover for other elements */
+.work-card:hover { background: #e0f2fe !important; } /* light blue/cyan */
+.about-stat:hover { background: #faf5ff !important; } 
+.about-info-item:hover { background: #fef08a !important; }
+.skills-category:hover { filter: brightness(0.97); } /* just slightly darken the solid pastel */
+.timeline-card:hover { background: #faf5ff !important; }
+.edu-card:hover { background: #e0f2fe !important; }
+.service-card:hover { background: #bbf7d0 !important; } /* light green */
+.testimonial-card:hover { background: #fed7aa !important; }
+.contact-item:hover { background: #e0f2fe !important; }
+
+/* Active pressed state */
+.work-card:active,
+.about-stat:active,
+.about-info-item:active,
+.skills-category:active,
+.timeline-card:active,
+.edu-card:active,
+.service-card:active,
+.testimonial-card:active,
+.contact-item:active {
+  transform: translate(3px, 3px) !important;
+  box-shadow: 4px 4px 0px 0px #000000 !important;
+}
+
+/* Inputs styling */
+.form-input, 
+.form-textarea {
+  border: 4px solid #000000 !important;
+  border-radius: 0px !important;
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+  box-shadow: 4px 4px 0px 0px #000000 !important;
+  transition: all 0.1s ease-out !important;
+}
+
+.form-input:focus, 
+.form-textarea:focus {
+  background: #ffffff !important;
+  border-color: var(--primary) !important;
+  box-shadow: 6px 6px 0px 0px #000000 !important;
+  transform: translate(-2px, -2px) !important;
+}
+
+/* Modal panel styling */
+.modal-panel {
+  border: 5px solid #000000 !important;
+  border-radius: 0px !important;
+  box-shadow: 12px 12px 0px 0px #000000 !important;
+  background: #fbf9f4 !important;
+}
+
+.modal-header {
+  background: #ffffff !important;
+  border-bottom: 4px solid #000000 !important;
+}
+
+/* Image visuals */
+.hero-visual-frame, 
+.about-img-frame {
+  border: 4px solid #000000 !important;
+  border-radius: 0px !important;
+  box-shadow: 10px 10px 0px 0px #000000 !important;
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out !important;
+}
+
+.hero-visual-frame:hover,
+.about-img-frame:hover {
+  transform: translate(-4px, -4px) !important;
+  box-shadow: 14px 14px 0px 0px #000000 !important;
+}
+
+/* Skill level bar neubrutalist */
+.skill-bar {
+  border: 3px solid #000000 !important;
+  border-radius: 0px !important;
+  background: #ffffff !important;
+}
+
+.skill-bar > div {
+  border-radius: 0px !important;
+}
+
+/* Tag style neubrutalist */
+.skill-tag {
+  border: 2px solid #000000 !important;
+  border-radius: 0px !important;
+  box-shadow: 3px 3px 0px 0px #000000 !important;
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.skill-tag:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 4px 4px 0px 0px #000000 !important;
+  background: var(--primary) !important;
+}
+
+/* Navigation scroll modifications */
+.nav.scrolled {
+  border-bottom: 4px solid #000000 !important;
+}
+
+/* Specific Neubrutalist details */
+.nav-logo-mark,
+.hero-status,
+.timeline-dot,
+.card-expand-icon,
+.testimonial-avatar,
+.work-tag,
+.about-img-tag,
+.nav-cta {
+  border-radius: 0px !important;
+  border: 3px solid #000000 !important;
+  box-shadow: 3px 3px 0px 0px #000000 !important;
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+}
+
+.nav-logo-mark {
+  background: var(--primary) !important;
+}
+
+.testimonial-avatar {
+  background: var(--accent) !important;
+}
+
+.hero-status-dot {
+  box-shadow: 0 0 0px transparent !important;
+  border: 1px solid #000000 !important;
+}
+
+.timeline-dot-dim {
+  background: #e4e4e7 !important;
+  box-shadow: none !important;
+  border-color: #a1a1aa !important;
+}
+
+.about-img-tag {
+  background: #ffffff !important;
+  box-shadow: 4px 4px 0px 0px #000000 !important;
+}
+
+/* Close button inside modal */
+.modal-header button {
+  border-radius: 0px !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px 0px #000000 !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+/* Thick structural lines */
+.timeline::before {
+  width: 5px !important;
+  background: #000000 !important;
+  left: 8px !important;
+}
+
+/* Heading Sticker Style Override */
+.section-header-line {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px !important;
+  background: var(--primary) !important;
+  color: #000000 !important;
+  border: 3px solid #000000 !important;
+  padding: 8px 16px !important;
+  transform: rotate(-1.5deg) !important;
+  box-shadow: 4px 4px 0px 0px #000000 !important;
+  border-radius: 0px !important;
+}
+
+.section-header-line::after {
+  display: none !important;
+}
+
+.section-header-line .t-label {
+  color: #000000 !important;
+  font-weight: 900 !important;
+  font-size: 13px !important;
+}
+
+/* Heading drop shadow and outline - Removed stroke for perfect readability and crisp text */
+.t-h1, .t-hero, .hero-name {
+  color: #000000 !important;
+  -webkit-text-stroke: 0px transparent !important;
+  text-shadow: 3px 3px 0px var(--primary) !important;
+}
+
+.hero-name {
+  color: #000000 !important;
+}
+
+/* For nested spans in headers, make them accent color (pink) with a black drop shadow for extreme contrast */
+.t-h1 span, .t-hero span, .hero-name span {
+  color: var(--accent) !important;
+  -webkit-text-fill-color: var(--accent) !important;
+  background: transparent !important;
+  text-shadow: 3px 3px 0px #000000 !important;
+}
+
+/* Retro Jendela / Window Title Bar Decoration */
+.work-card, 
+.skills-category, 
+.service-card, 
+.contact-form {
+  position: relative !important;
+  overflow: hidden !important;
+  padding-top: 48px !important;
+}
+
+.work-card::before, 
+.skills-category::before, 
+.service-card::before, 
+.contact-form::before {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 32px !important;
+  background: #000000 !important;
+  color: #ffffff !important;
+  font-family: var(--font-mono) !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  letter-spacing: 1.5px !important;
+  line-height: 32px !important;
+  padding-left: 12px !important;
+  border-bottom: 4px solid #000000 !important;
+  text-transform: uppercase !important;
+  z-index: 10 !important;
+}
+
+.work-card::before { content: '● ● ●  WORKS.EXE' !important; }
+.skills-category::before { content: '● ● ●  SKILLS.SYS' !important; }
+.service-card::before { content: '● ● ●  SERVICES.DLL' !important; }
+.contact-form::before { content: '● ● ●  CONTACT.BAT' !important; }
+
+/* Custom rotated sticker badges for high visual appeal */
+.about-img-tag {
+  transform: rotate(2deg) !important;
+}
+
+.hero-status {
+  transform: rotate(-2deg) !important;
+}
+
+/* Retro Taskbar Styles */
+.retro-taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: #f4f2eb;
+  border-top: 4px solid #000000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 9999;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+}
+
+.start-btn {
+  background: var(--accent) !important; /* Bold Orange */
+  color: #000000 !important;
+  border: 3px solid #000000 !important;
+  font-weight: 800 !important;
+  padding: 4px 14px !important;
+  font-size: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  box-shadow: 2px 2px 0px 0px #000000 !important;
+  cursor: pointer !important;
+  height: 32px !important;
+}
+
+.start-btn:active {
+  box-shadow: 0px 0px 0px 0px #000000 !important;
+  transform: translate(2px, 2px) !important;
+}
+
+.start-menu {
+  position: absolute !important;
+  bottom: 48px !important;
+  left: 16px !important;
+  width: 250px !important;
+  background: #f4f2eb !important;
+  border: 4px solid #000000 !important;
+  box-shadow: 6px 6px 0px 0px #000000 !important;
+  display: flex !important;
+  z-index: 10000 !important;
+}
+
+.start-menu-sidebar {
+  width: 36px !important;
+  color: #ffffff !important;
+  writing-mode: vertical-rl !important;
+  text-orientation: mixed !important;
+  transform: rotate(180deg) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 900 !important;
+  font-family: var(--font-display) !important;
+  font-size: 14px !important;
+  padding: 12px 0 !important;
+  background: linear-gradient(180deg, var(--accent), #000000) !important;
+}
+
+.start-menu-items {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.start-menu-item {
+  width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  text-align: left !important;
+  padding: 10px 16px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  cursor: pointer !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.start-menu-item:hover {
+  background: var(--accent) !important;
+}
+
+.taskbar-tasks {
+  display: flex !important;
+  gap: 8px !important;
+  flex: 1 !important;
+  margin-left: 20px !important;
+}
+
+@media (max-width: 768px) {
+  .taskbar-tasks {
+    display: none !important;
+  }
+}
+
+.task-tab {
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 2px 2px 0px 0px #000000 !important;
+  font-weight: 700 !important;
+  padding: 4px 12px !important;
+  font-size: 12px !important;
+  cursor: pointer !important;
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.task-tab:active {
+  box-shadow: 0px 0px 0px 0px #000000 !important;
+  transform: translate(2px, 2px) !important;
+}
+
+.taskbar-clock {
+  background: #ffffff !important;
+  border: 3px solid #000000 !important;
+  padding: 4px 12px !important;
+  font-weight: 800 !important;
+  font-size: 13px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  height: 32px !important;
+  box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Infinite Marquee Divider Styles */
+.marquee-divider {
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  border-top: 4px solid #000000 !important;
+  border-bottom: 4px solid #000000 !important;
+  padding: 14px 0 !important;
+  display: flex !important;
+  box-shadow: 0 6px 0 #000000 !important;
+  margin: 64px 0 !important;
+  width: 100vw !important;
+  position: relative !important;
+  left: 50% !important;
+  right: 50% !important;
+  margin-left: -50vw !important;
+  margin-right: -50vw !important;
+  z-index: 10 !important;
+}
+
+.marquee-divider.rot-left {
+  transform: rotate(-1.5deg) !important;
+}
+
+.marquee-divider.rot-right {
+  transform: rotate(1.5deg) !important;
+}
+
+.marquee-divider.accent {
+  background: var(--accent) !important;
+}
+
+.marquee-divider.secondary {
+  background: #2dd4bf !important; /* Teal/Cyan */
+}
+
+.marquee-divider.yellow {
+  background: #fde047 !important; /* Yellow */
+}
+
+.marquee-track {
+  display: flex !important;
+  width: max-content !important;
+}
+
+.marquee-text {
+  font-family: var(--font-display) !important;
+  font-weight: 900 !important;
+  font-size: 20px !important;
+  color: #000000 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  animation: marquee-scroll 25s linear infinite !important;
+  white-space: nowrap !important;
+  padding-right: 10px !important;
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+/* Compensate bottom taskbar height in container layout */
+body {
+  padding-bottom: 60px !important;
+}
+
+/* Mobile Responsive Taskbar & Layout Overrides */
+@media (max-width: 480px) {
+  body {
+    padding-bottom: 56px !important;
+  }
+  .retro-taskbar {
+    padding: 0 8px !important;
+    height: 44px !important;
+  }
+  .start-btn {
+    padding: 2px 10px !important;
+    font-size: 12px !important;
+    height: 28px !important;
+    border-width: 2px !important;
+  }
+  .taskbar-clock {
+    padding: 2px 8px !important;
+    font-size: 11px !important;
+    height: 28px !important;
+    border-width: 2px !important;
+  }
+  .start-menu {
+    left: 8px !important;
+    width: calc(100vw - 16px) !important;
+    max-width: 260px !important;
+    bottom: 44px !important;
+  }
+}
+
+

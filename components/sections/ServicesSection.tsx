@@ -1,3 +1,6 @@
+"use client";
+import { motion } from "framer-motion";
+
 const services = [
   {
     num: "01",
@@ -62,31 +65,77 @@ const services = [
 ];
 
 export default function ServicesSection() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+      },
+    },
+  } as const;
+
+  const cardVariants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 80, damping: 15 },
+    },
+  } as const;
+
   return (
     <section className="section" id="layanan">
       <div className="container">
         {/* Header */}
-        <div className="section-header-line reveal">
+        <motion.div 
+          className="section-header-line"
+          initial={{ width: 0, opacity: 0 }}
+          whileInView={{ width: "100%", opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
           <span className="t-label">Layanan</span>
-        </div>
-        <h2 className="t-h1 reveal reveal-delay-1" style={{ marginBottom: "48px", marginTop: "12px" }}>
+        </motion.div>
+        <motion.h2 
+          className="t-h1" 
+          style={{ marginBottom: "48px", marginTop: "12px" }}
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
           Apa Yang<br />
           <span style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Saya Tawarkan</span>
-        </h2>
+        </motion.h2>
 
-        <div className="services-grid">
-          {services.map((s, i) => (
-            <div
+        <motion.div 
+          className="services-grid"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+        >
+          {services.map((s) => (
+            <motion.div
               key={s.num}
-              className={`service-card reveal reveal-delay-${Math.min(i + 1, 4)}`}
+              className="service-card"
+              variants={cardVariants}
+              whileHover={{ 
+                scale: 1.02, 
+                y: -5,
+                borderColor: "var(--primary)",
+                boxShadow: "0 10px 25px rgba(99, 102, 241, 0.05)"
+              }}
+              transition={{ type: "spring", stiffness: 200, damping: 15 }}
             >
               <div className="service-num">{s.num}.</div>
               <div className="service-icon">{s.icon}</div>
               <div className="service-title">{s.title}</div>
               <p className="service-desc">{s.desc}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

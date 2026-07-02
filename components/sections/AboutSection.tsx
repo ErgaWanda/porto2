@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function AboutSection() {
   const info = [
@@ -11,19 +12,55 @@ export default function AboutSection() {
     { label: "Status", value: "Tersedia untuk hire" },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  } as const;
+
+  const itemVariants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 80, damping: 15 },
+    },
+  } as const;
+
   return (
     <section className="section" id="tentang">
       <div className="container">
         {/* Section Header */}
-        <div className="section-header-line reveal">
+        <motion.div 
+          className="section-header-line"
+          initial={{ width: 0, opacity: 0 }}
+          whileInView={{ width: "100%", opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
           <span className="t-label">Tentang Saya</span>
-        </div>
+        </motion.div>
 
-        <div className="about-grid reveal">
+        <motion.div 
+          className="about-grid"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
           {/* Image */}
-          <div className="about-img-frame">
+          <motion.div 
+            className="about-img-frame"
+            variants={itemVariants}
+            whileHover={{ scale: 1.02, y: -4 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          >
             <Image
-              src="/images/about_portrait.png"
+              src="/images/erga_photo.jpeg"
               alt="Erga Wanda Afriza"
               width={340}
               height={440}
@@ -39,11 +76,11 @@ export default function AboutSection() {
                 FS-DEV // AI-ENG
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Content */}
           <div className="about-content">
-            <div>
+            <motion.div variants={itemVariants}>
               <h2 className="t-h1" style={{ marginBottom: "24px" }}>
                 Membangun Sistem<br />
                 <span style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Yang Bekerja.</span>
@@ -60,35 +97,44 @@ export default function AboutSection() {
                 model machine learning — mulai dari NLP dengan BERT hingga Computer Vision dengan CNN
                 — ke dalam aplikasi nyata yang digunakan oleh pengguna sehari-hari.
               </p>
-            </div>
+            </motion.div>
 
             {/* Stats */}
-            <div className="about-stats reveal reveal-delay-1">
+            <motion.div className="about-stats" variants={itemVariants}>
               {[
                 { value: "7+", label: "Proyek Selesai" },
                 { value: "2+", label: "Tahun Xp" },
                 { value: "3", label: "Stack Utama" },
               ].map((s) => (
-                <div key={s.label} className="about-stat">
+                <motion.div 
+                  key={s.label} 
+                  className="about-stat"
+                  whileHover={{ scale: 1.05, borderColor: "var(--primary)", backgroundColor: "rgba(99, 102, 241, 0.03)" }}
+                  whileTap={{ scale: 0.98 }}
+                >
                   <div className="about-stat-value">{s.value}</div>
                   <div className="about-stat-label">{s.label}</div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             {/* Info Grid */}
-            <div className="about-info-grid reveal reveal-delay-2">
+            <motion.div className="about-info-grid" variants={itemVariants}>
               {info.map((item) => (
-                <div key={item.label} className="about-info-item">
+                <motion.div 
+                  key={item.label} 
+                  className="about-info-item"
+                  whileHover={{ scale: 1.02, borderColor: "var(--primary)" }}
+                >
                   <div>
                     <div className="about-info-label">{item.label}</div>
                     <div className="about-info-value">{item.value}</div>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

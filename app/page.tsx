@@ -1,7 +1,6 @@
 "use client";
-import { useEffect } from "react";
-import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
+import Taskbar from "@/components/layout/Taskbar";
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
 import WorksSection from "@/components/sections/WorksSection";
@@ -13,61 +12,42 @@ import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import ContactSection from "@/components/sections/ContactSection";
 
 export default function Home() {
-  /* ── Scroll Reveal ───────────────────────────────────────── */
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("revealed");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.08, rootMargin: "0px 0px -60px 0px" }
-    );
-
-    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
   /* ── Section Divider component ───────────────────────────── */
-  const Divider = ({ num }: { num: string }) => (
+  const Divider = () => (
     <div
       style={{
         padding: "0 var(--sp-xl)",
-        margin: "0 auto",
+        margin: "64px auto",
         maxWidth: "var(--max-width)",
-        opacity: 0.1,
       }}
     >
-      <div style={{ height: "1px", background: "var(--border)" }} />
+      <div style={{ borderTop: "4px solid #000000" }} />
     </div>
   );
 
   return (
     <>
-      <Navigation />
       <main>
         <HeroSection />
-        <Divider num="01" />
+        <Divider />
         <AboutSection />
-        <Divider num="02" />
+        <Divider />
         <WorksSection />
-        <Divider num="03" />
+        <Divider />
         <SkillsSection />
-        <Divider num="04" />
+        <Divider />
         <ExperienceSection />
-        <Divider num="05" />
+        <Divider />
         <EducationSection />
-        <Divider num="06" />
+        <Divider />
         <ServicesSection />
-        <Divider num="07" />
+        <Divider />
         <TestimonialsSection />
-        <Divider num="08" />
+        <Divider />
         <ContactSection />
       </main>
       <Footer />
+      <Taskbar />
     </>
   );
 }
