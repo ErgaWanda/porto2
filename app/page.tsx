@@ -228,19 +228,6 @@ export default function Home() {
                     unoptimized
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   />
-                  <div style={{
-                    position: "absolute",
-                    bottom: 12,
-                    left: 12,
-                    background: "var(--color-swiss-red)",
-                    color: "#fff",
-                    padding: "4px 8px",
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "10px",
-                    fontWeight: "bold"
-                  }}>
-                    ERGA.OS.V3.0
-                  </div>
                 </div>
               </Tilt>
 
