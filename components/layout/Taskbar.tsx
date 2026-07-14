@@ -1,97 +1,124 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { FiGithub, FiLinkedin } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
+
+interface NavItem {
+  id: string;
+  label: string;
+  icon: string;
+}
 
 export default function Taskbar() {
-  const [time, setTime] = useState("");
-  const [startMenuOpen, setStartMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("beranda");
+
+  const navItems: NavItem[] = [
+    { id: "beranda", label: "Profil", icon: "👤" },
+    { id: "karya", label: "Karya", icon: "💻" },
+    { id: "keahlian", label: "Skills", icon: "🛠️" },
+    { id: "pengalaman", label: "Karir", icon: "💼" },
+    { id: "ulasan", label: "Review", icon: "💬" },
+    { id: "kontak", label: "Kontak", icon: "✉️" },
+  ];
 
   useEffect(() => {
-    const updateClock = () => {
-      const date = new Date();
-      let hours = String(date.getHours()).padStart(2, "0");
-      let minutes = String(date.getMinutes()).padStart(2, "0");
-      let seconds = String(date.getSeconds()).padStart(2, "0");
-      setTime(`${hours}:${minutes}:${seconds}`);
+    const handleScroll = () => {
+      const scrollPos = window.scrollY + 120;
+      for (const item of navItems) {
+        const el = document.getElementById(item.id);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPos >= top && scrollPos < top + height) {
+            setActiveSection(item.id);
+            break;
+          }
+        }
+      }
     };
-    updateClock();
-    const interval = setInterval(updateClock, 1000);
-    return () => clearInterval(interval);
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    setStartMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+  const handleClick = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      // Offset scroll by header height (60px)
+      const yOffset = -60; 
+      const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+      setActiveSection(id);
     }
   };
 
-  // Listen to clicks outside to close start menu
-  useEffect(() => {
-    const handleOutsideClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (!target.closest(".retro-taskbar")) {
-        setStartMenuOpen(false);
-      }
-    };
-    document.addEventListener("click", handleOutsideClick);
-    return () => document.removeEventListener("click", handleOutsideClick);
-  }, []);
-
   return (
-    <div className="retro-taskbar">
-      <button className="start-btn" onClick={() => setStartMenuOpen(!startMenuOpen)} aria-label="Menu Mulai">
-        <span className="start-icon">🍊</span>
-        START
-      </button>
-
-      {startMenuOpen && (
-        <div className="start-menu">
-          <div className="start-menu-sidebar">
-            <span>ERGA.OS v2.6</span>
-          </div>
-          <div className="start-menu-items">
-            <button onClick={() => scrollToSection("beranda")} className="start-menu-item">
-              <span>🏠</span> BERANDA.EXE
-            </button>
-            <button onClick={() => scrollToSection("tentang")} className="start-menu-item">
-              <span>👤</span> TENTANG.SYS
-            </button>
-            <button onClick={() => scrollToSection("karya")} className="start-menu-item">
-              <span>💻</span> KARYA.DLL
-            </button>
-            <button onClick={() => scrollToSection("keahlian")} className="start-menu-item">
-              <span>🛠️</span> SKILLS.SYS
-            </button>
-            <button onClick={() => scrollToSection("pengalaman")} className="start-menu-item">
-              <span>💼</span> EXPERIENCE.CFG
-            </button>
-            <button onClick={() => scrollToSection("pendidikan")} className="start-menu-item">
-              <span>🎓</span> EDUCATION.DAT
-            </button>
-            <button onClick={() => scrollToSection("layanan")} className="start-menu-item">
-              <span>⚙️</span> SERVICES.INI
-            </button>
-            <button onClick={() => scrollToSection("kontak")} className="start-menu-item">
-              <span>✉️</span> CONTACT.BAT
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Task buttons for large screens */}
-      <div className="taskbar-tasks">
-        <button onClick={() => scrollToSection("beranda")} className="task-tab">🏠 BERANDA</button>
-        <button onClick={() => scrollToSection("tentang")} className="task-tab">👤 TENTANG</button>
-        <button onClick={() => scrollToSection("karya")} className="task-tab">💻 KARYA</button>
-        <button onClick={() => scrollToSection("keahlian")} className="task-tab">🛠️ KEAHLIAN</button>
-        <button onClick={() => scrollToSection("kontak")} className="task-tab">✉️ KONTAK</button>
+    <header className="swiss-header">
+      {/* Brand logo area */}
+      <div className="swiss-header-brand" style={{ cursor: "pointer" }} onClick={() => handleClick("beranda")}>
+        ERGA WANDA AFRIZA
       </div>
 
-      <div className="taskbar-clock">
-        <span className="clock-icon">⏰</span>
-        {time}
-      </div>
-    </div>
+      {/* Navigation items */}
+      <nav className="swiss-header-nav">
+        {navItems.map((item) => {
+          const isActive = activeSection === item.id;
+          return (
+            <button
+              key={item.id}
+              onClick={() => handleClick(item.id)}
+              className={`swiss-nav-item ${isActive ? "active" : ""}`}
+            >
+              <span style={{ fontSize: "14px" }}>{item.icon}</span>
+              <span>{item.label}</span>
+            </button>
+          );
+        })}
+
+        {/* Social Link: GitHub */}
+        <a
+          href="https://github.com/ErgaWanda"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="swiss-nav-item"
+          aria-label="GitHub"
+        >
+          <FiGithub style={{ fontSize: "15px" }} />
+          <span className="hide-mobile-social">GitHub</span>
+        </a>
+
+        {/* Social Link: LinkedIn */}
+        <a
+          href="https://linkedin.com/in/erga-wanda-afriza"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="swiss-nav-item"
+          aria-label="LinkedIn"
+        >
+          <FiLinkedin style={{ fontSize: "15px" }} />
+          <span className="hide-mobile-social">LinkedIn</span>
+        </a>
+
+        {/* Social Link: WhatsApp */}
+        <a
+          href="https://wa.me/6288291067259"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="swiss-nav-item"
+          aria-label="WhatsApp"
+        >
+          <FaWhatsapp style={{ fontSize: "15px", color: "#25D366" }} />
+          <span className="hide-mobile-social">WhatsApp</span>
+        </a>
+      </nav>
+
+      <style>{`
+        @media (max-width: 990px) {
+          .hide-mobile-social {
+            display: none;
+          }
+        }
+      `}</style>
+    </header>
   );
 }
