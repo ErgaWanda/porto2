@@ -4,16 +4,25 @@
    ============================================================ */
 
 :root {
-  /* --- Swiss Palette (High Contrast, Flat & Crisp) --- */
-  --bg-swiss-cream:   #f5f4f0;       /* Matte Swiss paper cream */
-  --color-swiss-red:  #e32b25;       /* Solid Swiss Red */
-  --color-swiss-dark: #111112;       /* Solid Deep Charcoal Black */
-  --color-swiss-grey: #66666d;       /* Matte dark grey for subtexts */
-  --color-swiss-light:#e2e0d8;       /* Subtle border / division lines */
+  /* --- Neubrutalism Palette (Vibrant, Premium) --- */
+  --bg-brutal:       #FAF6EE;       /* Rich warm cream background */
+  --ink-brutal:      #121212;       /* Deep charcoal ink */
+  --accent-1:        #FF5A36;       /* Radiant coral red-orange */
+  --accent-2:        #3D5AFE;       /* Intense electric blue */
+  --accent-3:        #FBBF24;       /* Golden amber yellow */
+  --accent-mint:     #10B981;       /* Mint green for tags/status */
+  --surface:         #FFFFFF;       /* Pure white card surface */
   
-  /* --- Fonts (Solid Sans-Serif) --- */
-  --font-display:    'Plus Jakarta Sans', 'Helvetica Neue', Arial, sans-serif;
-  --font-body:       'Inter', 'Helvetica Neue', Arial, sans-serif;
+  /* Fallback aliases to ensure Swiss elements don't crash */
+  --bg-swiss-cream:   #FAF6EE;
+  --color-swiss-red:  #FF5A36;
+  --color-swiss-dark: #121212;
+  --color-swiss-grey: #4b4b4b;
+  --color-swiss-light:#e5e5e5;
+
+  /* --- Fonts --- */
+  --font-display:    'Space Grotesk', 'Archivo Black', 'Plus Jakarta Sans', sans-serif;
+  --font-body:       'Inter', sans-serif;
   --font-mono:       'JetBrains Mono', monospace;
 }
 
@@ -29,13 +38,14 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
-  background-color: var(--bg-swiss-cream);
-  color: var(--color-swiss-dark);
+  background-color: var(--bg-brutal);
+  color: var(--ink-brutal);
   font-family: var(--font-body);
 }
 
 body {
-  background-color: var(--bg-swiss-cream);
+  background-color: var(--bg-brutal);
+  color: var(--ink-brutal);
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
@@ -513,4 +523,539 @@ body {
   padding: 30px;
   overflow-y: auto;
   flex: 1;
+}
+
+/* ============================================================
+   NEUBRUTALISM UTILITY STYLES
+   ============================================================ */
+
+/* Border Tebal Khas */
+.border-brutal {
+  border: 3px solid #111111;
+}
+
+.border-brutal-sm {
+  border: 2px solid #111111;
+}
+
+.border-brutal-lg {
+  border: 4px solid #111111;
+}
+
+/* Bayangan Kaku (Hard Shadow) */
+.shadow-brutal {
+  box-shadow: 6px 6px 0px #111111;
+}
+
+.shadow-brutal-md {
+  box-shadow: 4px 4px 0px #111111;
+}
+
+.shadow-brutal-lg {
+  box-shadow: 8px 8px 0px #111111;
+}
+
+/* Efek Hover Interaktif Pada Kartu */
+.brutal-card-hover {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brutal-card-hover:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0px #111111;
+}
+
+.brutal-card-hover:active {
+  transform: translate(2px, 2px);
+  box-shadow: 4px 4px 0px #111111;
+}
+
+/* Efek Hover Interaktif Pada Tombol (Mengikuti Arah Tekan) */
+.brutal-btn-hover {
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brutal-btn-hover:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0px #111111;
+}
+
+.brutal-btn-hover:active {
+  transform: translate(1px, 1px);
+  box-shadow: 4px 4px 0px #111111;
+}
+
+/* Pola Grid Latar Belakang */
+.bg-grid-pattern {
+  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(to right, rgba(17, 17, 17, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(17, 17, 17, 0.05) 1px, transparent 1px);
+}
+
+/* ============================================================
+   NEUBRUTALISM LAYOUT STRUCTURE
+   ============================================================ */
+
+.brutal-layout-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--bg-brutal);
+}
+
+.brutal-sidebar {
+  display: none;
+}
+
+.brutal-main {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 60px; /* Offset mobile header */
+  box-sizing: border-box;
+}
+
+@media (min-width: 1024px) {
+  .brutal-sidebar {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 320px;
+    background-color: var(--surface);
+    border-right: 4px solid var(--ink-brutal);
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px;
+    overflow-y: auto;
+    z-index: 100;
+    box-sizing: border-box;
+  }
+  
+  .brutal-main {
+    margin-left: 320px;
+    width: calc(100% - 320px);
+    padding-top: 0;
+  }
+}
+
+@media (min-width: 1280px) {
+  .brutal-sidebar {
+    width: 360px;
+    padding: 40px;
+  }
+  
+  .brutal-main {
+    margin-left: 360px;
+    width: calc(100% - 360px);
+  }
+}
+
+/* Mobile Header */
+.brutal-mobile-header {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: var(--surface);
+  border-bottom: 3px solid var(--ink-brutal);
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 999;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1024px) {
+  .brutal-mobile-header {
+    display: none;
+  }
+}
+
+/* Floating Action Button (FAB) */
+.brutal-mobile-fab {
+  display: flex;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  background-color: var(--accent-3);
+  border: 3px solid var(--ink-brutal);
+  box-shadow: 4px 4px 0px var(--ink-brutal);
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 998;
+  transition: all 0.15s;
+}
+
+.brutal-mobile-fab:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--ink-brutal);
+}
+
+.brutal-mobile-fab:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px var(--ink-brutal);
+}
+
+@media (min-width: 1024px) {
+  .brutal-mobile-fab {
+    display: none;
+  }
+}
+
+/* Bottom Sheet / Mobile Menu */
+.brutal-mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+}
+
+.brutal-bottom-sheet {
+  width: 100%;
+  background-color: var(--bg-brutal);
+  border-top: 4px solid var(--ink-brutal);
+  padding: 30px 24px;
+  box-sizing: border-box;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0px -10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Brutalist Sections */
+.brutal-section {
+  padding: 80px 40px;
+  border-bottom: 3px solid var(--ink-brutal);
+  position: relative;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .brutal-section {
+    padding: 60px 20px;
+  }
+}
+
+/* Asymmetric Grid System */
+.brutal-grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 30px;
+}
+
+.brutal-col-7 {
+  grid-column: span 12;
+}
+
+.brutal-col-5 {
+  grid-column: span 12;
+}
+
+@media (min-width: 1024px) {
+  .brutal-col-7 {
+    grid-column: span 7;
+  }
+  .brutal-col-5 {
+    grid-column: span 5;
+  }
+}
+
+/* Brutalist Cards */
+.brutal-card {
+  background-color: var(--surface);
+  border: 3px solid var(--ink-brutal);
+  box-shadow: 6px 6px 0px var(--ink-brutal);
+  padding: 24px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.brutal-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0px var(--ink-brutal);
+}
+
+/* Buttons */
+.brutal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  background-color: var(--accent-1);
+  color: var(--ink-brutal);
+  border: 3px solid var(--ink-brutal);
+  box-shadow: 4px 4px 0px var(--ink-brutal);
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.brutal-btn:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 7px 7px 0px var(--ink-brutal);
+}
+
+.brutal-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px var(--ink-brutal);
+}
+
+.brutal-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 22px;
+  background-color: transparent;
+  color: var(--ink-brutal);
+  border: 3px solid var(--ink-brutal);
+  box-shadow: 4px 4px 0px var(--ink-brutal);
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.brutal-btn-outline:hover {
+  background-color: var(--ink-brutal);
+  color: var(--surface);
+  transform: translate(-3px, -3px);
+  box-shadow: 7px 7px 0px var(--ink-brutal);
+}
+
+.brutal-btn-outline:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px var(--ink-brutal);
+}
+
+/* Sidebar Nav Links */
+.brutal-nav-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: var(--ink-brutal);
+  border: 3px solid transparent;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-bottom: 8px;
+}
+
+.brutal-nav-link:hover {
+  background-color: rgba(17, 17, 17, 0.04);
+  border-color: var(--ink-brutal);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0px var(--ink-brutal);
+}
+
+.brutal-nav-link.active {
+  background-color: var(--accent-3);
+  border-color: var(--ink-brutal);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0px var(--ink-brutal);
+}
+
+/* Projects Horizontal Slider */
+.projects-slider-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.projects-slider {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 24px;
+  padding: 12px 4px 30px 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-brutal) transparent;
+}
+
+.projects-slider::-webkit-scrollbar {
+  height: 8px;
+}
+
+.projects-slider::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.projects-slider::-webkit-scrollbar-thumb {
+  background-color: var(--ink-brutal);
+  border: 2px solid var(--bg-brutal);
+}
+
+.project-slide {
+  flex: 0 0 85%;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .project-slide {
+    flex: 0 0 50%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .project-slide {
+    flex: 0 0 48%;
+  }
+}
+
+/* Pola Titik (Dots Background Pattern) - Lebih Rapi */
+.bg-dots-pattern {
+  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(18, 18, 18, 0.12) 1.5px, transparent 1.5px);
+}
+
+/* Double-Layer Card (3D Offset effect) */
+.double-layer-card {
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card-back {
+  position: absolute;
+  inset: 0;
+  background-color: var(--accent-3); /* Defaults to yellow back-card */
+  border: 3px solid var(--ink-brutal);
+  z-index: 1;
+}
+
+.card-front {
+  position: relative;
+  background-color: var(--surface);
+  border: 3px solid var(--ink-brutal);
+  z-index: 2;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.double-layer-card:hover .card-front {
+  transform: translate(-6px, -6px);
+}
+
+/* Specific accent background presets for card backs */
+.back-accent-1 { background-color: var(--accent-1); }
+.back-accent-2 { background-color: var(--accent-2); }
+.back-accent-3 { background-color: var(--accent-3); }
+.back-accent-mint { background-color: var(--accent-mint); }
+.back-ink { background-color: var(--ink-brutal); }
+
+/* Retro Animated Diagonal Stripes for loading/skills */
+.stripes-bar {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(18, 18, 18, 0.1) 10px,
+    rgba(18, 18, 18, 0.1) 20px
+  );
+  background-size: 40px 40px;
+  animation: stripes-move 1.5s linear infinite;
+}
+
+@keyframes stripes-move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 0;
+  }
+}
+
+/* Rotating decoration badge */
+.rotating-badge {
+  animation: spin-slow 20s linear infinite;
+}
+
+@keyframes spin-slow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   TERMINAL WIDGET STYLES
+   ============================================================ */
+
+.terminal-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  color: #39ff14; /* neon green */
+  font-family: var(--font-mono);
+  font-size: 13px;
+  background-color: #0c0c0c;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-align: left;
+}
+
+.terminal-logs {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  padding-right: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.terminal-line {
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.terminal-prompt-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid rgba(57, 255, 20, 0.2);
+  padding-top: 8px;
+}
+
+.terminal-prompt {
+  color: #39ff14;
+  font-weight: bold;
+}
+
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #39ff14;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.matrix-container {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
 }

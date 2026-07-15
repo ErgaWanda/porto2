@@ -130,6 +130,7 @@ export default function TerminalWindow({ onOpenWindow, projectsList }: TerminalW
         newLogs.push(
           "KEAHLIAN TEKNIS (OS_STACK.DLL)",
           "==============================",
+          "Fullstack(Next/Vue) [█████████████████░░] 87%",
           "Golang (Echo)      [████████████████░░░] 85%",
           "PHP (Laravel)      [█████████████████░░] 88%",
           "Vue.js             [████████████████░░░] 85%",
