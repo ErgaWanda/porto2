@@ -5,31 +5,40 @@
 
 :root {
   /* --- Neubrutalism Palette (Vibrant, Premium) --- */
-  --bg-brutal:       #FAF6EE;       /* Rich warm cream background */
-  --ink-brutal:      #121212;       /* Deep charcoal ink */
-  --accent-1:        #FF5A36;       /* Radiant coral red-orange */
-  --accent-2:        #3D5AFE;       /* Intense electric blue */
-  --accent-3:        #FBBF24;       /* Golden amber yellow */
-  --accent-mint:     #10B981;       /* Mint green for tags/status */
-  --surface:         #FFFFFF;       /* Pure white card surface */
-  
+  --bg-brutal: #FAF6EE;
+  /* Rich warm cream background */
+  --ink-brutal: #121212;
+  /* Deep charcoal ink */
+  --accent-1: #FF5A36;
+  /* Radiant coral red-orange */
+  --accent-2: #3D5AFE;
+  /* Intense electric blue */
+  --accent-3: #FBBF24;
+  /* Golden amber yellow */
+  --accent-mint: #10B981;
+  /* Mint green for tags/status */
+  --surface: #FFFFFF;
+  /* Pure white card surface */
+
   /* Fallback aliases to ensure Swiss elements don't crash */
-  --bg-swiss-cream:   #FAF6EE;
-  --color-swiss-red:  #FF5A36;
+  --bg-swiss-cream: #FAF6EE;
+  --color-swiss-red: #FF5A36;
   --color-swiss-dark: #121212;
   --color-swiss-grey: #4b4b4b;
-  --color-swiss-light:#e5e5e5;
+  --color-swiss-light: #e5e5e5;
 
   /* --- Fonts --- */
-  --font-display:    'Space Grotesk', 'Archivo Black', 'Plus Jakarta Sans', sans-serif;
-  --font-body:       'Inter', sans-serif;
-  --font-mono:       'JetBrains Mono', monospace;
+  --font-display: 'Space Grotesk', 'Archivo Black', 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 /* ============================================================
    RESET & SYSTEM FOUNDATIONS
    ============================================================ */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -57,13 +66,16 @@ body {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--bg-swiss-cream);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--color-swiss-dark);
   border: 2px solid var(--bg-swiss-cream);
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-swiss-red);
 }
@@ -160,6 +172,7 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 40px;
 }
+
 @media (max-width: 768px) {
   .swiss-split-2 {
     grid-template-columns: 1fr;
@@ -172,6 +185,7 @@ body {
   grid-template-columns: 1fr 1fr 1fr;
   gap: 30px;
 }
+
 @media (max-width: 900px) {
   .swiss-split-3 {
     grid-template-columns: 1fr;
@@ -191,14 +205,17 @@ body {
   color: var(--bg-swiss-cream);
   padding: 14px 0;
   border-bottom: 2px solid var(--color-swiss-dark);
-  margin-top: 60px; /* Offset fixed header */
+  margin-top: 60px;
+  /* Offset fixed header */
 }
 
 @media (max-width: 768px) {
   .swiss-marquee-container {
-    margin-top: 50px; /* Offset mobile fixed header */
+    margin-top: 50px;
+    /* Offset mobile fixed header */
   }
 }
+
 .swiss-marquee-content {
   display: inline-flex;
   white-space: nowrap;
@@ -210,9 +227,15 @@ body {
   text-transform: uppercase;
   animation: marquee-scroll 20s linear infinite;
 }
+
 @keyframes marquee-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* Photo Poster */
@@ -227,6 +250,7 @@ body {
   filter: grayscale(1);
   transition: all 0.3s;
 }
+
 .swiss-photo-poster:hover {
   filter: grayscale(0);
   border-color: var(--color-swiss-red);
@@ -244,10 +268,12 @@ body {
   overflow: hidden;
   height: 100%;
 }
+
 .swiss-project-card:hover {
   background: var(--color-swiss-dark);
   color: var(--bg-swiss-cream);
 }
+
 .swiss-project-card-img {
   width: 100%;
   aspect-ratio: 16/10;
@@ -256,10 +282,12 @@ body {
   filter: grayscale(1);
   transition: all 0.3s;
 }
+
 .swiss-project-card:hover .swiss-project-card-img {
   filter: grayscale(0);
   border-bottom-color: var(--bg-swiss-cream);
 }
+
 .swiss-project-info {
   padding: 20px;
   display: flex;
@@ -272,18 +300,22 @@ body {
   display: flex;
   flex-direction: column;
 }
+
 .swiss-timeline-row {
   display: grid;
   grid-template-columns: 200px 1fr;
   padding: 24px 0;
   border-bottom: 1.5px solid var(--color-swiss-light);
 }
+
 .swiss-timeline-row:first-child {
   padding-top: 0;
 }
+
 .swiss-timeline-row:last-child {
   border-bottom: none;
 }
+
 @media (max-width: 600px) {
   .swiss-timeline-row {
     grid-template-columns: 1fr;
@@ -308,11 +340,13 @@ body {
   cursor: pointer;
   transition: all 0.2s;
 }
+
 .swiss-btn:hover {
   background: var(--color-swiss-red);
   color: #fff;
   transform: translateY(-2px);
 }
+
 .swiss-btn-outline {
   display: inline-flex;
   align-items: center;
@@ -328,13 +362,15 @@ body {
   cursor: pointer;
   transition: all 0.2s;
 }
+
 .swiss-btn-outline:hover {
   background: var(--color-swiss-dark);
   color: var(--bg-swiss-cream);
 }
 
 /* Swiss inputs */
-.swiss-input, .swiss-textarea {
+.swiss-input,
+.swiss-textarea {
   width: 100%;
   padding: 14px 16px;
   background: transparent;
@@ -345,7 +381,9 @@ body {
   outline: none;
   transition: all 0.2s;
 }
-.swiss-input:focus, .swiss-textarea:focus {
+
+.swiss-input:focus,
+.swiss-textarea:focus {
   background: #fff;
   border-color: var(--color-swiss-red);
 }
@@ -354,6 +392,7 @@ body {
 .swiss-progress-wrapper {
   margin-bottom: 20px;
 }
+
 .swiss-progress-bg {
   width: 100%;
   height: 14px;
@@ -363,11 +402,13 @@ body {
   overflow: hidden;
   margin-top: 6px;
 }
+
 .swiss-progress-bar {
   height: 100%;
   background: var(--color-swiss-dark);
   transition: width 1s ease-in-out;
 }
+
 .swiss-progress-wrapper:hover .swiss-progress-bar {
   background: var(--color-swiss-red);
 }
@@ -443,6 +484,7 @@ body {
     font-size: 13px;
     padding: 0 12px;
   }
+
   .swiss-nav-item {
     padding: 0 12px;
     font-size: 11px;
@@ -456,21 +498,26 @@ body {
     overflow-x: auto;
     scrollbar-width: none;
   }
+
   .swiss-header::-webkit-scrollbar {
     display: none;
   }
+
   .swiss-header-brand {
     display: none;
   }
+
   .swiss-header-nav {
     width: 100%;
   }
+
   .swiss-nav-item {
     flex: 1;
     justify-content: center;
     border-left: 1px solid var(--color-swiss-dark);
     font-size: 10px;
   }
+
   .swiss-nav-item:first-child {
     border-left: none;
   }
@@ -588,7 +635,7 @@ body {
 /* Pola Grid Latar Belakang */
 .bg-grid-pattern {
   background-size: 24px 24px;
-  background-image: 
+  background-image:
     linear-gradient(to right, rgba(17, 17, 17, 0.05) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(17, 17, 17, 0.05) 1px, transparent 1px);
 }
@@ -610,7 +657,8 @@ body {
 .brutal-main {
   width: 100%;
   min-height: 100vh;
-  padding-top: 60px; /* Offset mobile header */
+  padding-top: 60px;
+  /* Offset mobile header */
   box-sizing: border-box;
 }
 
@@ -631,7 +679,7 @@ body {
     z-index: 100;
     box-sizing: border-box;
   }
-  
+
   .brutal-main {
     margin-left: 320px;
     width: calc(100% - 320px);
@@ -644,7 +692,7 @@ body {
     width: 360px;
     padding: 40px;
   }
-  
+
   .brutal-main {
     margin-left: 360px;
     width: calc(100% - 360px);
@@ -763,6 +811,7 @@ body {
   .brutal-col-7 {
     grid-column: span 7;
   }
+
   .brutal-col-5 {
     grid-column: span 5;
   }
@@ -937,7 +986,8 @@ body {
 .card-back {
   position: absolute;
   inset: 0;
-  background-color: var(--accent-3); /* Defaults to yellow back-card */
+  background-color: var(--accent-3);
+  /* Defaults to yellow back-card */
   border: 3px solid var(--ink-brutal);
   z-index: 1;
 }
@@ -957,21 +1007,33 @@ body {
 }
 
 /* Specific accent background presets for card backs */
-.back-accent-1 { background-color: var(--accent-1); }
-.back-accent-2 { background-color: var(--accent-2); }
-.back-accent-3 { background-color: var(--accent-3); }
-.back-accent-mint { background-color: var(--accent-mint); }
-.back-ink { background-color: var(--ink-brutal); }
+.back-accent-1 {
+  background-color: var(--accent-1);
+}
+
+.back-accent-2 {
+  background-color: var(--accent-2);
+}
+
+.back-accent-3 {
+  background-color: var(--accent-3);
+}
+
+.back-accent-mint {
+  background-color: var(--accent-mint);
+}
+
+.back-ink {
+  background-color: var(--ink-brutal);
+}
 
 /* Retro Animated Diagonal Stripes for loading/skills */
 .stripes-bar {
-  background-image: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 10px,
-    rgba(18, 18, 18, 0.1) 10px,
-    rgba(18, 18, 18, 0.1) 20px
-  );
+  background-image: repeating-linear-gradient(45deg,
+      transparent,
+      transparent 10px,
+      rgba(18, 18, 18, 0.1) 10px,
+      rgba(18, 18, 18, 0.1) 20px);
   background-size: 40px 40px;
   animation: stripes-move 1.5s linear infinite;
 }
@@ -980,6 +1042,7 @@ body {
   0% {
     background-position: 0 0;
   }
+
   100% {
     background-position: 40px 0;
   }
@@ -991,8 +1054,13 @@ body {
 }
 
 @keyframes spin-slow {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* ============================================================
@@ -1004,7 +1072,8 @@ body {
   flex-direction: column;
   height: 100%;
   width: 100%;
-  color: #39ff14; /* neon green */
+  color: #39ff14;
+  /* neon green */
   font-family: var(--font-mono);
   font-size: 13px;
   background-color: #0c0c0c;
@@ -1058,4 +1127,1192 @@ body {
   z-index: 1;
   pointer-events: none;
   overflow: hidden;
+}
+
+/* ============================================================
+   GITHUB ACTIVITY SECTION (PREMIUM 3D CUBES)
+   ============================================================ */
+
+.gh-activity-section {
+  position: relative;
+  padding: 80px 40px;
+  background-color: #0d1117;
+  border-bottom: 3px solid var(--ink-brutal);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .gh-activity-section {
+    padding: 60px 20px;
+  }
+}
+
+.gh-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.gh-header-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.gh-heading {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 5vw, 44px);
+  color: #ffffff;
+  margin-bottom: 32px;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.gh-heading em {
+  font-style: italic;
+  color: var(--accent-mint);
+}
+
+/* ── Graph Container ── */
+.gh-graph-box {
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+}
+
+/* ── Toggle Buttons ── */
+.gh-toggle {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  z-index: 10;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #0d1117;
+}
+
+.gh-toggle-btn {
+  padding: 6px 14px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.45);
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.gh-toggle-btn:first-child {
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.gh-toggle-btn:hover {
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.gh-toggle-btn.active {
+  background: rgba(57, 211, 83, 0.15);
+  color: #39d353;
+}
+
+/* ── Graph Viewport (Fixed Height to Prevent Layout Shift) ── */
+.gh-graph-viewport {
+  position: relative;
+  width: 100%;
+  height: 290px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 40px 10px 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.gh-graph-viewport::-webkit-scrollbar {
+  height: 4px;
+}
+.gh-graph-viewport::-webkit-scrollbar-track {
+  background: transparent;
+}
+.gh-graph-viewport::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+
+/* ── Grid Wrapper (Flex layout for sliding accordion columns) ── */
+.gh-grid-wrapper {
+  display: flex;
+  gap: var(--gap);
+  transform-origin: center center;
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Isometric State (Recent - Rotated, Scaled & Focused) */
+.gh-grid-wrapper.gh-iso {
+  transform: rotateX(55deg) rotateZ(-45deg) translate(-10%, 15%) scale(1.6);
+}
+
+/* Flat State (Full Year - Unrotated & Centered) */
+.gh-grid-wrapper.gh-flat {
+  transform: rotateX(0deg) rotateZ(0deg) translate(0, 0) scale(0.95);
+}
+
+/* ── Columns (For sliding transitions) ── */
+.gh-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+              opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+              margin 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  transform-style: preserve-3d;
+  will-change: width, opacity, margin;
+  width: var(--cell);
+  opacity: 1;
+}
+
+/* In Recent (isometric) mode, older weeks are collapsed and faded out */
+.gh-iso .gh-column.gh-old {
+  width: 0px;
+  opacity: 0;
+  margin-right: calc(-1 * var(--gap));
+  pointer-events: none;
+}
+
+/* ── 3D Cube Cells ── */
+.gh-cell {
+  position: relative;
+  width: var(--cell);
+  height: var(--cell);
+  transform-style: preserve-3d;
+}
+
+.gh-cube {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Face Top */
+.gh-cube-top {
+  position: absolute;
+  inset: 0;
+  background-color: var(--top-color);
+  border-radius: 1.5px;
+  transform: translateZ(var(--depth));
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s;
+}
+
+/* Face Right */
+.gh-cube-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--depth);
+  height: 100%;
+  background-color: var(--right-color);
+  transform-origin: right;
+  transform: rotateY(-90deg);
+  transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s;
+}
+
+/* Face Front */
+.gh-cube-front {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: var(--depth);
+  background-color: var(--front-color);
+  transform-origin: bottom;
+  transform: rotateX(90deg);
+  transition: height 0.6s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s;
+}
+
+/* Flat Mode overrides to flatten the cubes dynamically */
+.gh-flat .gh-cube-top {
+  transform: translateZ(0.5px) !important;
+}
+
+.gh-flat .gh-cube-right {
+  width: 0px !important;
+}
+
+.gh-flat .gh-cube-front {
+  height: 0px !important;
+}
+
+/* Hover effects */
+.gh-cell:hover .gh-cube-top {
+  filter: brightness(1.3);
+}
+
+/* ── Month Labels ── */
+.gh-months {
+  display: flex;
+  padding: 16px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.gh-month-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: left;
+}
+
+/* ── Stats Cards Grid ── */
+.gh-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .gh-stats {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+.gh-stat-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 24px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.gh-stat-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.gh-stat-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.gh-stat-value {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.gh-stat-unit {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+  margin-left: 4px;
+  font-family: var(--font-body);
+}
+
+.gh-stat-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 24px;
+  height: 24px;
+  color: rgba(255, 255, 255, 0.08);
+  transition: color 0.3s ease;
+}
+
+.gh-stat-card:hover .gh-stat-icon {
+  color: rgba(57, 211, 83, 0.25);
+}
+
+/* ── Decor ── */
+.gh-decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.gh-diamond {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-1);
+  transform: rotate(45deg);
+  opacity: 0.3;
+  animation: float 6s ease-in-out infinite;
+}
+
+.gh-diamond-1 {
+  top: 20%;
+  left: 5%;
+}
+
+.gh-diamond-2 {
+  bottom: 30%;
+  right: 5%;
+  background-color: var(--accent-mint);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: rotate(45deg) translateY(0);
+  }
+  50% {
+    transform: rotate(45deg) translateY(-10px);
+  }
+}
+
+/* ============================================================
+   STACK MARQUEE STYLE
+   ============================================================ */
+
+.stack-marquee-row {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  padding: 10px 0;
+  position: relative;
+  user-select: none;
+}
+
+.stack-marquee-content {
+  display: flex;
+  white-space: nowrap;
+  gap: 16px;
+  will-change: transform;
+}
+
+/* Alternate sliding animations */
+.marquee-left {
+  animation: scroll-left 35s linear infinite;
+}
+
+.marquee-right {
+  animation: scroll-right 35s linear infinite;
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scroll-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+/* Neubrutalist Dark Pill Style */
+.stack-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background-color: #121212;
+  color: #e5e5e5;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 2px 2px 0px rgba(255, 255, 255, 0.05);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stack-pill:hover {
+  border-color: var(--accent-1);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0px var(--accent-1);
+}
+
+.stack-pill svg {
+  font-size: 18px;
+  transition: transform 0.3s;
+}
+
+.stack-pill:hover svg {
+  transform: scale(1.2) rotate(6deg);
+}
+
+/* ============================================================
+   CREATIONS COLLAGE STYLE (NEUBRUTALIST STYLE)
+   ============================================================ */
+
+.karya-title {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--ink-brutal);
+  margin-top: 8px;
+  margin-bottom: 40px;
+}
+
+/* Collage Container */
+.projects-collage {
+  position: relative;
+  width: 100%;
+  height: 940px; /* Increased height to accommodate neubrutalist card details */
+  margin-top: 40px;
+}
+
+/* Neubrutalist Browser Mockup Card */
+.browser-window-card {
+  position: absolute;
+  background: var(--surface);
+  border: 3px solid var(--ink-brutal);
+  border-radius: 0px; /* Sharp corners */
+  overflow: hidden;
+  box-shadow: 8px 8px 0px var(--ink-brutal); /* Solid flat shadow */
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  z-index: 10;
+  will-change: transform, box-shadow;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Brutalist window header */
+.browser-window-header {
+  height: 36px;
+  background: var(--bg-brutal);
+  border-bottom: 3px solid var(--ink-brutal);
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 8px;
+  position: relative;
+}
+
+.browser-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--ink-brutal); /* Thick border around dots */
+}
+.dot-red { background-color: #ff5f56; }
+.dot-yellow { background-color: #ffbd2e; }
+.dot-green { background-color: #27c93f; }
+
+.browser-window-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--ink-brutal);
+  font-family: var(--font-mono);
+  max-width: 60%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+
+/* Browser image viewport */
+.browser-window-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/10;
+  background-color: var(--bg-brutal);
+  overflow: hidden;
+  border-bottom: 3px solid var(--ink-brutal);
+}
+
+.browser-window-viewport img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: grayscale(10%);
+}
+
+.browser-window-card:hover .browser-window-viewport img {
+  transform: scale(1.03);
+  filter: grayscale(0%);
+}
+
+/* Neubrutalist Info Body (Always visible for readability) */
+.browser-window-info {
+  padding: 20px;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.info-year {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent-1);
+  margin-bottom: 4px;
+  font-weight: 800;
+}
+
+.info-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--ink-brutal);
+  margin-bottom: 8px;
+  line-height: 1.15;
+}
+
+.info-desc {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #333333;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-align: justify;
+  font-family: var(--font-body);
+}
+
+.info-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.info-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  background: var(--bg-brutal);
+  border: 1.5px solid var(--ink-brutal);
+  color: var(--ink-brutal);
+  font-weight: 800;
+  box-shadow: 1.5px 1.5px 0px var(--ink-brutal);
+  text-transform: uppercase;
+}
+
+/* Overlapping absolute positioning (Desktop only) */
+@media (min-width: 1024px) {
+  /* Offset collage for 4 projects */
+  .card-pos-0 {
+    top: 30px;
+    left: 2%;
+    width: 44%;
+    z-index: 10;
+  }
+  .card-pos-1 {
+    top: 0px;
+    right: 5%;
+    width: 45%;
+    z-index: 12;
+  }
+  .card-pos-2 {
+    top: 400px;
+    left: 14%;
+    width: 47%;
+    z-index: 20;
+  }
+  .card-pos-3 {
+    top: 470px;
+    right: 2%;
+    width: 44%;
+    z-index: 14;
+  }
+
+  /* Neubrutalist hover: translate up-left, increase offset shadow, change shadow color to accent */
+  .browser-window-card:hover {
+    transform: translate(-6px, -6px);
+    z-index: 99 !important;
+    box-shadow: 14px 14px 0px var(--accent-1);
+    border-color: var(--ink-brutal);
+  }
+}
+
+/* Fallback for smaller screens (standard grid/stack) */
+@media (max-width: 1023px) {
+  .projects-collage {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+  .browser-window-card {
+    position: relative;
+    width: 100% !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    box-shadow: 6px 6px 0px var(--ink-brutal);
+  }
+  .browser-window-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 9px 9px 0px var(--accent-1);
+  }
+}
+
+/* ── Live Pulse Dot ── */
+.live-pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-mint);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse-dot 1.6s infinite;
+  display: inline-block;
+}
+
+@keyframes pulse-dot {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+/* ── Spotify visualizer bars ── */
+.visualizer-bar {
+  width: 3px;
+  background-color: #1db954;
+  border-radius: 2px;
+  animation: bounce-bar 1.2s ease-in-out infinite;
+  display: block;
+}
+
+.bar-1 { height: 4px; animation-delay: 0.1s; }
+.bar-2 { height: 12px; animation-delay: 0.4s; }
+.bar-3 { height: 8px; animation-delay: 0.2s; }
+.bar-4 { height: 16px; animation-delay: 0.6s; }
+
+@keyframes bounce-bar {
+  0%, 100% {
+    height: 4px;
+  }
+  50% {
+    height: 18px;
+  }
+}
+
+/* ── Match Highlights ── */
+.matched-highlight {
+  border-color: var(--accent-1) !important;
+  background-color: var(--accent-1) !important;
+  color: var(--ink-brutal) !important;
+  transform: translateY(-4px) !important;
+  box-shadow: 4px 4px 0px var(--ink-brutal) !important;
+}
+
+.matched-highlight-project {
+  border-color: var(--accent-1) !important;
+  box-shadow: 14px 14px 0px var(--accent-1) !important;
+  transform: translate(-8px, -8px) !important;
+  z-index: 90 !important;
+}
+
+/* ── Dot-Grid Background & Scrollbar ── */
+body, .brutal-main {
+  background-image: radial-gradient(var(--ink-brutal) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-brutal);
+  border-left: 3px solid var(--ink-brutal);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-1);
+  border: 3px solid var(--ink-brutal);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-3);
+}
+
+/* ── Cosmic Animations ── */
+@keyframes orbit-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.orbit-rotate {
+  animation: orbit-rotate 40s linear infinite;
+}
+
+@keyframes planet-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(3deg);
+  }
+}
+
+.planet-float {
+  animation: planet-float 6s ease-in-out infinite;
+}
+
+@keyframes planet-float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(12px) rotate(-4deg);
+  }
+}
+
+.planet-float-slow {
+  animation: planet-float-slow 8s ease-in-out infinite;
+}
+
+@keyframes star-blink {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+.star-blink {
+  animation: star-blink 3s ease-in-out infinite;
+}
+
+/* ── Diagonal Warning Stripes Divider ── */
+.brutal-divider-stripes {
+  height: 24px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--accent-3),
+    var(--accent-3) 10px,
+    var(--ink-brutal) 10px,
+    var(--ink-brutal) 20px
+  );
+  border-top: 3px solid var(--ink-brutal);
+  border-bottom: 3px solid var(--ink-brutal);
+  width: 100%;
+}
+
+/* ── Orbiting Satellite Animation ── */
+@keyframes orbit-sat {
+  from {
+    transform: rotate(0deg) translateX(70px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(70px) rotate(-360deg);
+  }
+}
+
+.orbit-sat {
+  animation: orbit-sat 12s linear infinite;
+}
+
+/* ── Shooting Star Animation ── */
+@keyframes shoot {
+  0% {
+    transform: translate(0, 0) rotate(-45deg) scale(0);
+    opacity: 0;
+  }
+  1% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(-45deg) scale(1);
+  }
+  15% {
+    transform: translate(-300px, 300px) rotate(-45deg) scale(1);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-300px, 300px) rotate(-45deg) scale(0);
+    opacity: 0;
+  }
+}
+
+.shooting-star {
+  position: absolute;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-2), transparent);
+  border-radius: 2px;
+  pointer-events: none;
+  animation: shoot 8s ease-in-out infinite;
+  opacity: 0;
+  z-index: 1;
+}
+
+/* ── Floating Astronaut Helmet Animation ── */
+@keyframes float-astronaut {
+  0%, 100% {
+    transform: translateY(0px) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(8deg);
+  }
+}
+
+.float-astronaut {
+  animation: float-astronaut 5s ease-in-out infinite;
+}
+
+/* ── Cosmic Nebula Glow & Drift ── */
+@keyframes drift {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(40px, -60px) scale(1.1);
+  }
+  100% {
+    transform: translate(-30px, 40px) scale(0.95);
+  }
+}
+
+.cosmic-nebula {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(130px);
+  z-index: 0;
+  pointer-events: none;
+  animation: drift 20s ease-in-out infinite alternate;
+}
+
+/* ── Mouse Star particle Trail ── */
+.cursor-star-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  animation: fade-out-particle 0.8s ease-out forwards;
+}
+
+@keyframes fade-out-particle {
+  0% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -10px) scale(0.2) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SPLASH SCREEN OVERLAY
+   ============================================================ */
+
+.brutal-splash-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--ink-brutal);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.brutal-splash-overlay.splash-fade-out {
+  opacity: 0;
+  transform: scale(1.05);
+  pointer-events: none;
+}
+
+.splash-stars-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Splash Card */
+.brutal-splash-card {
+  position: relative;
+  z-index: 2;
+  width: 90%;
+  max-width: 520px;
+  background-color: rgba(18, 18, 18, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: splash-card-enter 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform: translateY(40px) scale(0.9);
+  opacity: 0;
+}
+
+@keyframes splash-card-enter {
+  0% {
+    transform: translateY(40px) scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Animated Name */
+.splash-name-reveal {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.splash-name-text {
+  font-family: var(--font-display);
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 12px 0 0 0;
+  animation: splash-name-clip 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s both;
+}
+
+@keyframes splash-name-clip {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+  40% {
+    clip-path: inset(0 50% 0 0);
+    opacity: 1;
+  }
+  100% {
+    clip-path: inset(0 0% 0 0);
+    opacity: 1;
+  }
+}
+
+/* Warning Box */
+.splash-warning-box {
+  background-color: rgba(255, 200, 50, 0.15);
+  border: 2px solid rgba(255, 200, 50, 0.4);
+  border-radius: 4px;
+  padding: 16px 18px;
+  margin-bottom: 24px;
+  animation: splash-warning-enter 0.6s ease 1s both;
+  color: #fff;
+}
+
+@keyframes splash-warning-enter {
+  0% {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* GOT IT Button */
+.splash-got-it-btn {
+  width: 100%;
+  padding: 16px 32px !important;
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  background-color: var(--accent-1) !important;
+  color: #fff !important;
+  border: 4px solid var(--ink-brutal) !important;
+  box-shadow: 6px 6px 0px var(--ink-brutal) !important;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  animation: splash-btn-enter 0.5s ease 1.4s both;
+}
+
+.splash-got-it-btn:hover {
+  transform: translate(-3px, -3px) !important;
+  box-shadow: 9px 9px 0px var(--ink-brutal) !important;
+  background-color: var(--accent-2) !important;
+}
+
+.splash-got-it-btn:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 2px 2px 0px var(--ink-brutal) !important;
+}
+
+@keyframes splash-btn-enter {
+  0% {
+    transform: translateY(15px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .splash-name-text {
+    font-size: 28px;
+  }
+  .brutal-splash-card {
+    width: 92%;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SOLAR SYSTEM ANIMATION
+   ============================================================ */
+
+.solar-system-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  min-width: 900px;
+  min-height: 900px;
+}
+
+/* Orbit Rings */
+.orbit-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Sun */
+.solar-sun {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.solar-sun-glow {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 200, 50, 0.35) 0%, rgba(255, 140, 0, 0.15) 40%, transparent 70%);
+  animation: sun-pulse 3s ease-in-out infinite;
+}
+
+.solar-sun-core {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffe066, #ff9f00, #ff6f00);
+  border: 3.5px solid #fff;
+  box-shadow: 0 0 30px rgba(255, 160, 0, 0.8), 0 0 60px rgba(255, 140, 0, 0.4), 0 0 100px rgba(255, 100, 0, 0.2);
+}
+
+@keyframes sun-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.4);
+    opacity: 1;
+  }
+}
+
+/* Planet Orbit Wrapper */
+.planet-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  animation: planet-revolve 10s linear infinite;
+}
+
+@keyframes planet-revolve {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Planet Body */
+.solar-planet {
+  position: absolute;
+  border-radius: 50%;
+  border: 2.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4), 3px 3px 0px rgba(0,0,0,0.5);
+}
+
+/* Overlay Content (card on top of solar system) */
+.splash-overlay-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .solar-system-container {
+    min-width: 400px;
+    min-height: 400px;
+  }
 }
