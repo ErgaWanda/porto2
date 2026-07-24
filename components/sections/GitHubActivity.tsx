@@ -91,27 +91,27 @@ function calculateStats(data: { date: Date; count: number }[]) {
 
 // ─── Colors ────────────────────────────────────────────────
 const TOP_COLORS = [
-  "#1f2328", // 0 — empty
-  "#0e4429", // 1
-  "#006d32", // 2
-  "#26a641", // 3
-  "#39d353", // 4
+  "#18181A", // 0 — Carbon Nero
+  "#660000", // 1 — Dark Crimson
+  "#B30000", // 2 — Medium Red
+  "#E60000", // 3 — Ferrari Rosso Corsa
+  "#FFF200", // 4 — Giallo Modena
 ];
 
 const RIGHT_COLORS = [
-  "#171a1d",
-  "#0a331f",
-  "#005226",
-  "#1c7d31",
-  "#2aa140",
+  "#131315",
+  "#500000",
+  "#990000",
+  "#CC0000",
+  "#E6D900",
 ];
 
 const FRONT_COLORS = [
-  "#121417",
-  "#072416",
-  "#003d1c",
-  "#135c24",
-  "#1e7b30",
+  "#0E0E10",
+  "#3A0000",
+  "#800000",
+  "#B30000",
+  "#CCBE00",
 ];
 
 const MONTH_NAMES = [
@@ -186,9 +186,9 @@ export default function GitHubActivity() {
 
       <div className="gh-inner">
         {/* Header */}
-        <div className="gh-header-label">ACTIVITY</div>
+        <div className="gh-header-label">PIT WALL TELEMETRY</div>
         <h2 className="gh-heading">
-          Building in <em>public.</em>
+          Commit Laps in <em>Paddock.</em>
         </h2>
 
         {/* Graph box */}

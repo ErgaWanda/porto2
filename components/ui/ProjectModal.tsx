@@ -60,7 +60,8 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               position: fixed;
               inset: 0;
               z-index: 1000;
-              background: rgba(0, 0, 0, 0.6);
+              background: rgba(0, 0, 0, 0.85);
+              backdrop-filter: blur(4px);
               display: flex;
               align-items: center;
               justify-content: center;
@@ -71,21 +72,21 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               width: 100%;
               max-width: 960px;
               max-height: 85vh;
-              background-color: var(--bg-brutal);
-              border: 3px solid var(--ink-brutal);
+              background-color: var(--bg-card);
+              border: 1px solid var(--border-color);
               display: flex;
               flex-direction: column;
               overflow: hidden;
-              box-shadow: 12px 12px 0 var(--ink-brutal);
+              box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
             }
             
             .brutal-modal-header {
               padding: 16px 24px;
-              border-bottom: 3px solid var(--ink-brutal);
+              border-bottom: 1px solid var(--border-color);
               display: flex;
               justify-content: space-between;
               align-items: center;
-              background-color: var(--accent-3); /* Bright yellow header */
+              background-color: var(--bg-card);
             }
             
             .brutal-modal-body {
@@ -94,25 +95,29 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             }
             
             .brutal-scroll::-webkit-scrollbar {
-              width: 8px;
+              width: 6px;
             }
             .brutal-scroll::-webkit-scrollbar-track {
-              background: var(--bg-brutal);
+              background: var(--bg-dark);
             }
             .brutal-scroll::-webkit-scrollbar-thumb {
-              background: var(--ink-brutal);
-              border: 2px solid var(--bg-brutal);
+              background: var(--border-color);
+              border-radius: 3px;
+            }
+            .brutal-scroll::-webkit-scrollbar-thumb:hover {
+              background: var(--accent-red);
             }
             
             .brutal-tag {
               font-family: var(--font-mono);
-              font-size: 11px;
-              font-weight: 700;
-              padding: 5px 10px;
-              background: var(--surface);
-              border: 2px solid var(--ink-brutal);
-              color: var(--ink-brutal);
+              font-size: 10px;
+              font-weight: 500;
+              padding: 4px 10px;
+              background: rgba(255, 255, 255, 0.05);
+              border: 1px solid var(--border-color);
+              color: var(--text-primary);
               text-transform: uppercase;
+              border-radius: 4px;
             }
 
             .brutal-info-row {
@@ -121,7 +126,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               align-items: center;
               padding-bottom: 8px;
               margin-bottom: 8px;
-              border-bottom: 2px solid #eaeaea;
+              border-bottom: 1px solid var(--border-color);
             }
             
             .modal-grid-layout {
@@ -145,14 +150,14 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             exit={{ opacity: 0, y: 30, scale: 0.96 }}
             transition={{ type: "spring", damping: 30, stiffness: 200 }}
           >
-            {/* Header */}
+             {/* Header */}
             <div className="brutal-modal-header">
               <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                <span className="swiss-label-mono" style={{ color: "var(--accent-1)", fontWeight: "bold" }}>
+                <span className="swiss-label-mono" style={{ color: "var(--accent-red)", fontWeight: "bold" }}>
                   STATUS // {project.status.toUpperCase()}
                 </span>
-                <div style={{ width: 2, height: 16, background: "var(--ink-brutal)" }} />
-                <span className="swiss-label-mono" style={{ color: "var(--ink-brutal)", fontWeight: "bold" }}>
+                <div style={{ width: 1, height: 16, background: "var(--border-color)" }} />
+                <span className="swiss-label-mono" style={{ color: "var(--text-secondary)", fontWeight: "bold" }}>
                   {project.type} // {project.year}
                 </span>
               </div>
@@ -164,17 +169,26 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 style={{
                   width: 32,
                   height: 32,
-                  border: "2px solid var(--ink-brutal)",
-                  background: "var(--accent-1)",
-                  color: "var(--ink-brutal)",
+                  border: "1px solid var(--border-color)",
+                  background: "transparent",
+                  color: "var(--text-secondary)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   cursor: "pointer",
-                  fontWeight: "900",
-                  fontFamily: "var(--font-display)",
-                  boxShadow: "2px 2px 0 var(--ink-brutal)",
-                  transition: "all 0.1s",
+                  fontWeight: "bold",
+                  borderRadius: "50%",
+                  transition: "all 0.2s",
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.color = "var(--text-primary)";
+                  e.currentTarget.style.backgroundColor = "var(--accent-red)";
+                  e.currentTarget.style.borderColor = "var(--accent-red)";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.color = "var(--text-secondary)";
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.borderColor = "var(--border-color)";
                 }}
               >
                 ✕
@@ -182,10 +196,10 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             </div>
 
             {/* Scrollable body */}
-            <div className="brutal-scroll" data-lenis-prevent style={{ overflowY: "auto", flex: 1, backgroundColor: "var(--bg-brutal)" }}>
+            <div className="brutal-scroll" data-lenis-prevent style={{ overflowY: "auto", flex: 1, backgroundColor: "var(--bg-dark)" }}>
               
-              {/* Hero Banner image (Grayscale Swiss style but with brutalist border) */}
-              <div style={{ position: "relative", width: "100%", aspectRatio: "16/7", background: "var(--ink-brutal)", overflow: "hidden", borderBottom: "3px solid var(--ink-brutal)" }}>
+              {/* Hero Banner image */}
+              <div style={{ position: "relative", width: "100%", aspectRatio: "16/7", background: "#000", overflow: "hidden", borderBottom: "1px solid var(--border-color)" }}>
                 <Image
                   src={project.img}
                   alt={project.title}
@@ -200,21 +214,21 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 
                 {/* Title and subtitle */}
                 <div style={{ marginBottom: 28 }}>
-                  <span className="swiss-label-mono" style={{ color: "var(--accent-2)" }}>ARSIP PROYEK RESMI</span>
+                  <span className="swiss-label-mono" style={{ color: "var(--accent-red)" }}>PROJECT ARCHIVE</span>
                   <h2 style={{
-                    fontFamily: "var(--font-display)",
-                    fontSize: "clamp(24px, 4vw, 44px)",
-                    fontWeight: 900,
-                    color: "var(--ink-brutal)",
+                    fontFamily: "var(--font-body)",
+                    fontSize: "clamp(24px, 4vw, 36px)",
+                    fontWeight: 800,
+                    color: "var(--text-primary)",
                     lineHeight: 1.1,
                     textTransform: "uppercase",
-                    letterSpacing: "-0.02em",
+                    letterSpacing: "-0.01em",
                     marginTop: 4,
                   }}>
                     {project.title}
                   </h2>
                   {project.subtitle && (
-                    <p style={{ fontFamily: "var(--font-body)", fontSize: 16, color: "#555", marginTop: 6, fontWeight: 500 }}>
+                    <p style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--text-secondary)", marginTop: 6, fontWeight: 500 }}>
                       {project.subtitle}
                     </p>
                   )}
@@ -227,17 +241,17 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                   <div>
                     {/* Desc */}
                     <div style={{ marginBottom: 30 }}>
-                      <h4 className="swiss-label-mono" style={{ color: "var(--ink-brutal)", marginBottom: 8 }}>
+                      <h4 className="swiss-label-mono" style={{ color: "var(--text-secondary)", marginBottom: 8 }}>
                         Deskripsi Proyek
                       </h4>
-                      <p className="swiss-text" style={{ fontSize: "15px", color: "var(--ink-brutal)", textAlign: "justify", lineHeight: 1.6 }}>
+                      <p className="swiss-text" style={{ fontSize: "14px", color: "var(--text-secondary)", textAlign: "justify", lineHeight: 1.6 }}>
                         {project.longDesc}
                       </p>
                     </div>
 
                     {/* Highlights */}
                     <div style={{ marginBottom: 30 }}>
-                      <h4 className="swiss-label-mono" style={{ color: "var(--ink-brutal)", marginBottom: 10 }}>
+                      <h4 className="swiss-label-mono" style={{ color: "var(--text-secondary)", marginBottom: 10 }}>
                         Poin-Poin Utama
                       </h4>
                       <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 8, padding: 0 }}>
@@ -247,13 +261,13 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                             style={{
                               fontFamily: "var(--font-body)",
                               fontSize: 14,
-                              color: "var(--ink-brutal)",
+                              color: "var(--text-primary)",
                               paddingLeft: 18,
                               position: "relative",
                               lineHeight: 1.5,
                             }}
                           >
-                            <span style={{ position: "absolute", left: 0, color: "var(--accent-1)" }}>■</span>
+                            <span style={{ position: "absolute", left: 0, color: "var(--accent-red)" }}>✦</span>
                             {h}
                           </li>
                         ))}
@@ -267,7 +281,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                           href={project.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="brutal-btn"
+                          className="btn-primary"
                           style={{ textDecoration: "none" }}
                         >
                           Kunjungi Live
@@ -278,7 +292,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                           href={project.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="brutal-btn-outline"
+                          className="btn-outline"
                           style={{ textDecoration: "none" }}
                         >
                           GitHub Repo
@@ -289,64 +303,58 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                     {/* Screenshots */}
                     {project.screenshots.length > 0 && (
                       <div>
-                        <h4 className="swiss-label-mono" style={{ color: "var(--ink-brutal)", marginBottom: 12 }}>
+                        <h4 className="swiss-label-mono" style={{ color: "var(--text-secondary)", marginBottom: 12 }}>
                           Dokumentasi Visual ({project.screenshots.length})
                         </h4>
                         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
                           {project.screenshots.map((ss, i) => {
                             const label = project.screenshotLabels?.[i];
                             return (
-                              <div key={i} className="double-layer-card" style={{ transform: i % 2 === 0 ? "rotate(0.5deg)" : "rotate(-0.5deg)", marginBottom: "8px" }}>
-                                <div className="card-back back-accent-2" />
-                                <div className="card-front" style={{ padding: 0, overflow: "hidden", display: "flex", flexDirection: "column" }}>
-                                  {/* Window Title Bar */}
-                                  <div style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                    padding: "8px 12px",
-                                    backgroundColor: "#e4e4e7",
-                                    borderBottom: "3px solid var(--ink-brutal)"
-                                  }}>
-                                    <div style={{ display: "flex", gap: "6px" }}>
-                                      <span style={{ width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#ef4444", border: "1.5px solid var(--ink-brutal)" }} />
-                                      <span style={{ width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#eab308", border: "1.5px solid var(--ink-brutal)" }} />
-                                      <span style={{ width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#22c55e", border: "1.5px solid var(--ink-brutal)" }} />
-                                    </div>
-                                    <span style={{ fontFamily: "var(--font-mono)", fontSize: "10px", fontWeight: "bold", color: "#666" }}>
-                                      {label ? `IMG_VIEWER // ${label.split(" — ")[0].toUpperCase()}` : `IMAGE_${i+1}.PNG`}
-                                    </span>
-                                    <div style={{ width: "42px" }} />
+                              <div key={i} style={{ border: "1px solid var(--border-color)", borderRadius: "8px", overflow: "hidden", display: "flex", flexDirection: "column", backgroundColor: "var(--bg-card)", marginBottom: "8px" }}>
+                                {/* Window Title Bar */}
+                                <div style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "space-between",
+                                  padding: "10px 14px",
+                                  backgroundColor: "var(--bg-dark)",
+                                  borderBottom: "1px solid var(--border-color)"
+                                }}>
+                                  <div style={{ display: "flex", gap: "6px" }}>
+                                    <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#ef4444" }} />
+                                    <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#eab308" }} />
+                                    <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#22c55e" }} />
                                   </div>
-                                  
-                                  {/* Image Body */}
-                                  <div style={{ position: "relative", width: "100%" }}>
-                                    <Image
-                                      src={ss}
-                                      alt={label ?? `Screenshot ${i + 1}`}
-                                      width={800}
-                                      height={480}
-                                      style={{
-                                        width: "100%",
-                                        height: "auto",
-                                        display: "block",
-                                        filter: "grayscale(30%)",
-                                        transition: "filter 0.3s"
-                                      }}
-                                      onMouseOver={(e) => { e.currentTarget.style.filter = "grayscale(0%)"; }}
-                                      onMouseOut={(e) => { e.currentTarget.style.filter = "grayscale(30%)"; }}
-                                      unoptimized
-                                    />
-                                  </div>
-
-                                  {label && (
-                                    <div style={{ padding: "10px 14px", borderTop: "3px solid var(--ink-brutal)", background: "var(--surface)", color: "var(--ink-brutal)" }}>
-                                      <span className="swiss-label-mono" style={{ fontSize: 10 }}>
-                                        {label.toUpperCase()}
-                                      </span>
-                                    </div>
-                                  )}
+                                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "10px", fontWeight: "500", color: "var(--text-muted)" }}>
+                                    {label ? `IMG_VIEWER // ${label.split(" — ")[0].toUpperCase()}` : `IMAGE_${i+1}.PNG`}
+                                  </span>
+                                  <div style={{ width: "42px" }} />
                                 </div>
+                                
+                                {/* Image Body */}
+                                <div style={{ position: "relative", width: "100%" }}>
+                                  <Image
+                                    src={ss}
+                                    alt={label ?? `Screenshot ${i + 1}`}
+                                    width={800}
+                                    height={480}
+                                    style={{
+                                      width: "100%",
+                                      height: "auto",
+                                      display: "block",
+                                      transition: "opacity 0.3s"
+                                    }}
+                                    unoptimized
+                                  />
+                                </div>
+
+                                {label && (
+                                  <div style={{ padding: "12px 14px", borderTop: "1px solid var(--border-color)", background: "var(--bg-card)", color: "var(--text-primary)" }}>
+                                    <span className="swiss-label-mono" style={{ fontSize: 10, color: "var(--text-secondary)" }}>
+                                      {label.toUpperCase()}
+                                    </span>
+                                  </div>
+                                )}
                               </div>
                             );
                           })}
@@ -359,20 +367,20 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                   <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
                     
                     {/* Tech stack */}
-                    <div className="brutal-card" style={{ backgroundColor: "var(--surface)" }}>
-                      <h5 className="swiss-label-mono" style={{ color: "var(--ink-brutal)", marginBottom: 12 }}>
+                    <div style={{ backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 8, padding: 20 }}>
+                      <h5 className="swiss-label-mono" style={{ color: "var(--text-secondary)", marginBottom: 12 }}>
                         Tech Stack
                       </h5>
                       <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                         {project.stack.map((t) => (
-                          <span key={t} className="brutal-tag">{t}</span>
+                          <span key={t} className="brutal-tag" style={{ border: "1px solid var(--border-color)", background: "rgba(255,255,255,0.02)" }}>{t}</span>
                         ))}
                       </div>
                     </div>
 
                     {/* Metadata */}
-                    <div className="brutal-card" style={{ backgroundColor: "var(--surface)" }}>
-                      <h5 className="swiss-label-mono" style={{ color: "var(--ink-brutal)", marginBottom: 12 }}>
+                    <div style={{ backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 8, padding: 20 }}>
+                      <h5 className="swiss-label-mono" style={{ color: "var(--text-secondary)", marginBottom: 12 }}>
                         Info Proyek
                       </h5>
                       {[
@@ -380,9 +388,9 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                         { label: "Tahun", value: project.year },
                         { label: "Status", value: project.status },
                       ].map((item) => (
-                        <div key={item.label} className="brutal-info-row">
-                          <span className="swiss-label-mono" style={{ fontSize: 10, color: "#666" }}>{item.label}</span>
-                          <span className="swiss-label-mono" style={{ fontSize: 11, color: "var(--ink-brutal)", fontWeight: "bold" }}>{item.value}</span>
+                        <div key={item.label} className="brutal-info-row" style={{ borderBottom: "1px solid var(--border-color)" }}>
+                          <span className="swiss-label-mono" style={{ fontSize: 10, color: "var(--text-muted)" }}>{item.label}</span>
+                          <span className="swiss-label-mono" style={{ fontSize: 11, color: "var(--text-primary)", fontWeight: "bold" }}>{item.value}</span>
                         </div>
                       ))}
                     </div>

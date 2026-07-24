@@ -163,7 +163,7 @@ export default function TerminalWindow({ onOpenWindow, projectsList }: TerminalW
           "LinkedIn : linkedin.com/in/erga-wanda-afriza",
           "Lokasi   : Jakarta, Indonesia",
           "",
-          "Ketik 'open kontak' untuk membuka formulir pengiriman transmisi."
+          "Ketik 'open kontak' untuk membuka formulir pengiriman telemetri."
         );
         break;
       case "matrix":
