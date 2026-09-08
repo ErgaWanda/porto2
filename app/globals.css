@@ -390,6 +390,17 @@ h1, h2, h3, h4, h5, h6 {
   animation: duckCruise 24s ease-in-out infinite;
 }
 
+.draggable-duck {
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.draggable-duck:active {
+  cursor: grabbing;
+}
+
 /* Mobile: constrain duck cruise range */
 @media (max-width: 768px) {
   @keyframes duckCruise {

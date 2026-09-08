@@ -11,8 +11,8 @@ import { projects } from "@/data/projects";
 export default function Home() {
   const fadeInUp = {
     hidden: { opacity: 0, y: 25 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { type: "spring", stiffness: 90, damping: 15 }
     }
@@ -35,6 +35,8 @@ export default function Home() {
   const [contactForm, setContactForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const [formStatus, setFormStatus] = useState<{ type: "success" | "activation" | "error"; text: string } | null>(null);
+  const [isDuckDragging, setIsDuckDragging] = useState(false);
 
   // Masculine, high-contrast, bold athletic ocean palette
   const nameRow1 = [
@@ -107,11 +109,11 @@ export default function Home() {
   const filteredProjects = selectedCategory === "ALL"
     ? projects
     : projects.filter((p) => {
-        if (selectedCategory === "Web Platform") return p.type === "Web Platform";
-        if (selectedCategory === "AI & ML") return p.type.includes("AI") || p.type.includes("NLP");
-        if (selectedCategory === "Data Science") return p.type === "Data Science";
-        return true;
-      });
+      if (selectedCategory === "Web Platform") return p.type === "Web Platform";
+      if (selectedCategory === "AI & ML") return p.type.includes("AI") || p.type.includes("NLP");
+      if (selectedCategory === "Data Science") return p.type === "Data Science";
+      return true;
+    });
 
   const getCardSpanClass = (id: number, isFiltered: boolean) => {
     if (isFiltered) return "masonry-span-6";
@@ -128,6 +130,7 @@ export default function Home() {
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSending(true);
+    setFormStatus(null);
 
     try {
       const response = await fetch("https://formsubmit.co/ajax/ewandaafriza@gmail.com", {
@@ -140,27 +143,43 @@ export default function Home() {
           name: contactForm.name,
           email: contactForm.email,
           subject: contactForm.subject || "Portfolio Contact Message",
-          message: contactForm.message
+          message: contactForm.message,
+          _template: "table",
+          _captcha: "false"
         })
       });
 
-      if (response.ok) {
+      const data = await response.json().catch(() => null);
+
+      if (response.ok && data && (data.success === "true" || data.success === true)) {
         setContactForm({ name: "", email: "", subject: "", message: "" });
-        setSent(true);
-        setTimeout(() => setSent(false), 5000);
+        setFormStatus({
+          type: "success",
+          text: "✓ PESAN BERHASIL TERKIRIM LANGSUNG KE GMAIL ERGA!"
+        });
+        setTimeout(() => setFormStatus(null), 8000);
+      } else if (data?.message?.toLowerCase().includes("activation")) {
+        setFormStatus({
+          type: "activation",
+          text: "⚠️ FORM MEMERLUKAN AKTIVASI: Cek inbox/spam Gmail ewandaafriza@gmail.com lalu klik link 'Activate Form'!"
+        });
       } else {
-        throw new Error("Failed to send message");
+        throw new Error(data?.message || "Gagal mengirim pesan via FormSubmit");
       }
-    } catch (err) {
-      console.warn("API Error. Using Fallback Mailto...", err);
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : String(err);
+      console.warn("FormSubmit Error. Using Fallback Mailto...", errMsg);
+      setFormStatus({
+        type: "error",
+        text: "Membuka draft email langsung ke ewandaafriza@gmail.com..."
+      });
       const mailto = `mailto:ewandaafriza@gmail.com?subject=${encodeURIComponent(
         contactForm.subject || "Message from Portfolio"
       )}&body=${encodeURIComponent(
-        `Name: ${contactForm.name}\nEmail: ${contactForm.email}\n\n${contactForm.message}`
+        `Nama: ${contactForm.name}\nEmail: ${contactForm.email}\n\nPesan:\n${contactForm.message}`
       )}`;
       window.open(mailto, "_blank");
-      setSent(true);
-      setTimeout(() => setSent(false), 5000);
+      setTimeout(() => setFormStatus(null), 8000);
     } finally {
       setSending(false);
     }
@@ -222,7 +241,7 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen text-[#0F172A] bg-[#F8FAFC] font-body selection:bg-[#38BDF8] selection:text-[#020B14]" style={{ overflowX: "hidden", maxWidth: "100vw" }}>
-      
+
       {/* ============================================================
           TACTICAL NEUBRUTALIST NAVBAR — PURE CSS RESPONSIVE (NO TAILWIND)
           ============================================================ */}
@@ -281,34 +300,15 @@ export default function Home() {
             {mobileMenuOpen ? "✕" : "☰"}
           </button>
         </div>
-      </header>
 
-      {/* ============================================================
-          MOBILE DRAWER — FIXED OVERLAY (outside header, no layout shift)
-          ============================================================ */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <>
-            {/* Backdrop overlay — tap to close */}
+        {/* Mobile Drawer Menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              onClick={() => setMobileMenuOpen(false)}
-              style={{
-                position: "fixed",
-                inset: 0,
-                zIndex: 190,
-                background: "rgba(0,0,0,0.3)",
-              }}
-            />
-            {/* The actual drawer panel */}
-            <motion.div
-              initial={{ opacity: 0, y: -12, scale: 0.97 }}
+              initial={{ opacity: 0, y: -10, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -12, scale: 0.97 }}
-              transition={{ duration: 0.2, type: "spring", stiffness: 280, damping: 24 }}
+              exit={{ opacity: 0, y: -10, scale: 0.98 }}
+              transition={{ duration: 0.18 }}
               className="mobile-nav-drawer"
             >
               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -367,18 +367,17 @@ export default function Home() {
                 </div>
               </div>
             </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-
+          )}
+        </AnimatePresence>
+      </header>
 
       {/* ============================================================
           HERO SECTION: VIBRANT TROPICAL OCEAN & SUNNY BEACH SHORE
           Direct reference from user screenshot (ryhndastra.site style)
           ============================================================ */}
-      <section 
-        className="ocean-hero-canvas" 
-        id="about" 
+      <section
+        className="ocean-hero-canvas"
+        id="about"
         onClick={handleOceanClick}
         style={{ marginTop: "-56px", paddingTop: "80px", cursor: "pointer", position: "relative", overflowX: "hidden" }}
       >
@@ -442,63 +441,77 @@ export default function Home() {
         {/* ============================================================
             DRAGGABLE CRUSING RUBBER DUCK (Directly on the water, no box!)
             ============================================================ */}
-        <motion.div
-          drag
-          dragConstraints={{ left: -30, right: 300, top: -100, bottom: 150 }}
-          dragElastic={0.25}
-          dragTransition={{ bounceStiffness: 300, bounceDamping: 15 }}
-          whileHover={{ scale: 1.2, cursor: "grab" }}
-          whileDrag={{ scale: 1.35, rotate: -10, cursor: "grabbing", zIndex: 100 }}
-          className="anim-duck-cruise draggable-duck"
+        <div
+          className="anim-duck-cruise"
           style={{
             position: "absolute",
             top: "330px",
             left: "9%",
-            zIndex: 25,
-            touchAction: "none",
-            userSelect: "none",
+            zIndex: 45,
+            pointerEvents: "auto",
+            animationPlayState: isDuckDragging ? "paused" : "running",
           }}
-          title="Seret bebek ini kemana saja di lautan! 🐤"
         >
-          <div className="anim-duck" style={{ position: "relative", display: "inline-block" }}>
-            {/* Cute Cartoon Speech Bubble Floating Over Duck */}
-            <div 
-              className="comic-bubble" 
-              style={{ 
-                position: "absolute", 
-                top: "-34px", 
-                left: "22px", 
-                whiteSpace: "nowrap",
-                fontSize: "11px",
-                transform: "rotate(-4deg)",
-                pointerEvents: "none",
-                zIndex: 30,
-              }}
-            >
-              <span>Kwek! Seret aku yuk 🦆</span>
-            </div>
+          <motion.div
+            drag
+            dragElastic={0.25}
+            dragTransition={{ bounceStiffness: 300, bounceDamping: 15 }}
+            onDragStart={() => setIsDuckDragging(true)}
+            onDragEnd={() => setIsDuckDragging(false)}
+            whileHover={{ scale: 1.22, cursor: "grab" }}
+            whileDrag={{ scale: 1.38, rotate: -12, cursor: "grabbing" }}
+            className="draggable-duck"
+            style={{
+              cursor: "grab",
+              touchAction: "none",
+              userSelect: "none",
+              display: "inline-block",
+              padding: "6px",
+            }}
+            title="Seret bebek ini kemana saja di lautan! 🐤"
+          >
+            <div className="anim-duck" style={{ position: "relative", display: "inline-block", pointerEvents: "none" }}>
+              {/* Cute Cartoon Speech Bubble Floating Over Duck */}
+              <div
+                className="comic-bubble"
+                style={{
+                  position: "absolute",
+                  top: "-34px",
+                  left: "22px",
+                  whiteSpace: "nowrap",
+                  fontSize: "11px",
+                  transform: isDuckDragging ? "rotate(-8deg) scale(1.1)" : "rotate(-4deg)",
+                  pointerEvents: "none",
+                  zIndex: 50,
+                  transition: "transform 0.2s ease, background-color 0.2s ease",
+                  backgroundColor: isDuckDragging ? "#FACC15" : "#FFFFFF",
+                }}
+              >
+                <span>{isDuckDragging ? "Waaahh! 🚀 Berenang!" : "Kwek! Seret aku yuk 🦆"}</span>
+              </div>
 
-            <svg width="54" height="48" viewBox="0 0 48 44" fill="none" style={{ filter: "drop-shadow(0 6px 14px rgba(2, 44, 80, 0.45))" }}>
-              {/* Expanding water ripples around swimming duck */}
-              <ellipse cx="24" cy="38" rx="20" ry="4" fill="rgba(255, 255, 255, 0.55)" />
-              <ellipse cx="24" cy="38" rx="14" ry="2.5" fill="rgba(255, 255, 255, 0.9)" />
-              
-              {/* Rubber duck body */}
-              <ellipse cx="24" cy="27" rx="17" ry="11" fill="#FACC15" stroke="#000000" strokeWidth="2.2" />
-              {/* Duck head */}
-              <circle cx="17" cy="16" r="11" fill="#FACC15" stroke="#000000" strokeWidth="2.2" />
-              {/* Duck eye */}
-              <circle cx="14" cy="14" r="2.4" fill="#000000" />
-              <circle cx="15" cy="13" r="0.8" fill="#FFFFFF" />
-              {/* Duck orange beak */}
-              <path d="M7 16 C1 16, 0 20, 6 21 Z" fill="#F97316" stroke="#000000" strokeWidth="1.8" />
-              {/* Duck wing */}
-              <path d="M23 23 C30 22, 34 27, 28 32 C23 33, 20 28, 23 23 Z" fill="#EAB308" stroke="#000000" strokeWidth="1.8" />
-              {/* Tail tuft */}
-              <path d="M39 24 C44 21, 43 28, 38 29 Z" fill="#FACC15" stroke="#000000" strokeWidth="1.8" />
-            </svg>
-          </div>
-        </motion.div>
+              <svg width="56" height="50" viewBox="0 0 48 44" fill="none" style={{ filter: "drop-shadow(0 6px 14px rgba(2, 44, 80, 0.45))", pointerEvents: "none" }}>
+                {/* Expanding water ripples around swimming duck */}
+                <ellipse cx="24" cy="38" rx="20" ry="4" fill="rgba(255, 255, 255, 0.55)" />
+                <ellipse cx="24" cy="38" rx="14" ry="2.5" fill="rgba(255, 255, 255, 0.9)" />
+
+                {/* Rubber duck body */}
+                <ellipse cx="24" cy="27" rx="17" ry="11" fill="#FACC15" stroke="#000000" strokeWidth="2.2" />
+                {/* Duck head */}
+                <circle cx="17" cy="16" r="11" fill="#FACC15" stroke="#000000" strokeWidth="2.2" />
+                {/* Duck eye */}
+                <circle cx="14" cy="14" r="2.4" fill="#000000" />
+                <circle cx="15" cy="13" r="0.8" fill="#FFFFFF" />
+                {/* Duck orange beak */}
+                <path d="M7 16 C1 16, 0 20, 6 21 Z" fill="#F97316" stroke="#000000" strokeWidth="1.8" />
+                {/* Duck wing */}
+                <path d="M23 23 C30 22, 34 27, 28 32 C23 33, 20 28, 23 23 Z" fill="#EAB308" stroke="#000000" strokeWidth="1.8" />
+                {/* Tail tuft */}
+                <path d="M39 24 C44 21, 43 28, 38 29 Z" fill="#FACC15" stroke="#000000" strokeWidth="1.8" />
+              </svg>
+            </div>
+          </motion.div>
+        </div>
 
         {/* Animated Rolling Ocean Wave Belt 1 (Upper Ocean Swells) */}
         <div style={{ position: "absolute", top: "135px", left: 0, width: "200%", height: "50px", pointerEvents: "none", zIndex: 3, opacity: 0.38, overflow: "hidden" }}>
@@ -613,10 +626,10 @@ export default function Home() {
             HERO MAIN HEADLINE (Centered Draggable Letters!)
             ============================================================ */}
         <div className="container-premium relative z-10 text-center" style={{ paddingTop: "30px", paddingBottom: "40px" }}>
-          
+
           {/* Centered Draggable Interactive Letters: ERGA WANDA */}
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginBottom: "26px", userSelect: "none" }}>
-            
+
             {/* Playful Cartoon Floating Drag Hint */}
             <motion.div
               initial={{ opacity: 0, y: -6 }}
@@ -708,17 +721,17 @@ export default function Home() {
               ↓ Lihat Proyek
             </a>
 
-            <button 
+            <button
               onClick={() => setContactModalOpen(true)}
               className="btn-beach-white"
             >
               ✉ Hubungi Saya
             </button>
 
-            <a 
-              href="https://github.com/ErgaWanda" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <a
+              href="https://github.com/ErgaWanda"
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-beach-dark"
             >
               <FaGithub style={{ fontSize: "16px" }} />
@@ -732,26 +745,26 @@ export default function Home() {
             With Palm Tree, Wooden Boat, Crab, Surfboard, Umbrella & Job Badge
             ============================================================ */}
         <div style={{ position: "relative", width: "100%", maxWidth: "100vw", zIndex: 10, overflowX: "hidden" }}>
-          
+
           {/* Wave Foam Border (Where Ocean Meets Sand) */}
           <div style={{ width: "100%", overflow: "hidden", lineHeight: 0 }}>
             <svg viewBox="0 0 1440 90" fill="none" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "70px" }}>
               {/* Outer wave crest */}
-              <path 
-                d="M0,35 C320,65 520,10 760,42 C1000,74 1220,15 1440,38 L1440,90 L0,90 Z" 
-                fill="#FDF3E3" 
+              <path
+                d="M0,35 C320,65 520,10 760,42 C1000,74 1220,15 1440,38 L1440,90 L0,90 Z"
+                fill="#FDF3E3"
               />
               {/* White wave foam edge */}
-              <path 
-                d="M0,32 C320,62 520,7 760,39 C1000,71 1220,12 1440,35" 
-                stroke="#FFFFFF" 
-                strokeWidth="7" 
-                strokeLinecap="round" 
+              <path
+                d="M0,32 C320,62 520,7 760,39 C1000,71 1220,12 1440,35"
+                stroke="#FFFFFF"
+                strokeWidth="7"
+                strokeLinecap="round"
               />
-              <path 
-                d="M0,28 C340,58 540,5 780,36 C1020,68 1240,10 1440,32" 
-                stroke="rgba(255, 255, 255, 0.45)" 
-                strokeWidth="4" 
+              <path
+                d="M0,28 C340,58 540,5 780,36 C1020,68 1240,10 1440,32"
+                stroke="rgba(255, 255, 255, 0.45)"
+                strokeWidth="4"
               />
             </svg>
           </div>
@@ -765,7 +778,7 @@ export default function Home() {
             boxShadow: "inset 0 10px 25px rgba(217, 119, 6, 0.08)",
           }}>
             <div className="container-premium" style={{ position: "relative" }}>
-              
+
               {/* Beach Illustration Elements Flex Bar */}
               <div style={{
                 display: "flex",
@@ -775,7 +788,7 @@ export default function Home() {
                 gap: "16px",
                 minHeight: "150px",
               }}>
-                
+
                 {/* 1. Left: Tropical Palm Tree 🌴 (Hidden on mobile & tablet) */}
                 <div className="hidden lg:flex" style={{ flexDirection: "column", alignItems: "center" }}>
                   <svg width="100" height="150" viewBox="0 0 100 150" fill="none">
@@ -799,7 +812,7 @@ export default function Home() {
 
                 {/* 2. Center: Classic Wooden Boat 🛶 + Current Role Badge (Full Responsive) */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", flex: "1 1 200px", maxWidth: "420px", width: "100%", margin: "0 auto" }}>
-                  
+
                   {/* Wooden Canoe Boat SVG */}
                   <svg width="180" height="52" viewBox="0 0 240 65" fill="none" style={{ maxWidth: "100%", width: "80%" }}>
                     {/* Boat shadow */}
@@ -854,7 +867,7 @@ export default function Home() {
 
                 {/* 3. Right: Surfboard, Beach Umbrella & Cute Crab 🦀 (Hidden on mobile only) */}
                 <div className="hidden md:flex" style={{ alignItems: "flex-end", gap: "12px" }}>
-                  
+
                   {/* Beach Umbrella & Lounger SVG */}
                   <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
                     {/* Umbrella pole */}
@@ -922,7 +935,7 @@ export default function Home() {
             ============================================================ */}
         <section className="relative z-10" id="projects" style={{ padding: "30px 0 50px 0" }}>
           <div className="container-premium">
-            
+
             {/* Section Header Box (Light Theme) */}
             <div className="brutal-section-title-box">
               <div>
@@ -968,7 +981,7 @@ export default function Home() {
             </div>
 
             {/* Responsive Card Grid with Varied Spans (Light Cards) */}
-            <motion.div 
+            <motion.div
               className="masonry-container"
               layout
               variants={staggerContainer}
@@ -985,7 +998,7 @@ export default function Home() {
                   const cardTheme = projectCardThemes[(p.id - 1) % projectCardThemes.length];
 
                   return (
-                    <motion.div 
+                    <motion.div
                       layout
                       key={p.id}
                       className={`${spanClass} brutal-light-card`}
@@ -1126,7 +1139,7 @@ export default function Home() {
                             {p.stack.slice(0, isFlagship || isWideBanner ? 6 : 4).map((tech) => {
                               const tStyle = getTechBadgeStyle(tech);
                               return (
-                                <span 
+                                <span
                                   key={tech}
                                   className="brutal-light-pill"
                                   style={{
@@ -1194,7 +1207,7 @@ export default function Home() {
             ============================================================ */}
         <section className="relative z-10" id="experience" style={{ padding: "40px 0" }}>
           <div className="container-premium">
-            
+
             {/* Section Header Box */}
             <div className="brutal-section-title-box">
               <div>
@@ -1212,7 +1225,7 @@ export default function Home() {
             </div>
 
             {/* Responsive Bento Grid Layout */}
-            <motion.div 
+            <motion.div
               className="masonry-container"
               variants={staggerContainer}
               initial="hidden"
@@ -1220,7 +1233,7 @@ export default function Home() {
               viewport={{ once: true, margin: "-60px" }}
             >
               {/* Bento Card 1 (Span 7): RDS Group (FEATURED CURRENT ROLE) */}
-              <motion.div 
+              <motion.div
                 className="masonry-span-7 brutal-light-card-featured"
                 variants={fadeInUp}
               >
@@ -1295,7 +1308,7 @@ export default function Home() {
               </motion.div>
 
               {/* Bento Card 2 (Span 5): LSP CoachPro */}
-              <motion.div 
+              <motion.div
                 className="masonry-span-5 brutal-light-card"
                 variants={fadeInUp}
               >
@@ -1355,7 +1368,7 @@ export default function Home() {
               </motion.div>
 
               {/* Bento Card 3 (Span 6): Pusdatin Kemhan */}
-              <motion.div 
+              <motion.div
                 className="masonry-span-6 brutal-light-card"
                 variants={fadeInUp}
               >
@@ -1404,7 +1417,7 @@ export default function Home() {
               </motion.div>
 
               {/* Bento Card 4 (Span 6): Education & Degree */}
-              <motion.div 
+              <motion.div
                 className="masonry-span-6 brutal-light-card"
                 variants={fadeInUp}
               >
@@ -1462,7 +1475,7 @@ export default function Home() {
             ============================================================ */}
         <section className="relative z-10" id="skills" style={{ padding: "40px 0" }}>
           <div className="container-premium">
-            
+
             {/* Section Header Box */}
             <div className="brutal-section-title-box">
               <div>
@@ -1480,7 +1493,7 @@ export default function Home() {
             </div>
 
             {/* Responsive Bento Grid Layout */}
-            <motion.div 
+            <motion.div
               className="masonry-container"
               variants={staggerContainer}
               initial="hidden"
@@ -1488,7 +1501,7 @@ export default function Home() {
               viewport={{ once: true, margin: "-60px" }}
             >
               {/* 1. Backend */}
-              <motion.div 
+              <motion.div
                 className="masonry-span-4 brutal-light-card"
                 variants={fadeInUp}
               >
@@ -1524,7 +1537,7 @@ export default function Home() {
               </motion.div>
 
               {/* 2. Frontend */}
-              <motion.div 
+              <motion.div
                 className="masonry-span-4 brutal-light-card"
                 variants={fadeInUp}
               >
@@ -1560,7 +1573,7 @@ export default function Home() {
               </motion.div>
 
               {/* 3. Database */}
-              <motion.div 
+              <motion.div
                 className="masonry-span-4 brutal-light-card"
                 variants={fadeInUp}
               >
@@ -1596,7 +1609,7 @@ export default function Home() {
               </motion.div>
 
               {/* 4. AI & ML */}
-              <motion.div 
+              <motion.div
                 className="masonry-span-6 brutal-light-card"
                 variants={fadeInUp}
               >
@@ -1632,7 +1645,7 @@ export default function Home() {
               </motion.div>
 
               {/* 5. DevOps */}
-              <motion.div 
+              <motion.div
                 className="masonry-span-6 brutal-light-card"
                 variants={fadeInUp}
               >
@@ -1675,7 +1688,7 @@ export default function Home() {
             ============================================================ */}
         <section className="relative z-10" id="process" style={{ padding: "40px 0" }}>
           <div className="container-premium">
-            
+
             {/* Section Header Box */}
             <div className="brutal-section-title-box">
               <div>
@@ -1693,7 +1706,7 @@ export default function Home() {
             </div>
 
             {/* Responsive Bento Grid Layout */}
-            <motion.div 
+            <motion.div
               className="masonry-container"
               variants={staggerContainer}
               initial="hidden"
@@ -1701,7 +1714,7 @@ export default function Home() {
               viewport={{ once: true, margin: "-60px" }}
             >
               {processSteps.map((step, sIdx) => (
-                <motion.div 
+                <motion.div
                   key={step.num}
                   className={`${step.span} brutal-light-card`}
                   variants={fadeInUp}
@@ -1731,14 +1744,14 @@ export default function Home() {
                       </p>
                     </div>
 
-                    <span 
-                      className="brutal-sticker" 
-                      style={{ 
-                        background: step.badgeBg, 
-                        color: step.badgeText, 
+                    <span
+                      className="brutal-sticker"
+                      style={{
+                        background: step.badgeBg,
+                        color: step.badgeText,
                         border: "2px solid #000000",
                         boxShadow: "2.5px 2.5px 0px #000000",
-                        width: "fit-content", 
+                        width: "fit-content",
                         fontSize: "9.5px",
                         fontWeight: 800,
                       }}
@@ -1750,7 +1763,7 @@ export default function Home() {
               ))}
 
               {/* Philosophy Card (Span 12) */}
-              <motion.div 
+              <motion.div
                 className="masonry-span-12 brutal-light-card-featured"
                 variants={fadeInUp}
               >
@@ -1787,7 +1800,7 @@ export default function Home() {
                     }}>
                       Arsitektur software yang baik ibarat rekayasa laut dalam: tenang di permukaan, namun kokoh menahan tekanan beban tinggi tanpa ruang bagi kegagalan.
                     </p>
-                    
+
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", borderTop: "2px solid #E2E8F0", paddingTop: "16px" }}>
                       <div>
                         <div style={{ fontFamily: "var(--font-signature)", fontSize: "32px", color: "#0284C7" }}>
@@ -1814,8 +1827,8 @@ export default function Home() {
             ============================================================ */}
         <footer className="footer" id="contact" style={{ paddingTop: "30px", paddingBottom: "60px", background: "#F1F5F9", borderTop: "3px solid #000000" }}>
           <div className="container-premium">
-            
-            <motion.div 
+
+            <motion.div
               className="masonry-container"
               variants={staggerContainer}
               initial="hidden"
@@ -1823,7 +1836,7 @@ export default function Home() {
               viewport={{ once: true, margin: "-60px" }}
             >
               {/* Bento Card 1 (Span 7): Direct Message Invitation */}
-              <motion.div 
+              <motion.div
                 className="masonry-span-7 brutal-light-card-featured"
                 variants={fadeInUp}
               >
@@ -1866,7 +1879,7 @@ export default function Home() {
 
                   <div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "14px", alignItems: "center", marginBottom: "20px" }}>
-                      <button 
+                      <button
                         onClick={() => setContactModalOpen(true)}
                         className="btn-beach-cyan"
                       >
@@ -1874,7 +1887,7 @@ export default function Home() {
                         Kirim Pesan Langsung ➔
                       </button>
 
-                      <a 
+                      <a
                         href="https://wa.me/6288291067259"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -1900,7 +1913,7 @@ export default function Home() {
               </motion.div>
 
               {/* Bento Card 2 (Span 5): Tactical Communication Channels */}
-              <motion.div 
+              <motion.div
                 className="masonry-span-5 brutal-light-card"
                 variants={fadeInUp}
               >
@@ -1915,7 +1928,7 @@ export default function Home() {
                 </div>
 
                 <div style={{ padding: "20px 24px", display: "flex", flexDirection: "column", gap: "12px", justifyContent: "space-between", height: "100%" }}>
-                  <a 
+                  <a
                     href="mailto:ewandaafriza@gmail.com"
                     className="brutal-light-card"
                     style={{ padding: "14px 18px", border: "2px solid #000000", boxShadow: "3px 3px 0px #000000", textDecoration: "none", display: "flex", alignItems: "center", gap: "14px", background: "#FFFFFF" }}
@@ -1929,7 +1942,7 @@ export default function Home() {
                     </div>
                   </a>
 
-                  <a 
+                  <a
                     href="https://github.com/ErgaWanda"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -1945,7 +1958,7 @@ export default function Home() {
                     </div>
                   </a>
 
-                  <a 
+                  <a
                     href="https://wa.me/6288291067259"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -1961,7 +1974,7 @@ export default function Home() {
                     </div>
                   </a>
 
-                  <div 
+                  <div
                     className="brutal-light-card"
                     style={{ padding: "14px 18px", border: "2px solid #000000", boxShadow: "3px 3px 0px #000000", display: "flex", alignItems: "center", gap: "14px", background: "#FFFFFF" }}
                   >
@@ -2010,14 +2023,14 @@ export default function Home() {
           ============================================================ */}
       <AnimatePresence>
         {contactModalOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setContactModalOpen(false)}
             style={{ position: "fixed", inset: 0, backgroundColor: "rgba(15, 23, 42, 0.75)", backdropFilter: "blur(6px)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}
           >
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.95, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
@@ -2033,7 +2046,7 @@ export default function Home() {
                   <span className="brutal-dot brutal-dot-coral" />
                   <span style={{ marginLeft: "6px", color: "#0F172A" }}>KIRIM PESAN LANGSUNG</span>
                 </div>
-                <button 
+                <button
                   onClick={() => setContactModalOpen(false)}
                   style={{
                     background: "#FFFFFF",
@@ -2115,8 +2128,8 @@ export default function Home() {
                 </div>
 
                 <div style={{ marginTop: "6px" }}>
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     disabled={sending}
                     className="btn-beach-cyan"
                     style={{ width: "100%", justifyContent: "center", padding: "12px 20px" }}
@@ -2126,24 +2139,26 @@ export default function Home() {
                 </div>
 
                 <AnimatePresence>
-                  {sent && (
-                    <motion.div 
+                  {formStatus && (
+                    <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       style={{
-                        padding: "10px",
-                        background: "#DCFCE7",
-                        border: "2px solid #16A34A",
-                        borderRadius: "4px",
+                        padding: "12px 14px",
+                        background: formStatus.type === "success" ? "#DCFCE7" : formStatus.type === "activation" ? "#FEF3C7" : "#FEE2E2",
+                        border: `2px solid ${formStatus.type === "success" ? "#16A34A" : formStatus.type === "activation" ? "#D97706" : "#DC2626"}`,
+                        borderRadius: "6px",
                         fontFamily: "var(--font-mono)",
-                        fontSize: "10.5px",
+                        fontSize: "11px",
                         fontWeight: 800,
-                        color: "#166534",
+                        color: formStatus.type === "success" ? "#166534" : formStatus.type === "activation" ? "#92400E" : "#991B1B",
                         textAlign: "center",
+                        lineHeight: 1.5,
+                        boxShadow: "3px 3px 0px #000000"
                       }}
                     >
-                      ✓ PESAN BERHASIL TERKIRIM! TERIMA KASIH.
+                      {formStatus.text}
                     </motion.div>
                   )}
                 </AnimatePresence>
