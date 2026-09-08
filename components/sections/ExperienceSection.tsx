@@ -3,10 +3,21 @@ import { motion } from "framer-motion";
 
 const experiences = [
   {
+    role: "IT Developer",
+    org: "RDS Group (PT Reycom Document Solusi)",
+    date: "02 SEP 2026\nSEKARANG",
+    current: true,
+    points: [
+      "Mengembangkan dan memelihara aplikasi backend enterprise dan web services menggunakan stack C# dan .NET.",
+      "Merancang dan mengintegrasikan RESTful API untuk otomatisasi alur pemrosesan dokumen digital dan integrasi sistem bisnis.",
+      "Mengelola arsitektur database, optimasi query, dan menjaga performa tinggi serta keandalan layanan korporat.",
+    ],
+  },
+  {
     role: "Full Stack Developer",
     org: "LSP CoachPro Indonesia (Maganghub Kemnaker)",
-    date: "DES 2025\nSEKARANG",
-    current: true,
+    date: "DES 2025\nJUN 2026",
+    current: false,
     points: [
       "Mengembangkan platform manajemen sertifikasi end-to-end untuk program Maganghub Kemnaker, mengelola alur kerja dari pra-asesmen hingga keputusan kompetensi final.",
       "Membangun backend yang performan dan skalabel menggunakan Golang dan framework Echo, dipasangkan dengan frontend responsif menggunakan Vue.js.",

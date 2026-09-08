@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaGithub } from "react-icons/fa";
 
 export interface Project {
   id: number;
@@ -25,6 +26,26 @@ interface ProjectModalProps {
   project: Project | null;
   onClose: () => void;
 }
+
+const getTechBadgeStyle = (tech: string) => {
+  const t = tech.toLowerCase();
+  if (t.includes("c#") || t.includes(".net") || t.includes("asp") || t.includes("sql server")) {
+    return { bg: "#BAE6FD", text: "#0369A1" }; // Azure Sky
+  }
+  if (t.includes("vue") || t.includes("react") || t.includes("frontend") || t.includes("html") || t.includes("css") || t.includes("motion") || t.includes("tailwind")) {
+    return { bg: "#BBF7D0", text: "#047857" }; // Tactical Emerald
+  }
+  if (t.includes("ai") || t.includes("ml") || t.includes("vision") || t.includes("cnn") || t.includes("bert") || t.includes("python") || t.includes("nlp")) {
+    return { bg: "#FED7AA", text: "#9A3412" }; // Beacon Orange
+  }
+  if (t.includes("golang") || t.includes("docker") || t.includes("redis") || t.includes("nginx") || t.includes("postgres") || t.includes("git")) {
+    return { bg: "#E2E8F0", text: "#0F172A" }; // Gunmetal Slate
+  }
+  if (t.includes("laravel") || t.includes("php")) {
+    return { bg: "#FEF08A", text: "#78350F" }; // Amber Gold
+  }
+  return { bg: "#E2E8F0", text: "#1E293B" }; // Clean Steel
+};
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -60,84 +81,91 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               position: fixed;
               inset: 0;
               z-index: 1000;
-              background: rgba(0, 0, 0, 0.85);
-              backdrop-filter: blur(4px);
+              background: rgba(15, 23, 42, 0.78);
+              backdrop-filter: blur(6px);
               display: flex;
               align-items: center;
               justify-content: center;
-              padding: 24px;
+              padding: 20px;
             }
             
             .brutal-modal-panel {
               width: 100%;
-              max-width: 960px;
-              max-height: 85vh;
-              background-color: var(--bg-card);
-              border: 1px solid var(--border-color);
+              max-width: 940px;
+              max-height: 88vh;
+              background-color: #FFFFFF;
+              border: 3.5px solid #000000;
+              border-radius: 18px;
               display: flex;
               flex-direction: column;
               overflow: hidden;
-              box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+              box-shadow: 8px 8px 0px #38BDF8, 16px 16px 0px #000000;
+              color: #0F172A;
             }
             
             .brutal-modal-header {
-              padding: 16px 24px;
-              border-bottom: 1px solid var(--border-color);
+              padding: 12px 22px;
+              border-bottom: 3px solid #000000;
               display: flex;
               justify-content: space-between;
               align-items: center;
-              background-color: var(--bg-card);
+              background-color: #E0F2FE;
             }
             
             .brutal-modal-body {
-              padding: 28px;
+              padding: 26px 28px;
               box-sizing: border-box;
             }
             
             .brutal-scroll::-webkit-scrollbar {
-              width: 6px;
+              width: 7px;
             }
             .brutal-scroll::-webkit-scrollbar-track {
-              background: var(--bg-dark);
+              background: #F1F5F9;
             }
             .brutal-scroll::-webkit-scrollbar-thumb {
-              background: var(--border-color);
-              border-radius: 3px;
-            }
-            .brutal-scroll::-webkit-scrollbar-thumb:hover {
-              background: var(--accent-red);
-            }
-            
-            .brutal-tag {
-              font-family: var(--font-mono);
-              font-size: 10px;
-              font-weight: 500;
-              padding: 4px 10px;
-              background: rgba(255, 255, 255, 0.05);
-              border: 1px solid var(--border-color);
-              color: var(--text-primary);
-              text-transform: uppercase;
+              background: #38BDF8;
+              border: 1.5px solid #000000;
               border-radius: 4px;
             }
+            .brutal-scroll::-webkit-scrollbar-thumb:hover {
+              background: #0284C7;
+            }
+            
+            .brutal-tag-modal {
+              font-family: var(--font-cartoon);
+              font-size: 11px;
+              font-weight: 700;
+              letter-spacing: 0.02em;
+              padding: 4px 12px;
+              background: #E0F2FE;
+              border: 2px solid #000000;
+              color: #0369A1;
+              border-radius: 8px;
+              box-shadow: 2px 2px 0px #000000;
+              display: inline-flex;
+              align-items: center;
+              gap: 4px;
+            }
 
-            .brutal-info-row {
+            .brutal-info-row-modal {
               display: flex;
               justify-content: space-between;
               align-items: center;
               padding-bottom: 8px;
               margin-bottom: 8px;
-              border-bottom: 1px solid var(--border-color);
+              border-bottom: 1.5px solid #E2E8F0;
             }
             
             .modal-grid-layout {
               display: grid;
               grid-template-columns: 1fr;
-              gap: 32px;
+              gap: 28px;
             }
             
             @media (min-width: 768px) {
               .modal-grid-layout {
-                grid-template-columns: 1fr 280px;
+                grid-template-columns: 1fr 270px;
               }
             }
           `}</style>
@@ -148,16 +176,21 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             initial={{ opacity: 0, y: 30, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.96 }}
-            transition={{ type: "spring", damping: 30, stiffness: 200 }}
+            transition={{ type: "spring", damping: 30, stiffness: 220 }}
           >
-             {/* Header */}
+            {/* Header */}
             <div className="brutal-modal-header">
-              <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                <span className="swiss-label-mono" style={{ color: "var(--accent-red)", fontWeight: "bold" }}>
-                  STATUS // {project.status.toUpperCase()}
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+                  <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#38BDF8", border: "1.5px solid #000", display: "inline-block" }} />
+                  <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#2DD4BF", border: "1.5px solid #000", display: "inline-block" }} />
+                  <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#F43F5E", border: "1.5px solid #000", display: "inline-block" }} />
+                </div>
+                <span style={{ fontFamily: "var(--font-mono)", color: "#0284C7", fontWeight: 800, fontSize: "11px", marginLeft: "4px" }}>
+                  SPESIFIKASI // {project.status.toUpperCase()}
                 </span>
-                <div style={{ width: 1, height: 16, background: "var(--border-color)" }} />
-                <span className="swiss-label-mono" style={{ color: "var(--text-secondary)", fontWeight: "bold" }}>
+                <span style={{ color: "#94A3B8" }}>|</span>
+                <span style={{ fontFamily: "var(--font-mono)", color: "#475569", fontWeight: 700, fontSize: "10.5px" }}>
                   {project.type} // {project.year}
                 </span>
               </div>
@@ -167,44 +200,48 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 onClick={onClose}
                 aria-label="Tutup"
                 style={{
-                  width: 32,
-                  height: 32,
-                  border: "1px solid var(--border-color)",
-                  background: "transparent",
-                  color: "var(--text-secondary)",
+                  padding: "5px 14px",
+                  border: "2px solid #000000",
+                  background: "#FEE2E2",
+                  color: "#991B1B",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   cursor: "pointer",
-                  fontWeight: "bold",
-                  borderRadius: "50%",
-                  transition: "all 0.2s",
+                  fontWeight: 800,
+                  fontSize: "11px",
+                  fontFamily: "var(--font-cartoon)",
+                  borderRadius: "9999px",
+                  boxShadow: "2.5px 2.5px 0px #000000",
+                  transition: "all 0.15s ease",
                 }}
                 onMouseOver={(e) => {
-                  e.currentTarget.style.color = "var(--text-primary)";
-                  e.currentTarget.style.backgroundColor = "var(--accent-red)";
-                  e.currentTarget.style.borderColor = "var(--accent-red)";
+                  e.currentTarget.style.transform = "translate(-2px, -2px)";
+                  e.currentTarget.style.backgroundColor = "#EF4444";
+                  e.currentTarget.style.color = "#FFFFFF";
+                  e.currentTarget.style.boxShadow = "4px 4px 0px #000000";
                 }}
                 onMouseOut={(e) => {
-                  e.currentTarget.style.color = "var(--text-secondary)";
-                  e.currentTarget.style.backgroundColor = "transparent";
-                  e.currentTarget.style.borderColor = "var(--border-color)";
+                  e.currentTarget.style.transform = "translate(0px, 0px)";
+                  e.currentTarget.style.backgroundColor = "#FEE2E2";
+                  e.currentTarget.style.color = "#991B1B";
+                  e.currentTarget.style.boxShadow = "2.5px 2.5px 0px #000000";
                 }}
               >
-                ✕
+                ✕ TUTUP
               </button>
             </div>
 
             {/* Scrollable body */}
-            <div className="brutal-scroll" data-lenis-prevent style={{ overflowY: "auto", flex: 1, backgroundColor: "var(--bg-dark)" }}>
+            <div className="brutal-scroll" data-lenis-prevent style={{ overflowY: "auto", flex: 1, backgroundColor: "#FFFFFF" }}>
               
               {/* Hero Banner image */}
-              <div style={{ position: "relative", width: "100%", aspectRatio: "16/7", background: "#000", overflow: "hidden", borderBottom: "1px solid var(--border-color)" }}>
+              <div style={{ position: "relative", width: "100%", aspectRatio: "16/7", background: "#E2E8F0", overflow: "hidden", borderBottom: "3px solid #000000" }}>
                 <Image
                   src={project.img}
                   alt={project.title}
                   fill
-                  style={{ objectFit: "cover", opacity: 0.85 }}
+                  style={{ objectFit: "cover" }}
                   unoptimized
                 />
               </div>
@@ -213,22 +250,28 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               <div className="brutal-modal-body">
                 
                 {/* Title and subtitle */}
-                <div style={{ marginBottom: 28 }}>
-                  <span className="swiss-label-mono" style={{ color: "var(--accent-red)" }}>PROJECT ARCHIVE</span>
+                <div style={{ marginBottom: 24 }}>
+                  <div style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}>
+                    <span className="brutal-sticker brutal-sticker-yellow" style={{ fontSize: "10px", padding: "3px 10px" }}>
+                      ⭐ PROYEK TERPILIH
+                    </span>
+                    <span className="brutal-sticker" style={{ fontSize: "10px", padding: "3px 10px", background: "#F1F5F9" }}>
+                      TAHUN {project.year}
+                    </span>
+                  </div>
                   <h2 style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: "clamp(24px, 4vw, 36px)",
-                    fontWeight: 800,
-                    color: "var(--text-primary)",
-                    lineHeight: 1.1,
-                    textTransform: "uppercase",
-                    letterSpacing: "-0.01em",
+                    fontFamily: "var(--font-cartoon-title)",
+                    fontSize: "clamp(26px, 4vw, 36px)",
+                    fontWeight: 700,
+                    color: "#0F172A",
+                    lineHeight: 1.15,
+                    letterSpacing: "0.01em",
                     marginTop: 4,
                   }}>
                     {project.title}
                   </h2>
                   {project.subtitle && (
-                    <p style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--text-secondary)", marginTop: 6, fontWeight: 500 }}>
+                    <p style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "#475569", marginTop: 6, fontWeight: 500 }}>
                       {project.subtitle}
                     </p>
                   )}
@@ -237,21 +280,21 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 {/* Grid info */}
                 <div className="modal-grid-layout">
                   
-                  {/* Left: Desc + Highlights */}
+                  {/* Left: Desc + Highlights + Screenshots */}
                   <div>
                     {/* Desc */}
-                    <div style={{ marginBottom: 30 }}>
-                      <h4 className="swiss-label-mono" style={{ color: "var(--text-secondary)", marginBottom: 8 }}>
+                    <div style={{ marginBottom: 26 }}>
+                      <h4 style={{ fontFamily: "var(--font-cartoon)", fontSize: "14px", fontWeight: 700, color: "#0284C7", marginBottom: 8, letterSpacing: "0.05em", textTransform: "uppercase" }}>
                         Deskripsi Proyek
                       </h4>
-                      <p className="swiss-text" style={{ fontSize: "14px", color: "var(--text-secondary)", textAlign: "justify", lineHeight: 1.6 }}>
+                      <p style={{ fontSize: "14px", color: "#334155", textAlign: "justify", lineHeight: 1.65 }}>
                         {project.longDesc}
                       </p>
                     </div>
 
                     {/* Highlights */}
-                    <div style={{ marginBottom: 30 }}>
-                      <h4 className="swiss-label-mono" style={{ color: "var(--text-secondary)", marginBottom: 10 }}>
+                    <div style={{ marginBottom: 26 }}>
+                      <h4 style={{ fontFamily: "var(--font-cartoon)", fontSize: "14px", fontWeight: 700, color: "#0284C7", marginBottom: 10, letterSpacing: "0.05em", textTransform: "uppercase" }}>
                         Poin-Poin Utama
                       </h4>
                       <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 8, padding: 0 }}>
@@ -259,15 +302,14 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                           <li
                             key={i}
                             style={{
-                              fontFamily: "var(--font-body)",
-                              fontSize: 14,
-                              color: "var(--text-primary)",
-                              paddingLeft: 18,
+                              fontSize: 13.5,
+                              color: "#1E293B",
+                              paddingLeft: 20,
                               position: "relative",
-                              lineHeight: 1.5,
+                              lineHeight: 1.55,
                             }}
                           >
-                            <span style={{ position: "absolute", left: 0, color: "var(--accent-red)" }}>✦</span>
+                            <span style={{ position: "absolute", left: 0, color: "#0284C7", fontWeight: "bold" }}>◈</span>
                             {h}
                           </li>
                         ))}
@@ -275,16 +317,16 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                     </div>
 
                     {/* Action buttons */}
-                    <div style={{ display: "flex", gap: 12, marginBottom: 36 }}>
+                    <div style={{ display: "flex", gap: 12, marginBottom: 32, flexWrap: "wrap" }}>
                       {project.url && project.url !== "#" && (
                         <a
                           href={project.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="btn-primary"
+                          className="btn-beach-cyan"
                           style={{ textDecoration: "none" }}
                         >
-                          Kunjungi Live
+                          Kunjungi Live ↗
                         </a>
                       )}
                       {project.github && (
@@ -292,10 +334,11 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                           href={project.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="btn-outline"
-                          style={{ textDecoration: "none" }}
+                          className="btn-beach-white"
+                          style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}
                         >
-                          GitHub Repo
+                          <FaGithub style={{ fontSize: "14px" }} />
+                          GitHub Repo ↗
                         </a>
                       )}
                     </div>
@@ -303,30 +346,30 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                     {/* Screenshots */}
                     {project.screenshots.length > 0 && (
                       <div>
-                        <h4 className="swiss-label-mono" style={{ color: "var(--text-secondary)", marginBottom: 12 }}>
+                        <h4 style={{ fontFamily: "var(--font-cartoon)", fontSize: "14px", fontWeight: 700, color: "#0284C7", marginBottom: 12, letterSpacing: "0.05em", textTransform: "uppercase" }}>
                           Dokumentasi Visual ({project.screenshots.length})
                         </h4>
                         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
                           {project.screenshots.map((ss, i) => {
                             const label = project.screenshotLabels?.[i];
                             return (
-                              <div key={i} style={{ border: "1px solid var(--border-color)", borderRadius: "8px", overflow: "hidden", display: "flex", flexDirection: "column", backgroundColor: "var(--bg-card)", marginBottom: "8px" }}>
+                              <div key={i} style={{ border: "2.5px solid #000000", borderRadius: "12px", overflow: "hidden", display: "flex", flexDirection: "column", backgroundColor: "#FFFFFF", boxShadow: "4px 4px 0px #000000", marginBottom: "8px" }}>
                                 {/* Window Title Bar */}
                                 <div style={{
                                   display: "flex",
                                   alignItems: "center",
                                   justifyContent: "space-between",
-                                  padding: "10px 14px",
-                                  backgroundColor: "var(--bg-dark)",
-                                  borderBottom: "1px solid var(--border-color)"
+                                  padding: "8px 14px",
+                                  backgroundColor: "#F1F5F9",
+                                  borderBottom: "2px solid #000000"
                                 }}>
                                   <div style={{ display: "flex", gap: "6px" }}>
-                                    <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#ef4444" }} />
-                                    <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#eab308" }} />
-                                    <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#22c55e" }} />
+                                    <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#ef4444", border: "1px solid #000" }} />
+                                    <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#eab308", border: "1px solid #000" }} />
+                                    <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#22c55e", border: "1px solid #000" }} />
                                   </div>
-                                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "10px", fontWeight: "500", color: "var(--text-muted)" }}>
-                                    {label ? `IMG_VIEWER // ${label.split(" — ")[0].toUpperCase()}` : `IMAGE_${i+1}.PNG`}
+                                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "10px", fontWeight: "700", color: "#64748B" }}>
+                                    {label ? `VIEWER // ${label.split(" — ")[0].toUpperCase()}` : `IMAGE_${i+1}.PNG`}
                                   </span>
                                   <div style={{ width: "42px" }} />
                                 </div>
@@ -342,15 +385,14 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                                       width: "100%",
                                       height: "auto",
                                       display: "block",
-                                      transition: "opacity 0.3s"
                                     }}
                                     unoptimized
                                   />
                                 </div>
 
                                 {label && (
-                                  <div style={{ padding: "12px 14px", borderTop: "1px solid var(--border-color)", background: "var(--bg-card)", color: "var(--text-primary)" }}>
-                                    <span className="swiss-label-mono" style={{ fontSize: 10, color: "var(--text-secondary)" }}>
+                                  <div style={{ padding: "10px 14px", borderTop: "2px solid #000000", background: "#F8FAFC", color: "#0F172A" }}>
+                                    <span style={{ fontFamily: "var(--font-cartoon)", fontSize: 11, color: "#334155", fontWeight: 700 }}>
                                       {label.toUpperCase()}
                                     </span>
                                   </div>
@@ -364,23 +406,35 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                   </div>
 
                   {/* Right Column: Meta + Tech */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
                     
                     {/* Tech stack */}
-                    <div style={{ backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 8, padding: 20 }}>
-                      <h5 className="swiss-label-mono" style={{ color: "var(--text-secondary)", marginBottom: 12 }}>
+                    <div style={{ backgroundColor: "#FFFFFF", border: "2.5px solid #000000", borderRadius: 12, padding: 18, boxShadow: "4px 4px 0px #000000" }}>
+                      <h5 style={{ fontFamily: "var(--font-cartoon)", fontSize: "13px", fontWeight: 700, color: "#0284C7", marginBottom: 12, letterSpacing: "0.05em", textTransform: "uppercase" }}>
                         Tech Stack
                       </h5>
                       <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                        {project.stack.map((t) => (
-                          <span key={t} className="brutal-tag" style={{ border: "1px solid var(--border-color)", background: "rgba(255,255,255,0.02)" }}>{t}</span>
-                        ))}
+                        {project.stack.map((t) => {
+                          const tStyle = getTechBadgeStyle(t);
+                          return (
+                            <span 
+                              key={t} 
+                              className="brutal-tag-modal"
+                              style={{
+                                backgroundColor: tStyle.bg,
+                                color: tStyle.text,
+                              }}
+                            >
+                              {t}
+                            </span>
+                          );
+                        })}
                       </div>
                     </div>
 
                     {/* Metadata */}
-                    <div style={{ backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 8, padding: 20 }}>
-                      <h5 className="swiss-label-mono" style={{ color: "var(--text-secondary)", marginBottom: 12 }}>
+                    <div style={{ backgroundColor: "#FFFFFF", border: "2.5px solid #000000", borderRadius: 12, padding: 18, boxShadow: "4px 4px 0px #000000" }}>
+                      <h5 style={{ fontFamily: "var(--font-cartoon)", fontSize: "13px", fontWeight: 700, color: "#0284C7", marginBottom: 12, letterSpacing: "0.05em", textTransform: "uppercase" }}>
                         Info Proyek
                       </h5>
                       {[
@@ -388,9 +442,9 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                         { label: "Tahun", value: project.year },
                         { label: "Status", value: project.status },
                       ].map((item) => (
-                        <div key={item.label} className="brutal-info-row" style={{ borderBottom: "1px solid var(--border-color)" }}>
-                          <span className="swiss-label-mono" style={{ fontSize: 10, color: "var(--text-muted)" }}>{item.label}</span>
-                          <span className="swiss-label-mono" style={{ fontSize: 11, color: "var(--text-primary)", fontWeight: "bold" }}>{item.value}</span>
+                        <div key={item.label} className="brutal-info-row-modal">
+                          <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "#64748B", fontWeight: 700 }}>{item.label}</span>
+                          <span style={{ fontFamily: "var(--font-cartoon)", fontSize: 12, color: "#0F172A", fontWeight: 700 }}>{item.value}</span>
                         </div>
                       ))}
                     </div>

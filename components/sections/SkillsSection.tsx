@@ -6,6 +6,7 @@ const categories = [
     title: "Bahasa & Framework Backend",
     icon: "⬡",
     skills: [
+      { name: "C# / .NET (ASP.NET Core)", pct: 88 },
       { name: "Golang (Echo Framework)", pct: 85 },
       { name: "PHP (Laravel / CodeIgniter)", pct: 88 },
       { name: "Node.js", pct: 72 },
@@ -44,7 +45,7 @@ const categories = [
 ];
 
 const techTags = [
-  "RESTful API", "MVC Pattern", "Third-Party API", "Microservices",
+  "C#", ".NET Core", "ASP.NET Core", "RESTful API", "MVC Pattern", "Third-Party API", "Microservices",
   "Nginx", "VPS Deployment", "Random Forest", "XGBoost",
   "Transformers", "Kotlin", "Android",
 ];
