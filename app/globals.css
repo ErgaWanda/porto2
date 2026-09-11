@@ -55,6 +55,10 @@ html {
 
 body {
   background-color: #F8FAFC;
+  background-image: 
+    linear-gradient(to right, rgba(15, 23, 42, 0.13) 2px, transparent 2px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.13) 2px, transparent 2px);
+  background-size: 28px 28px;
   color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
@@ -103,11 +107,7 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   width: 100%;
   max-width: 100vw;
-  background-color: #F8FAFC;
-  background-image: 
-    linear-gradient(to right, rgba(15, 23, 42, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(15, 23, 42, 0.06) 1px, transparent 1px);
-  background-size: 28px 28px;
+  background: transparent;
   overflow: hidden;
 }
 
@@ -168,6 +168,28 @@ h1, h2, h3, h4, h5, h6 {
   animation: voltStrobe 1.5s ease-in-out infinite;
 }
 
+/* Planetary Zero-G Letter Float Animation */
+@keyframes planetLetterFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  30% {
+    transform: translateY(-9px) rotate(2.2deg);
+  }
+  60% {
+    transform: translateY(5px) rotate(-1.8deg);
+  }
+  85% {
+    transform: translateY(-4px) rotate(1.2deg);
+  }
+}
+
+.anim-planet-letter {
+  display: inline-block;
+  will-change: transform;
+  animation: planetLetterFloat 5s ease-in-out infinite;
+}
+
 .draggable-techwear-tag {
   cursor: grab;
   touch-action: none;
@@ -202,7 +224,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Technical Lab Spec Deck (Bottom Transition) */
 .lab-spec-deck {
-  background: #FFFFFF;
+  background: transparent;
   color: #0A0A0A;
   padding: 24px 24px 64px 24px;
   position: relative;
@@ -240,7 +262,7 @@ h1, h2, h3, h4, h5, h6 {
    ============================================================ */
 
 .coastal-light-body {
-  background-color: #F8FAFC;
+  background-color: transparent;
   color: #0F172A;
   font-family: var(--font-body);
 }

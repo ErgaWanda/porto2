@@ -370,10 +370,6 @@ export default function Home() {
         onClick={handleOceanClick}
         style={{ marginTop: "-56px", paddingTop: "80px", cursor: "pointer", position: "relative", overflowX: "hidden" }}
       >
-        {/* Technical Corner Crosshairs (Techwear Spec Marks) */}
-        <div className="techwear-crosshair" style={{ top: "90px", left: "20px" }}>+ [LAB-01]</div>
-        <div className="techwear-crosshair" style={{ top: "90px", right: "20px" }}>+ [SCALE: 100%]</div>
-
         {/* Interactive Kinetic Volt Ripple Rings on Click */}
         {ripples.map((rip) => (
           <motion.div
@@ -499,35 +495,8 @@ export default function Home() {
             ============================================================ */}
         <div className="container-premium relative z-10 text-center" style={{ paddingTop: "26px", paddingBottom: "36px" }}>
 
-          {/* Centered Draggable Interactive Letters: ERGA WANDA AFRIZA */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginBottom: "24px", userSelect: "none" }}>
-
-            {/* Tactical Athletic Drag Hint Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              style={{
-                background: "#CCFF00",
-                color: "#000000",
-                border: "2.5px solid #000000",
-                boxShadow: "3.5px 3.5px 0px #000000",
-                fontFamily: "var(--font-mono)",
-                fontSize: "11px",
-                fontWeight: 900,
-                letterSpacing: "0.04em",
-                padding: "6px 14px",
-                borderRadius: "4px",
-                marginBottom: "20px",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-              }}
-            >
-              <span>⚡</span>
-              <span>[&quot;DRAG &amp; TOSS LETTERS&quot; // KINETIC PERFORMANCE LAB]</span>
-              <span>⚡</span>
-            </motion.div>
+          {/* Centered Draggable Interactive Letters: ERGA WANDA AFRIZA (Planetary Zero-G Float) */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginBottom: "28px", marginTop: "12px", userSelect: "none" }}>
 
             {/* Row 1: E R G A   +   W A N D A */}
             <div style={{
@@ -536,14 +505,74 @@ export default function Home() {
               justifyContent: "center",
               alignItems: "center",
               columnGap: "clamp(16px, 3.5vw, 42px)",
-              rowGap: "6px",
-              marginBottom: "8px",
+              rowGap: "10px",
+              marginBottom: "12px",
             }}>
               {/* Word 1: ERGA */}
               <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "clamp(2px, 0.7vw, 6px)" }}>
                 {nameWord1.map((item, index) => (
+                  <span
+                    key={`wrap-erga-${index}`}
+                    className="anim-planet-letter"
+                    style={{
+                      animationDelay: `${index * 0.35}s`,
+                      animationDuration: `${4.6 + (index * 0.25)}s`,
+                    }}
+                  >
+                    <motion.span
+                      drag
+                      dragConstraints={{ left: -140, right: 140, top: -90, bottom: 90 }}
+                      dragElastic={0.4}
+                      dragTransition={{ bounceStiffness: 350, bounceDamping: 18 }}
+                      whileHover={{ scale: 1.15, rotate: (index % 2 === 0 ? 6 : -6), cursor: "grab" }}
+                      whileDrag={{ scale: 1.3, rotate: (index % 2 === 0 ? 12 : -12), cursor: "grabbing", zIndex: 60 }}
+                      className="draggable-ocean-letter"
+                    >
+                      {item.char}
+                    </motion.span>
+                  </span>
+                ))}
+              </div>
+
+              {/* Word 2: WANDA */}
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "clamp(2px, 0.7vw, 6px)" }}>
+                {nameWord2.map((item, index) => (
+                  <span
+                    key={`wrap-wanda-${index}`}
+                    className="anim-planet-letter"
+                    style={{
+                      animationDelay: `${0.2 + (index * 0.38)}s`,
+                      animationDuration: `${4.8 + ((index % 3) * 0.3)}s`,
+                    }}
+                  >
+                    <motion.span
+                      drag
+                      dragConstraints={{ left: -140, right: 140, top: -90, bottom: 90 }}
+                      dragElastic={0.4}
+                      dragTransition={{ bounceStiffness: 350, bounceDamping: 18 }}
+                      whileHover={{ scale: 1.15, rotate: (index % 2 === 0 ? -6 : 6), cursor: "grab" }}
+                      whileDrag={{ scale: 1.3, rotate: (index % 2 === 0 ? -12 : 12), cursor: "grabbing", zIndex: 60 }}
+                      className="draggable-ocean-letter"
+                    >
+                      {item.char}
+                    </motion.span>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Row 2: A F R I Z A */}
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "clamp(2px, 0.7vw, 6px)" }}>
+              {nameWord3.map((item, index) => (
+                <span
+                  key={`wrap-afriza-${index}`}
+                  className="anim-planet-letter"
+                  style={{
+                    animationDelay: `${0.4 + (index * 0.32)}s`,
+                    animationDuration: `${4.7 + ((index % 4) * 0.28)}s`,
+                  }}
+                >
                   <motion.span
-                    key={`erga-${index}`}
                     drag
                     dragConstraints={{ left: -140, right: 140, top: -90, bottom: 90 }}
                     dragElastic={0.4}
@@ -554,43 +583,7 @@ export default function Home() {
                   >
                     {item.char}
                   </motion.span>
-                ))}
-              </div>
-
-              {/* Word 2: WANDA */}
-              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "clamp(2px, 0.7vw, 6px)" }}>
-                {nameWord2.map((item, index) => (
-                  <motion.span
-                    key={`wanda-${index}`}
-                    drag
-                    dragConstraints={{ left: -140, right: 140, top: -90, bottom: 90 }}
-                    dragElastic={0.4}
-                    dragTransition={{ bounceStiffness: 350, bounceDamping: 18 }}
-                    whileHover={{ scale: 1.15, rotate: (index % 2 === 0 ? -6 : 6), cursor: "grab" }}
-                    whileDrag={{ scale: 1.3, rotate: (index % 2 === 0 ? -12 : 12), cursor: "grabbing", zIndex: 60 }}
-                    className="draggable-ocean-letter"
-                  >
-                    {item.char}
-                  </motion.span>
-                ))}
-              </div>
-            </div>
-
-            {/* Row 2: A F R I Z A */}
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "clamp(2px, 0.7vw, 6px)" }}>
-              {nameWord3.map((item, index) => (
-                <motion.span
-                  key={`afriza-${index}`}
-                  drag
-                  dragConstraints={{ left: -140, right: 140, top: -90, bottom: 90 }}
-                  dragElastic={0.4}
-                  dragTransition={{ bounceStiffness: 350, bounceDamping: 18 }}
-                  whileHover={{ scale: 1.15, rotate: (index % 2 === 0 ? 6 : -6), cursor: "grab" }}
-                  whileDrag={{ scale: 1.3, rotate: (index % 2 === 0 ? 12 : -12), cursor: "grabbing", zIndex: 60 }}
-                  className="draggable-ocean-letter"
-                >
-                  {item.char}
-                </motion.span>
+                </span>
               ))}
             </div>
           </div>
@@ -704,30 +697,11 @@ export default function Home() {
               {/* Lab Deck Elements Flex Bar */}
               <div style={{
                 display: "flex",
-                justifyContent: "space-between",
+                justifyContent: "center",
                 alignItems: "center",
                 flexWrap: "wrap",
                 gap: "16px",
               }}>
-
-                {/* 1. Left: Product Spec Barcode ID - Hidden on small mobile */}
-                <div className="hidden sm:flex" style={{ alignItems: "center", gap: "10px" }}>
-                  <svg width="46" height="28" viewBox="0 0 46 28" fill="none">
-                    <line x1="2" y1="2" x2="2" y2="26" stroke="#000" strokeWidth="3" />
-                    <line x1="8" y1="2" x2="8" y2="26" stroke="#000" strokeWidth="1.5" />
-                    <line x1="12" y1="2" x2="12" y2="26" stroke="#000" strokeWidth="2.5" />
-                    <line x1="17" y1="2" x2="17" y2="26" stroke="#000" strokeWidth="1" />
-                    <line x1="21" y1="2" x2="21" y2="26" stroke="#000" strokeWidth="3.5" />
-                    <line x1="28" y1="2" x2="28" y2="26" stroke="#000" strokeWidth="1" />
-                    <line x1="32" y1="2" x2="32" y2="26" stroke="#000" strokeWidth="2.5" />
-                    <line x1="38" y1="2" x2="38" y2="26" stroke="#000" strokeWidth="1.5" />
-                    <line x1="43" y1="2" x2="43" y2="26" stroke="#000" strokeWidth="2" />
-                  </svg>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <span style={{ fontFamily: "var(--font-mono)", fontSize: "9px", color: "#64748B", fontWeight: 800 }}>SPEC NUMBER</span>
-                    <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "#0A0A0A", fontWeight: 900 }}>#02-09-2026 / RDS</span>
-                  </div>
-                </div>
 
                 {/* 2. Center: High-Contrast Athletic Command Plaque */}
                 <div style={{ flex: "1 1 280px", maxWidth: "520px", margin: "0 auto", width: "100%" }}>
@@ -778,7 +752,7 @@ export default function Home() {
           BRIGHT COASTAL BODY (SECTIONS 1 - 5: ALL LIGHT THEME!)
           Clean, sunny, vibrant Neubrutalism matching the beach aesthetic
           ============================================================ */}
-      <div className="coastal-light-body" style={{ background: "#F8FAFC", color: "#0F172A", paddingTop: "40px" }}>
+      <div className="coastal-light-body" style={{ background: "transparent", color: "#0F172A", paddingTop: "40px" }}>
 
         {/* ============================================================
             SECTION 1: PROYEK PILIHAN (BRIGHT NEUBRUTALISM)
@@ -1675,7 +1649,7 @@ export default function Home() {
         {/* ============================================================
             SECTION 5: HUBUNGI SAYA / FOOTER (BRIGHT NEUBRUTALISM)
             ============================================================ */}
-        <footer className="footer" id="contact" style={{ paddingTop: "30px", paddingBottom: "60px", background: "#F1F5F9", borderTop: "3px solid #000000" }}>
+        <footer className="footer" id="contact" style={{ paddingTop: "30px", paddingBottom: "60px", background: "transparent", borderTop: "3px solid #000000" }}>
           <div className="container-premium">
 
             <motion.div
