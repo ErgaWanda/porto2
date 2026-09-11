@@ -27,12 +27,12 @@
   --accent-3: var(--border-color);
   --surface: var(--bg-card);
 
-  /* Cartoon Neubrutalism Typography System */
-  --font-cartoon: 'Fredoka', cursive, sans-serif;
-  --font-cartoon-title: 'Titan One', 'Fredoka', cursive, sans-serif;
-  --font-display: 'Titan One', 'Fredoka', cursive, sans-serif;
-  --font-heading: 'Fredoka', 'Titan One', cursive, sans-serif;
-  --font-body: 'Fredoka', 'Plus Jakarta Sans', sans-serif;
+  /* Stormy Dark Brutalist Typography System */
+  --font-cartoon: 'Space Grotesk', -apple-system, sans-serif;
+  --font-cartoon-title: 'Space Grotesk', -apple-system, sans-serif;
+  --font-display: 'Space Grotesk', -apple-system, sans-serif;
+  --font-heading: 'Space Grotesk', -apple-system, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-signature: 'Alex Brush', cursive;
 }
@@ -65,8 +65,9 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-cartoon);
-  letter-spacing: 0.01em;
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+  font-weight: 800;
 }
 
 /* Custom Elegant Scrollbar */
@@ -94,333 +95,144 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================================
-   COASTAL OCEAN & BEACH SYSTEM (RYHNDASTRA INSPIRED)
+   ATHLETIC / VOLT NEON LAB SYSTEM (LIGHT NEUBRUTALISM)
+   Nike Lab & Off-White Techwear Inspired, High-Contrast Precision
    ============================================================ */
 
 .ocean-hero-canvas {
   position: relative;
   width: 100%;
   max-width: 100vw;
-  background: linear-gradient(180deg, #0284C7 0%, #0369A1 35%, #0284C7 70%, #38BDF8 100%);
+  background-color: #F8FAFC;
+  background-image: 
+    linear-gradient(to right, rgba(15, 23, 42, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
   overflow: hidden;
 }
 
-@keyframes waveGentle {
-  0%, 100% {
-    transform: translateX(0) scaleY(1);
-  }
-  50% {
-    transform: translateX(-35px) scaleY(1.1);
-  }
-}
-
-@keyframes waveGentleReverse {
-  0%, 100% {
-    transform: translateX(0) scaleY(1);
-  }
-  50% {
-    transform: translateX(35px) scaleY(0.92);
-  }
-}
-
-@keyframes duckBobbing {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-10px) rotate(-4deg);
-  }
-}
-
-@keyframes seagullSoar {
-  0% {
-    transform: translateX(-25px) translateY(0) scale(1);
-  }
-  50% {
-    transform: translateX(25px) translateY(-8px) scale(1.03);
-  }
-  100% {
-    transform: translateX(-25px) translateY(0) scale(1);
-  }
-}
-
-@keyframes crabWiggle {
-  0%, 100% {
-    transform: rotate(0deg) scale(1);
-  }
-  25% {
-    transform: rotate(-6deg) scale(1.06);
-  }
-  75% {
-    transform: rotate(6deg) scale(1.06);
-  }
-}
-
-@keyframes bubbleRise {
-  0% {
-    transform: translateY(120px) scale(0.6) translateX(0);
-    opacity: 0;
-  }
-  25% {
-    transform: translateY(60px) scale(0.85) translateX(8px);
-    opacity: 0.75;
-  }
-  65% {
-    transform: translateY(-20px) scale(1.05) translateX(-8px);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateY(-100px) scale(1.2) translateX(4px);
-    opacity: 0;
-  }
-}
-
-@keyframes dolphinJump {
-  0% {
-    transform: translateX(-40px) translateY(50px) rotate(-35deg) scale(0.7);
-    opacity: 0;
-  }
-  15% {
-    transform: translateX(10px) translateY(-35px) rotate(-5deg) scale(1);
-    opacity: 1;
-  }
-  30% {
-    transform: translateX(65px) translateY(55px) rotate(40deg) scale(0.8);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(65px) translateY(55px) rotate(40deg) scale(0.8);
-    opacity: 0;
-  }
-}
-
-@keyframes duckSwim {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  50% {
-    transform: translateX(80px) translateY(-8px);
-  }
-  100% {
-    transform: translateX(0) translateY(0);
-  }
-}
-
-@keyframes waveFlowInfinite {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes waveFlowInfiniteReverse {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-@keyframes waveSwellVertical {
-  0%, 100% {
-    transform: translateY(0px) scaleY(1);
-  }
-  50% {
-    transform: translateY(-8px) scaleY(1.18);
-  }
-}
-
-@keyframes sunGlimmer {
-  0%, 100% {
-    opacity: 0.2;
-    transform: scale(0.95);
-  }
-  50% {
-    opacity: 0.65;
-    transform: scale(1.1);
-  }
-}
-
-@keyframes buoyBobbing {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-12px) rotate(8deg);
-  }
-}
-
-@keyframes bottleFloating {
-  0%, 100% {
-    transform: translateY(0px) rotate(-8deg);
-  }
-  50% {
-    transform: translateY(-10px) rotate(12deg);
-  }
-}
-
-@keyframes fishSwimAcross {
-  0% {
-    transform: translateX(-80px) translateY(0);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.9;
-  }
-  90% {
-    opacity: 0.9;
-  }
-  100% {
-    transform: translateX(1100px) translateY(-14px);
-    opacity: 0;
-  }
-}
-
-.anim-wave-1 {
-  animation: waveGentle 10s ease-in-out infinite;
-}
-
-.anim-wave-2 {
-  animation: waveGentleReverse 13s ease-in-out infinite;
-}
-
-.anim-wave-flow-1 {
-  animation: waveFlowInfinite 16s linear infinite;
-}
-
-.anim-wave-flow-2 {
-  animation: waveFlowInfiniteReverse 20s linear infinite;
-}
-
-.anim-wave-flow-3 {
-  animation: waveFlowInfinite 12s linear infinite;
-}
-
-.anim-wave-swell {
-  animation: waveSwellVertical 5s ease-in-out infinite;
-}
-
-.anim-glimmer {
-  animation: sunGlimmer 3.5s ease-in-out infinite;
-}
-
-.anim-buoy {
-  animation: buoyBobbing 3.6s ease-in-out infinite;
-}
-
-.anim-bottle {
-  animation: bottleFloating 4.2s ease-in-out infinite 1s;
-}
-
-.anim-fish-school {
-  animation: fishSwimAcross 24s linear infinite;
-}
-
-.anim-duck {
-  animation: duckBobbing 4s ease-in-out infinite;
-}
-
-.anim-duck-swim {
-  animation: duckSwim 18s ease-in-out infinite;
-}
-
-.anim-seagull {
-  animation: seagullSoar 14s ease-in-out infinite;
-}
-
-.anim-crab {
-  animation: crabWiggle 2.5s ease-in-out infinite;
-}
-
-.anim-dolphin {
-  animation: dolphinJump 10s ease-in-out infinite;
-}
-
-.anim-bubble-1 {
-  animation: bubbleRise 6s ease-in-out infinite;
-}
-
-.anim-bubble-2 {
-  animation: bubbleRise 8s ease-in-out infinite 2s;
-}
-
-.anim-bubble-3 {
-  animation: bubbleRise 7s ease-in-out infinite 4s;
-}
-
-/* Draggable Letters in the Ocean (Tight & Snug Cartoon Typography) */
-.draggable-ocean-letter {
-  font-family: var(--font-cartoon-title);
-  font-size: clamp(26px, 7.2vw, 76px); /* Scaled down for mobile so 5 letters never wrap or clip! */
+/* Technical Techwear Crosshairs & Measurements */
+.techwear-crosshair {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 14px;
   font-weight: 900;
-  letter-spacing: -0.025em; /* Tightened kerning so name is not overly wide! */
-  line-height: 0.95;
-  text-transform: uppercase;
-  display: inline-block;
+  color: #94A3B8;
+  pointer-events: none;
   user-select: none;
-  touch-action: none;
-  cursor: grab;
-  -webkit-text-stroke: 3px #020B14;
-  text-shadow: 3.5px 4.5px 0px #020B14, 0 8px 18px rgba(2, 44, 80, 0.45);
-  filter: drop-shadow(0 6px 12px rgba(2, 44, 80, 0.35));
-  transition: transform 0.15s ease, filter 0.15s ease;
+  z-index: 4;
 }
 
-.draggable-ocean-letter:hover {
-  filter: drop-shadow(0 8px 16px rgba(2, 44, 80, 0.55));
-  -webkit-text-stroke: 3px #020B14;
-  text-shadow: 5px 6.5px 0px #020B14;
+/* Volt Neon Pulse */
+@keyframes voltStrobe {
+  0%, 100% {
+    opacity: 0.45;
+    box-shadow: 0 0 4px #CCFF00;
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 16px #CCFF00, 0 0 24px #CCFF00;
+  }
 }
 
-@keyframes duckCruise {
+@keyframes tagInertiaFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(3deg);
+  }
+}
+
+@keyframes tagSwayCruise {
   0% {
     transform: translateX(0px);
   }
   50% {
-    transform: translateX(90px);
+    transform: translateX(55px);
   }
   100% {
     transform: translateX(0px);
   }
 }
-.anim-duck-cruise {
-  animation: duckCruise 24s ease-in-out infinite;
+
+.anim-tag-float {
+  animation: tagInertiaFloat 4.8s ease-in-out infinite;
 }
 
-.draggable-duck {
+.anim-tag-cruise {
+  animation: tagSwayCruise 20s ease-in-out infinite;
+}
+
+.anim-volt-pulse {
+  animation: voltStrobe 1.5s ease-in-out infinite;
+}
+
+.draggable-techwear-tag {
   cursor: grab;
   touch-action: none;
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
 }
-.draggable-duck:active {
+.draggable-techwear-tag:active {
   cursor: grabbing;
 }
 
-/* Mobile: constrain duck cruise range */
+/* Draggable Letters in the Lab (High-Voltage Neubrutalism - Crystal Clear Legibility) */
+.draggable-ocean-letter {
+  font-family: var(--font-heading);
+  font-size: clamp(34px, 7.8vw, 84px);
+  font-weight: 900;
+  letter-spacing: -0.015em;
+  line-height: 1;
+  text-transform: uppercase;
+  display: inline-block;
+  user-select: none;
+  touch-action: none;
+  cursor: grab;
+  color: #0A0A0A;
+  text-shadow: 3.5px 3.5px 0px #CCFF00, 5.5px 5.5px 0px #000000;
+  transition: transform 0.15s ease, text-shadow 0.15s ease;
+}
+
+.draggable-ocean-letter:hover {
+  text-shadow: 4.5px 4.5px 0px #CCFF00, 7.5px 7.5px 0px #000000;
+}
+
+/* Technical Lab Spec Deck (Bottom Transition) */
+.lab-spec-deck {
+  background: #FFFFFF;
+  color: #0A0A0A;
+  padding: 24px 24px 64px 24px;
+  position: relative;
+  box-shadow: inset 0 6px 14px rgba(0, 0, 0, 0.04);
+  border-top: 3.5px solid #000000;
+}
+
+/* Millimeter Ruler Ticks Bar */
+.millimeter-ruler-band {
+  height: 14px;
+  width: 100%;
+  background-color: #CCFF00;
+  background-image: repeating-linear-gradient(
+    to right,
+    #000000,
+    #000000 2px,
+    transparent 2px,
+    transparent 10px
+  );
+  border-top: 2.5px solid #000000;
+  border-bottom: 2.5px solid #000000;
+}
+
+/* Mobile optimizations */
 @media (max-width: 768px) {
-  @keyframes duckCruise {
+  @keyframes tagSwayCruise {
     0%   { transform: translateX(0px);  }
-    50%  { transform: translateX(40px); }
+    50%  { transform: translateX(20px); }
     100% { transform: translateX(0px);  }
   }
-  /* Hide decorative side elements that cause overflow */
-  .anim-bottle,
-  .anim-dolphin {
-    display: none;
-  }
-  /* Move bubbles closer to center */
-  .anim-bubble-1 { left: 30% !important; }
-  .anim-bubble-2 { left: 34% !important; }
-  .anim-bubble-3 { right: 30% !important; }
-  /* Move buoy closer to center on small screens */
-  .anim-buoy { right: 3% !important; top: 200px !important; }
-  /* Seagulls can stay but clamp position */
-  .anim-seagull { opacity: 0.7; }
 }
 
 /* ============================================================
@@ -2501,9 +2313,10 @@ h1, h2, h3, h4, h5, h6 {
     padding: 6px 10px;
   }
   .draggable-ocean-letter {
-    font-size: clamp(28px, 10.5vw, 52px);
-    -webkit-text-stroke: 1.5px #020B14;
-    letter-spacing: -0.05em;
+    font-size: clamp(26px, 8.5vw, 50px);
+    -webkit-text-stroke: none;
+    letter-spacing: -0.015em;
+    text-shadow: 2.5px 2.5px 0px #CCFF00, 4px 4px 0px #000000;
   }
   .brutal-section-title-box h2 {
     font-size: clamp(22px, 8vw, 30px) !important;
@@ -2533,8 +2346,10 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0 10px;
   }
   .draggable-ocean-letter {
-    font-size: clamp(24px, 11vw, 44px);
-    letter-spacing: -0.06em;
+    font-size: clamp(22px, 7.8vw, 36px);
+    -webkit-text-stroke: none;
+    letter-spacing: -0.015em;
+    text-shadow: 2px 2px 0px #CCFF00, 3.5px 3.5px 0px #000000;
   }
   .tactical-navbar {
     padding: 5px 8px;

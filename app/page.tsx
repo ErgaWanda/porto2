@@ -34,29 +34,18 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [contactForm, setContactForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [sending, setSending] = useState(false);
-  const [sent, setSent] = useState(false);
   const [formStatus, setFormStatus] = useState<{ type: "success" | "activation" | "error"; text: string } | null>(null);
-  const [isDuckDragging, setIsDuckDragging] = useState(false);
+  const [isTagDragging, setIsTagDragging] = useState(false);
 
-  // Masculine, high-contrast, bold athletic ocean palette
-  const nameRow1 = [
-    { char: "E", color: "#FFFFFF" },
-    { char: "R", color: "#38BDF8" },
-    { char: "G", color: "#FACC15" },
-    { char: "A", color: "#FFFFFF" },
-  ];
-  const nameRow2 = [
-    { char: "W", color: "#38BDF8" },
-    { char: "A", color: "#FACC15" },
-    { char: "N", color: "#FFFFFF" },
-    { char: "D", color: "#38BDF8" },
-    { char: "A", color: "#FACC15" },
-  ];
+  // Athletic / Volt Neon Lab - Full Name: Erga Wanda Afriza
+  const nameWord1 = [{ char: "E" }, { char: "R" }, { char: "G" }, { char: "A" }];
+  const nameWord2 = [{ char: "W" }, { char: "A" }, { char: "N" }, { char: "D" }, { char: "A" }];
+  const nameWord3 = [{ char: "A" }, { char: "F" }, { char: "R" }, { char: "I" }, { char: "Z" }, { char: "A" }];
   const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
 
   const handleOceanClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement;
-    if (target.closest("button") || target.closest("a") || target.closest(".draggable-ocean-letter") || target.closest(".draggable-duck")) {
+    if (target.closest("button") || target.closest("a") || target.closest(".draggable-ocean-letter") || target.closest(".draggable-techwear-tag")) {
       return;
     }
     const rect = e.currentTarget.getBoundingClientRect();
@@ -252,7 +241,7 @@ export default function Home() {
           <a href="#about" className="navbar-brand">
             <div className="navbar-logo-badge">EW</div>
             <div className="navbar-brand-text">
-              <span className="navbar-brand-name">ERGA WANDA</span>
+              <span className="navbar-brand-name">ERGA WANDA AFRIZA</span>
               <span className="navbar-brand-role">IT DEV @ RDS GROUP</span>
             </div>
           </a>
@@ -372,8 +361,8 @@ export default function Home() {
       </header>
 
       {/* ============================================================
-          HERO SECTION: VIBRANT TROPICAL OCEAN & SUNNY BEACH SHORE
-          Direct reference from user screenshot (ryhndastra.site style)
+          HERO SECTION: ATHLETIC / VOLT NEON LAB (LIGHT NEUBRUTALISM)
+          Techwear Brutalist Precision, Volt Lime Accents & Raw Typography
           ============================================================ */}
       <section
         className="ocean-hero-canvas"
@@ -381,13 +370,17 @@ export default function Home() {
         onClick={handleOceanClick}
         style={{ marginTop: "-56px", paddingTop: "80px", cursor: "pointer", position: "relative", overflowX: "hidden" }}
       >
-        {/* Interactive Water Ripple Rings on Click */}
+        {/* Technical Corner Crosshairs (Techwear Spec Marks) */}
+        <div className="techwear-crosshair" style={{ top: "90px", left: "20px" }}>+ [LAB-01]</div>
+        <div className="techwear-crosshair" style={{ top: "90px", right: "20px" }}>+ [SCALE: 100%]</div>
+
+        {/* Interactive Kinetic Volt Ripple Rings on Click */}
         {ripples.map((rip) => (
           <motion.div
             key={rip.id}
-            initial={{ scale: 0, opacity: 0.85 }}
-            animate={{ scale: 4.2, opacity: 0 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
+            initial={{ scale: 0, opacity: 0.95 }}
+            animate={{ scale: 4.5, opacity: 0 }}
+            transition={{ duration: 1.1, ease: "easeOut" }}
             style={{
               position: "absolute",
               top: rip.y - 25,
@@ -395,72 +388,39 @@ export default function Home() {
               width: 50,
               height: 50,
               borderRadius: "50%",
-              border: "2.5px solid rgba(255, 255, 255, 0.9)",
-              boxShadow: "0 0 14px rgba(56, 189, 248, 0.8)",
+              border: "3px solid #CCFF00",
+              boxShadow: "0 0 16px rgba(204, 255, 0, 0.85), inset 0 0 8px rgba(0, 0, 0, 0.3)",
               pointerEvents: "none",
               zIndex: 7,
             }}
           />
         ))}
 
-        {/* Animated Flying Seagulls in Sky/Sea */}
-        <div className="anim-seagull" style={{ position: "absolute", top: "110px", left: "12%", zIndex: 5, pointerEvents: "none" }}>
-          <svg width="44" height="22" viewBox="0 0 50 25" fill="none">
-            <path d="M2 18 C12 6, 22 10, 25 18 C28 10, 38 6, 48 18" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" />
-          </svg>
-        </div>
-
-        <div className="anim-seagull" style={{ position: "absolute", top: "160px", right: "18%", zIndex: 5, pointerEvents: "none", animationDelay: "3s" }}>
-          <svg width="32" height="16" viewBox="0 0 50 25" fill="none" opacity="0.85">
-            <path d="M2 18 C12 6, 22 10, 25 18 C28 10, 38 6, 48 18" stroke="#FFFFFF" strokeWidth="2.8" strokeLinecap="round" />
-          </svg>
-        </div>
-
-        {/* Animated Leaping Dolphin / Fish in the Sea */}
-        <div className="anim-dolphin" style={{ position: "absolute", top: "270px", right: "12%", zIndex: 6, pointerEvents: "none" }}>
-          <svg width="60" height="42" viewBox="0 0 60 42" fill="none">
-            <path d="M5 26 C15 10, 35 5, 52 16 C45 20, 38 25, 30 25 C25 30, 20 32, 12 30 C15 28, 18 25, 12 25 Z" fill="#38BDF8" stroke="#0284C7" strokeWidth="2" />
-            <path d="M30 11 L36 2 L38 12 Z" fill="#0284C7" />
-            <circle cx="46" cy="15" r="1.5" fill="#020B14" />
-            <circle cx="8" cy="30" r="1.5" fill="#FFFFFF" opacity="0.8" />
-            <circle cx="12" cy="34" r="2" fill="#FFFFFF" opacity="0.6" />
-          </svg>
-        </div>
-
-        {/* Rising Ocean Bubbles */}
-        <div className="anim-bubble-1" style={{ position: "absolute", bottom: "160px", left: "20%", zIndex: 6, pointerEvents: "none" }}>
-          <div style={{ width: 14, height: 14, borderRadius: "50%", background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(56,189,248,0.3))", border: "1px solid rgba(255,255,255,0.7)" }} />
-        </div>
-        <div className="anim-bubble-2" style={{ position: "absolute", bottom: "180px", left: "24%", zIndex: 6, pointerEvents: "none" }}>
-          <div style={{ width: 9, height: 9, borderRadius: "50%", background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(56,189,248,0.3))", border: "1px solid rgba(255,255,255,0.7)" }} />
-        </div>
-        <div className="anim-bubble-3" style={{ position: "absolute", bottom: "150px", right: "24%", zIndex: 6, pointerEvents: "none" }}>
-          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(56,189,248,0.3))", border: "1px solid rgba(255,255,255,0.7)" }} />
-        </div>
 
         {/* ============================================================
-            DRAGGABLE CRUSING RUBBER DUCK (Directly on the water, no box!)
+            DRAGGABLE TECHWEAR CARABINER & ZIP-TIE TAG (Industrial Artifact)
+            High-contrast athletic techwear tag with barcode & ribbon
             ============================================================ */}
         <div
-          className="anim-duck-cruise"
+          className="anim-tag-cruise"
           style={{
             position: "absolute",
-            top: "330px",
-            left: "9%",
+            top: "305px",
+            left: "8%",
             zIndex: 45,
             pointerEvents: "auto",
-            animationPlayState: isDuckDragging ? "paused" : "running",
+            animationPlayState: isTagDragging ? "paused" : "running",
           }}
         >
           <motion.div
             drag
             dragElastic={0.25}
             dragTransition={{ bounceStiffness: 300, bounceDamping: 15 }}
-            onDragStart={() => setIsDuckDragging(true)}
-            onDragEnd={() => setIsDuckDragging(false)}
-            whileHover={{ scale: 1.22, cursor: "grab" }}
-            whileDrag={{ scale: 1.38, rotate: -12, cursor: "grabbing" }}
-            className="draggable-duck"
+            onDragStart={() => setIsTagDragging(true)}
+            onDragEnd={() => setIsTagDragging(false)}
+            whileHover={{ scale: 1.16, cursor: "grab" }}
+            whileDrag={{ scale: 1.28, rotate: -8, cursor: "grabbing" }}
+            className="draggable-techwear-tag"
             style={{
               cursor: "grab",
               touchAction: "none",
@@ -468,194 +428,159 @@ export default function Home() {
               display: "inline-block",
               padding: "6px",
             }}
-            title="Seret bebek ini kemana saja di lautan! 🐤"
+            title="Seret tag industrial ini kemana saja di lab! 🏷️"
           >
-            <div className="anim-duck" style={{ position: "relative", display: "inline-block", pointerEvents: "none" }}>
-              {/* Cute Cartoon Speech Bubble Floating Over Duck */}
+            <div className="anim-tag-float" style={{ position: "relative", display: "inline-block", pointerEvents: "none" }}>
+              {/* Tactical Spec Tag Floating Over Carabiner */}
               <div
-                className="comic-bubble"
                 style={{
                   position: "absolute",
                   top: "-34px",
-                  left: "22px",
+                  left: "14px",
                   whiteSpace: "nowrap",
-                  fontSize: "11px",
-                  transform: isDuckDragging ? "rotate(-8deg) scale(1.1)" : "rotate(-4deg)",
+                  fontSize: "10px",
+                  fontFamily: "var(--font-mono)",
+                  fontWeight: 800,
+                  transform: isTagDragging ? "rotate(-4deg) scale(1.06)" : "rotate(1deg)",
                   pointerEvents: "none",
                   zIndex: 50,
                   transition: "transform 0.2s ease, background-color 0.2s ease",
-                  backgroundColor: isDuckDragging ? "#FACC15" : "#FFFFFF",
+                  backgroundColor: isTagDragging ? "#CCFF00" : "#0A0A0A",
+                  color: isTagDragging ? "#000000" : "#FFFFFF",
+                  border: "2px solid #000000",
+                  boxShadow: "3px 3px 0px #000000",
+                  padding: "3px 8px",
+                  borderRadius: "3px",
                 }}
               >
-                <span>{isDuckDragging ? "Waaahh! 🚀 Berenang!" : "Kwek! Seret aku yuk 🦆"}</span>
+                <span>{isTagDragging ? "⚡ [KINETIC DISPLACEMENT ACTIVE]" : "🏷️ [TECHWEAR LAB TAG // DRAGGABLE]"}</span>
               </div>
 
-              <svg width="56" height="50" viewBox="0 0 48 44" fill="none" style={{ filter: "drop-shadow(0 6px 14px rgba(2, 44, 80, 0.45))", pointerEvents: "none" }}>
-                {/* Expanding water ripples around swimming duck */}
-                <ellipse cx="24" cy="38" rx="20" ry="4" fill="rgba(255, 255, 255, 0.55)" />
-                <ellipse cx="24" cy="38" rx="14" ry="2.5" fill="rgba(255, 255, 255, 0.9)" />
+              {/* Industrial Techwear Tag SVG (Carabiner, Volt Ribbon & Barcode) */}
+              <svg width="120" height="66" viewBox="0 0 120 66" fill="none" style={{ filter: "drop-shadow(4px 6px 0px #000000)", pointerEvents: "none" }}>
+                {/* Matte Black Carabiner Clasp Loop */}
+                <rect x="6" y="16" width="22" height="34" rx="7" fill="#0A0A0A" stroke="#000000" strokeWidth="2.5" />
+                <rect x="12" y="22" width="10" height="22" rx="4" fill="#F8FAFC" stroke="#000000" strokeWidth="1.5" />
+                {/* Carabiner Gate Spring (Silver) */}
+                <rect x="22" y="24" width="4" height="18" fill="#E2E8F0" stroke="#000000" strokeWidth="1.2" />
 
-                {/* Rubber duck body */}
-                <ellipse cx="24" cy="27" rx="17" ry="11" fill="#FACC15" stroke="#000000" strokeWidth="2.2" />
-                {/* Duck head */}
-                <circle cx="17" cy="16" r="11" fill="#FACC15" stroke="#000000" strokeWidth="2.2" />
-                {/* Duck eye */}
-                <circle cx="14" cy="14" r="2.4" fill="#000000" />
-                <circle cx="15" cy="13" r="0.8" fill="#FFFFFF" />
-                {/* Duck orange beak */}
-                <path d="M7 16 C1 16, 0 20, 6 21 Z" fill="#F97316" stroke="#000000" strokeWidth="1.8" />
-                {/* Duck wing */}
-                <path d="M23 23 C30 22, 34 27, 28 32 C23 33, 20 28, 23 23 Z" fill="#EAB308" stroke="#000000" strokeWidth="1.8" />
-                {/* Tail tuft */}
-                <path d="M39 24 C44 21, 43 28, 38 29 Z" fill="#FACC15" stroke="#000000" strokeWidth="1.8" />
+                {/* Industrial Techwear Tag Main Body (Volt Neon Lime) */}
+                <rect x="26" y="10" width="88" height="46" rx="4" fill="#CCFF00" stroke="#000000" strokeWidth="2.5" />
+
+                {/* Metal Grommet Eyelet */}
+                <circle cx="34" cy="33" r="4.5" fill="#E2E8F0" stroke="#000000" strokeWidth="2" />
+                <circle cx="34" cy="33" r="2" fill="#0A0A0A" />
+
+                {/* Inner White Technical Label */}
+                <rect x="42" y="15" width="67" height="36" rx="2" fill="#FFFFFF" stroke="#000000" strokeWidth="1.8" />
+
+                {/* Barcode Lines */}
+                <line x1="46" y1="20" x2="46" y2="34" stroke="#000000" strokeWidth="2" />
+                <line x1="50" y1="20" x2="50" y2="34" stroke="#000000" strokeWidth="1" />
+                <line x1="53" y1="20" x2="53" y2="34" stroke="#000000" strokeWidth="2.5" />
+                <line x1="58" y1="20" x2="58" y2="34" stroke="#000000" strokeWidth="1" />
+                <line x1="62" y1="20" x2="62" y2="34" stroke="#000000" strokeWidth="3" />
+                <line x1="68" y1="20" x2="68" y2="34" stroke="#000000" strokeWidth="1" />
+
+                {/* Technical Micro Text */}
+                <text x="46" y="44" fontFamily="var(--font-mono)" fontSize="7" fontWeight="900" fill="#0A0A0A">C# .NET ARCH</text>
+                <text x="74" y="26" fontFamily="var(--font-mono)" fontSize="7" fontWeight="900" fill="#CCFF00">RDS</text>
+                <rect x="73" y="19" width="30" height="9" rx="1.5" fill="#0A0A0A" />
+                <text x="76" y="26" fontFamily="var(--font-mono)" fontSize="6.5" fontWeight="900" fill="#CCFF00">2026-LAB</text>
+                <text x="74" y="44" fontFamily="var(--font-mono)" fontSize="6" fontWeight="800" fill="#64748B">SPEC: 01</text>
               </svg>
             </div>
           </motion.div>
         </div>
 
-        {/* Animated Rolling Ocean Wave Belt 1 (Upper Ocean Swells) */}
-        <div style={{ position: "absolute", top: "135px", left: 0, width: "200%", height: "50px", pointerEvents: "none", zIndex: 3, opacity: 0.38, overflow: "hidden" }}>
-          <div className="anim-wave-flow-1" style={{ width: "200%", display: "flex" }}>
-            <svg viewBox="0 0 1200 40" fill="none" preserveAspectRatio="none" style={{ width: "50%", height: "30px", flexShrink: 0 }}>
-              <path d="M0,20 Q150,2 300,20 T600,20 T900,20 T1200,20" stroke="#FFFFFF" strokeWidth="3.2" fill="none" strokeLinecap="round" />
-            </svg>
-            <svg viewBox="0 0 1200 40" fill="none" preserveAspectRatio="none" style={{ width: "50%", height: "30px", flexShrink: 0 }}>
-              <path d="M0,20 Q150,2 300,20 T600,20 T900,20 T1200,20" stroke="#FFFFFF" strokeWidth="3.2" fill="none" strokeLinecap="round" />
-            </svg>
-          </div>
-        </div>
-
-        {/* Animated Rolling Ocean Wave Belt 2 (Mid Ocean Rolling Swells with Foam) */}
-        <div style={{ position: "absolute", top: "245px", left: 0, width: "200%", height: "65px", pointerEvents: "none", zIndex: 3, opacity: 0.6, overflow: "hidden" }}>
-          <div className="anim-wave-flow-2" style={{ width: "200%", display: "flex" }}>
-            <svg viewBox="0 0 1200 50" fill="none" preserveAspectRatio="none" style={{ width: "50%", height: "38px", flexShrink: 0 }}>
-              <path d="M0,25 C100,5 200,45 300,25 C400,5 500,45 600,25 C700,5 800,45 900,25 C1000,5 1100,45 1200,25" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" />
-              <path d="M0,30 C100,10 200,50 300,30 C400,10 500,50 600,30 C700,10 800,50 900,30 C1000,10 1100,50 1200,30" stroke="rgba(56, 189, 248, 0.65)" strokeWidth="2.2" strokeLinecap="round" />
-            </svg>
-            <svg viewBox="0 0 1200 50" fill="none" preserveAspectRatio="none" style={{ width: "50%", height: "38px", flexShrink: 0 }}>
-              <path d="M0,25 C100,5 200,45 300,25 C400,5 500,45 600,25 C700,5 800,45 900,25 C1000,5 1100,45 1200,25" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" />
-              <path d="M0,30 C100,10 200,50 300,30 C400,10 500,50 600,30 C700,10 800,50 900,30 C1000,10 1100,50 1200,30" stroke="rgba(56, 189, 248, 0.65)" strokeWidth="2.2" strokeLinecap="round" />
-            </svg>
-          </div>
-        </div>
-
-        {/* Animated Rolling Ocean Wave Belt 3 (Lower Breaking Waves near Duck) */}
-        <div style={{ position: "absolute", top: "355px", left: 0, width: "200%", height: "65px", pointerEvents: "none", zIndex: 3, opacity: 0.72, overflow: "hidden" }}>
-          <div className="anim-wave-flow-3" style={{ width: "200%", display: "flex" }}>
-            <svg viewBox="0 0 1200 50" fill="none" preserveAspectRatio="none" style={{ width: "50%", height: "42px", flexShrink: 0 }}>
-              <path d="M0,20 C80,38 180,5 280,22 C380,38 480,5 580,22 C680,38 780,5 880,22 C980,38 1080,5 1200,20" stroke="#FFFFFF" strokeWidth="4" strokeLinecap="round" />
-              <path d="M20,24 C100,42 160,10 260,26 M320,24 C400,42 460,10 560,26 M620,24 C700,42 760,10 860,26" stroke="rgba(255,255,255,0.75)" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-            <svg viewBox="0 0 1200 50" fill="none" preserveAspectRatio="none" style={{ width: "50%", height: "42px", flexShrink: 0 }}>
-              <path d="M0,20 C80,38 180,5 280,22 C380,38 480,5 580,22 C680,38 780,5 880,22 C980,38 1080,5 1200,20" stroke="#FFFFFF" strokeWidth="4" strokeLinecap="round" />
-              <path d="M20,24 C100,42 160,10 260,26 M320,24 C400,42 460,10 560,26 M620,24 C700,42 760,10 860,26" stroke="rgba(255,255,255,0.75)" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-          </div>
-        </div>
-
-        {/* Sunlight Glimmer / Water Highlights */}
-        <div className="anim-glimmer" style={{ position: "absolute", top: "185px", left: "26%", zIndex: 4, pointerEvents: "none" }}>
-          <svg width="42" height="16" viewBox="0 0 42 16" fill="none">
-            <ellipse cx="21" cy="7" rx="19" ry="3.5" fill="rgba(255, 255, 255, 0.7)" />
-            <ellipse cx="15" cy="12" rx="8" ry="1.8" fill="rgba(255, 255, 255, 0.5)" />
-          </svg>
-        </div>
-        <div className="anim-glimmer" style={{ position: "absolute", top: "275px", right: "30%", zIndex: 4, pointerEvents: "none", animationDelay: "1.8s" }}>
-          <svg width="48" height="18" viewBox="0 0 48 18" fill="none">
-            <ellipse cx="24" cy="8" rx="21" ry="4" fill="rgba(255, 255, 255, 0.75)" />
-            <ellipse cx="32" cy="14" rx="10" ry="2" fill="rgba(255, 255, 255, 0.6)" />
-          </svg>
-        </div>
-
-        {/* Drifting Red & White Lifebuoy Ring (Pelampung) 🛟 */}
-        <div className="anim-buoy" style={{ position: "absolute", top: "220px", right: "7%", zIndex: 6, pointerEvents: "none" }}>
-          <svg width="46" height="46" viewBox="0 0 46 46" fill="none" style={{ filter: "drop-shadow(0 4px 10px rgba(2, 44, 80, 0.45))" }}>
-            <circle cx="23" cy="23" r="19" fill="#FFFFFF" stroke="#000000" strokeWidth="2" />
-            <circle cx="23" cy="23" r="9" fill="#0369A1" stroke="#000000" strokeWidth="2" />
-            {/* Red quarters */}
-            <path d="M23 4 A19 19 0 0 1 37 10 L31 16 A9 9 0 0 0 23 14 Z" fill="#EF4444" />
-            <path d="M37 36 A19 19 0 0 1 23 42 L23 32 A9 9 0 0 0 31 30 Z" fill="#EF4444" />
-            <path d="M9 36 A19 19 0 0 1 4 23 L14 23 A9 9 0 0 0 15 30 Z" fill="#EF4444" />
-            <path d="M4 23 A19 19 0 0 1 10 9 L16 16 A9 9 0 0 0 14 23 Z" fill="#EF4444" />
-            {/* Grab rope */}
-            <circle cx="23" cy="23" r="21" stroke="#FDE047" strokeWidth="1.5" strokeDasharray="5 3" />
-          </svg>
-        </div>
-
-        {/* Floating Message in a Glass Bottle 🍾 */}
-        <div className="anim-bottle" style={{ position: "absolute", top: "370px", left: "5%", zIndex: 6, pointerEvents: "none" }}>
-          <svg width="42" height="42" viewBox="0 0 40 40" fill="none" style={{ filter: "drop-shadow(0 4px 8px rgba(2, 44, 80, 0.35))" }}>
-            {/* Cork */}
-            <rect x="25" y="6" width="6" height="5" rx="1.5" fill="#B45309" stroke="#000" strokeWidth="1.2" />
-            {/* Bottle neck */}
-            <path d="M24 10 L28 10 L25 18 L19 18 Z" fill="rgba(186, 230, 253, 0.85)" stroke="#000" strokeWidth="1.5" />
-            {/* Bottle body */}
-            <ellipse cx="16" cy="24" rx="12" ry="7" transform="rotate(-30 16 24)" fill="rgba(186, 230, 253, 0.75)" stroke="#000" strokeWidth="1.8" />
-            {/* Secret parchment roll inside */}
-            <rect x="10" y="21" width="10" height="4" rx="1" transform="rotate(-30 10 21)" fill="#FDE047" stroke="#92400E" strokeWidth="0.8" />
-            {/* Glass reflection */}
-            <path d="M12 18 C16 14, 20 18, 22 20" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" opacity="0.9" />
-          </svg>
-        </div>
-
-        {/* School of Cute Swimming Tropical Fish (🐟 🐠) */}
-        <div className="anim-fish-school" style={{ position: "absolute", top: "305px", left: "0%", zIndex: 5, pointerEvents: "none" }}>
-          <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-            {/* Fish 1 */}
-            <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-              <path d="M3 8 C8 3, 16 3, 21 8 C16 13, 8 13, 3 8 Z" fill="#F97316" stroke="#000" strokeWidth="1" />
-              <path d="M21 8 L24 4 L24 12 Z" fill="#F97316" stroke="#000" strokeWidth="1" />
-              <circle cx="7" cy="7" r="1" fill="#000" />
-            </svg>
-            {/* Fish 2 */}
-            <svg width="18" height="12" viewBox="0 0 24 16" fill="none" style={{ marginTop: "8px" }}>
-              <path d="M3 8 C8 3, 16 3, 21 8 C16 13, 8 13, 3 8 Z" fill="#FACC15" stroke="#000" strokeWidth="1" />
-              <path d="M21 8 L24 4 L24 12 Z" fill="#FACC15" stroke="#000" strokeWidth="1" />
-              <circle cx="7" cy="7" r="1" fill="#000" />
-            </svg>
-            {/* Fish 3 */}
-            <svg width="20" height="14" viewBox="0 0 24 16" fill="none" style={{ marginTop: "-6px" }}>
-              <path d="M3 8 C8 3, 16 3, 21 8 C16 13, 8 13, 3 8 Z" fill="#2DD4BF" stroke="#000" strokeWidth="1" />
-              <path d="M21 8 L24 4 L24 12 Z" fill="#2DD4BF" stroke="#000" strokeWidth="1" />
-              <circle cx="7" cy="7" r="1" fill="#000" />
-            </svg>
-          </div>
-        </div>
-
         {/* ============================================================
             HERO MAIN HEADLINE (Centered Draggable Letters!)
+            High-Impact Athletic Volt Neon Palette & Hard Shadows
             ============================================================ */}
-        <div className="container-premium relative z-10 text-center" style={{ paddingTop: "30px", paddingBottom: "40px" }}>
+        <div className="container-premium relative z-10 text-center" style={{ paddingTop: "26px", paddingBottom: "36px" }}>
 
-          {/* Centered Draggable Interactive Letters: ERGA WANDA */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginBottom: "26px", userSelect: "none" }}>
+          {/* Centered Draggable Interactive Letters: ERGA WANDA AFRIZA */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginBottom: "24px", userSelect: "none" }}>
 
-            {/* Playful Cartoon Floating Drag Hint */}
+            {/* Tactical Athletic Drag Hint Badge */}
             <motion.div
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="comic-sticker"
               style={{
-                background: "#FEF08A",
-                color: "#0F172A",
+                background: "#CCFF00",
+                color: "#000000",
                 border: "2.5px solid #000000",
-                boxShadow: "3px 3px 0px #000000",
-                fontSize: "11.5px",
-                marginBottom: "18px",
-                transform: "rotate(-1deg)",
+                boxShadow: "3.5px 3.5px 0px #000000",
+                fontFamily: "var(--font-mono)",
+                fontSize: "11px",
+                fontWeight: 900,
+                letterSpacing: "0.04em",
+                padding: "6px 14px",
+                borderRadius: "4px",
+                marginBottom: "20px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
               }}
             >
-              <span>✨</span>
-              <span>Coba seret &amp; lempar setiap huruf di bawah!</span>
-              <span>🌊</span>
+              <span>⚡</span>
+              <span>[&quot;DRAG &amp; TOSS LETTERS&quot; // KINETIC PERFORMANCE LAB]</span>
+              <span>⚡</span>
             </motion.div>
 
-            {/* Row 1: E R G A (Compact, Snug Gap!) */}
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "clamp(2px, 0.8vw, 6px)", marginBottom: "4px" }}>
-              {nameRow1.map((item, index) => (
+            {/* Row 1: E R G A   +   W A N D A */}
+            <div style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              alignItems: "center",
+              columnGap: "clamp(16px, 3.5vw, 42px)",
+              rowGap: "6px",
+              marginBottom: "8px",
+            }}>
+              {/* Word 1: ERGA */}
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "clamp(2px, 0.7vw, 6px)" }}>
+                {nameWord1.map((item, index) => (
+                  <motion.span
+                    key={`erga-${index}`}
+                    drag
+                    dragConstraints={{ left: -140, right: 140, top: -90, bottom: 90 }}
+                    dragElastic={0.4}
+                    dragTransition={{ bounceStiffness: 350, bounceDamping: 18 }}
+                    whileHover={{ scale: 1.15, rotate: (index % 2 === 0 ? 6 : -6), cursor: "grab" }}
+                    whileDrag={{ scale: 1.3, rotate: (index % 2 === 0 ? 12 : -12), cursor: "grabbing", zIndex: 60 }}
+                    className="draggable-ocean-letter"
+                  >
+                    {item.char}
+                  </motion.span>
+                ))}
+              </div>
+
+              {/* Word 2: WANDA */}
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "clamp(2px, 0.7vw, 6px)" }}>
+                {nameWord2.map((item, index) => (
+                  <motion.span
+                    key={`wanda-${index}`}
+                    drag
+                    dragConstraints={{ left: -140, right: 140, top: -90, bottom: 90 }}
+                    dragElastic={0.4}
+                    dragTransition={{ bounceStiffness: 350, bounceDamping: 18 }}
+                    whileHover={{ scale: 1.15, rotate: (index % 2 === 0 ? -6 : 6), cursor: "grab" }}
+                    whileDrag={{ scale: 1.3, rotate: (index % 2 === 0 ? -12 : 12), cursor: "grabbing", zIndex: 60 }}
+                    className="draggable-ocean-letter"
+                  >
+                    {item.char}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
+
+            {/* Row 2: A F R I Z A */}
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "clamp(2px, 0.7vw, 6px)" }}>
+              {nameWord3.map((item, index) => (
                 <motion.span
-                  key={`char-1-${index}`}
+                  key={`afriza-${index}`}
                   drag
                   dragConstraints={{ left: -140, right: 140, top: -90, bottom: 90 }}
                   dragElastic={0.4}
@@ -663,26 +588,6 @@ export default function Home() {
                   whileHover={{ scale: 1.15, rotate: (index % 2 === 0 ? 6 : -6), cursor: "grab" }}
                   whileDrag={{ scale: 1.3, rotate: (index % 2 === 0 ? 12 : -12), cursor: "grabbing", zIndex: 60 }}
                   className="draggable-ocean-letter"
-                  style={{ color: item.color }}
-                >
-                  {item.char}
-                </motion.span>
-              ))}
-            </div>
-
-            {/* Row 2: W A N D A (Compact, Snug Gap!) */}
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "clamp(2px, 0.8vw, 6px)" }}>
-              {nameRow2.map((item, index) => (
-                <motion.span
-                  key={`char-2-${index}`}
-                  drag
-                  dragConstraints={{ left: -140, right: 140, top: -90, bottom: 90 }}
-                  dragElastic={0.4}
-                  dragTransition={{ bounceStiffness: 350, bounceDamping: 18 }}
-                  whileHover={{ scale: 1.15, rotate: (index % 2 === 0 ? -6 : 6), cursor: "grab" }}
-                  whileDrag={{ scale: 1.3, rotate: (index % 2 === 0 ? -12 : 12), cursor: "grabbing", zIndex: 60 }}
-                  className="draggable-ocean-letter"
-                  style={{ color: item.color }}
                 >
                   {item.char}
                 </motion.span>
@@ -690,40 +595,68 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Subtitle Description (Cartoon Neubrutalism) */}
+          {/* Subtitle Description */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
             style={{
               fontFamily: "var(--font-body)",
-              fontSize: "clamp(13px, 3.5vw, 18px)",
+              fontSize: "clamp(13px, 3.5vw, 17px)",
               fontWeight: 600,
               lineHeight: 1.6,
-              color: "#FFFFFF",
-              maxWidth: "600px",
-              margin: "0 auto 24px auto",
-              textShadow: "0 2px 8px rgba(0, 0, 0, 0.4)",
+              color: "#1E293B",
+              maxWidth: "640px",
+              margin: "0 auto 26px auto",
               padding: "0 8px",
             }}
           >
-            <strong>IT Developer di RDS Group</strong> dengan spesialisasi <strong>C# dan .NET</strong>. Membangun platform web skalabel, arsitektur backend enterprise, dan sistem cerdas berbasis AI.
+            <strong style={{ color: "#0A0A0A", fontWeight: 800 }}>IT Developer di RDS Group</strong> dengan spesialisasi <strong style={{ color: "#000000", background: "#CCFF00", padding: "1px 6px", borderRadius: "4px", border: "1.5px solid #000000" }}>C# dan .NET</strong>. Merancang arsitektur backend berkecepatan tinggi, sistem terdistribusi mission-critical, dan integrasi cerdas AI dengan latensi minimal dan keandalan tanpa kompromi.
           </motion.p>
 
-          {/* Action Buttons (Neubrutalist Pill Buttons) */}
+          {/* Action Buttons (High-Voltage Neubrutalist) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            style={{ display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap", gap: "10px", padding: "0 8px" }}
+            style={{ display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap", gap: "12px", padding: "0 8px" }}
           >
-            <a href="#projects" className="btn-beach-cyan">
+            <a href="#projects" style={{
+              background: "#CCFF00",
+              color: "#000000",
+              fontFamily: "var(--font-body)",
+              fontSize: "13px",
+              fontWeight: 800,
+              border: "2.5px solid #000000",
+              boxShadow: "4px 4px 0px #000000",
+              borderRadius: "6px",
+              padding: "10px 22px",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              cursor: "pointer",
+              textDecoration: "none",
+            }}>
               ↓ Lihat Proyek
             </a>
 
             <button
               onClick={() => setContactModalOpen(true)}
-              className="btn-beach-white"
+              style={{
+                background: "#FFFFFF",
+                color: "#000000",
+                fontFamily: "var(--font-body)",
+                fontSize: "13px",
+                fontWeight: 800,
+                border: "2.5px solid #000000",
+                boxShadow: "4px 4px 0px #000000",
+                borderRadius: "6px",
+                padding: "10px 22px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                cursor: "pointer",
+              }}
             >
               ✉ Hubungi Saya
             </button>
@@ -732,7 +665,22 @@ export default function Home() {
               href="https://github.com/ErgaWanda"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-beach-dark"
+              style={{
+                background: "#0A0A0A",
+                color: "#FFFFFF",
+                fontFamily: "var(--font-body)",
+                fontSize: "13px",
+                fontWeight: 800,
+                border: "2.5px solid #000000",
+                boxShadow: "4px 4px 0px #000000",
+                borderRadius: "6px",
+                padding: "10px 22px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                cursor: "pointer",
+                textDecoration: "none",
+              }}
             >
               <FaGithub style={{ fontSize: "16px" }} />
               GitHub ↗
@@ -741,99 +689,53 @@ export default function Home() {
         </div>
 
         {/* ============================================================
-            WAVE WASH & WARM SANDY BEACH SHORE (Bottom 40% of Hero)
-            With Palm Tree, Wooden Boat, Crab, Surfboard, Umbrella & Job Badge
+            TECHNICAL MEASUREMENT & SPEC DECK (Bottom Transition)
+            Millimeter Ruler Graduation Band + Off-White Lab Plaque
             ============================================================ */}
         <div style={{ position: "relative", width: "100%", maxWidth: "100vw", zIndex: 10, overflowX: "hidden" }}>
 
-          {/* Wave Foam Border (Where Ocean Meets Sand) */}
-          <div style={{ width: "100%", overflow: "hidden", lineHeight: 0 }}>
-            <svg viewBox="0 0 1440 90" fill="none" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "70px" }}>
-              {/* Outer wave crest */}
-              <path
-                d="M0,35 C320,65 520,10 760,42 C1000,74 1220,15 1440,38 L1440,90 L0,90 Z"
-                fill="#FDF3E3"
-              />
-              {/* White wave foam edge */}
-              <path
-                d="M0,32 C320,62 520,7 760,39 C1000,71 1220,12 1440,35"
-                stroke="#FFFFFF"
-                strokeWidth="7"
-                strokeLinecap="round"
-              />
-              <path
-                d="M0,28 C340,58 540,5 780,36 C1020,68 1240,10 1440,32"
-                stroke="rgba(255, 255, 255, 0.45)"
-                strokeWidth="4"
-              />
-            </svg>
-          </div>
+          {/* Precision Millimeter Ruler Graduation Band */}
+          <div className="millimeter-ruler-band" />
 
-          {/* Sandy Beach Ground */}
-          <div style={{
-            background: "linear-gradient(180deg, #FDF3E3 0%, #FCE8C9 40%, #F8D9A8 100%)",
-            color: "#0F172A",
-            padding: "20px 24px 60px 24px",
-            position: "relative",
-            boxShadow: "inset 0 10px 25px rgba(217, 119, 6, 0.08)",
-          }}>
+          {/* Technical Lab Spec Deck Ground */}
+          <div className="lab-spec-deck">
             <div className="container-premium" style={{ position: "relative" }}>
 
-              {/* Beach Illustration Elements Flex Bar */}
+              {/* Lab Deck Elements Flex Bar */}
               <div style={{
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "flex-end",
+                justifyContent: "space-between",
+                alignItems: "center",
                 flexWrap: "wrap",
                 gap: "16px",
-                minHeight: "150px",
               }}>
 
-                {/* 1. Left: Tropical Palm Tree 🌴 (Hidden on mobile & tablet) */}
-                <div className="hidden lg:flex" style={{ flexDirection: "column", alignItems: "center" }}>
-                  <svg width="100" height="150" viewBox="0 0 100 150" fill="none">
-                    {/* Palm Trunk */}
-                    <path d="M48 150 C44 110, 52 75, 42 45" stroke="#92400E" strokeWidth="8" strokeLinecap="round" />
-                    <path d="M47 130 L52 132 M46 105 L51 107 M47 80 L52 82 M45 60 L50 62" stroke="#78350F" strokeWidth="2" strokeLinecap="round" />
-                    {/* Coconuts */}
-                    <circle cx="40" cy="45" r="4.5" fill="#78350F" />
-                    <circle cx="46" cy="46" r="4.5" fill="#0B2545" opacity="0.2" />
-                    <circle cx="45" cy="48" r="4.5" fill="#78350F" />
-                    {/* Palm Leaves */}
-                    <path d="M42 45 C25 25, 5 35, 2 48" stroke="#15803D" strokeWidth="6" strokeLinecap="round" />
-                    <path d="M42 45 C35 15, 20 8, 8 16" stroke="#16A34A" strokeWidth="5.5" strokeLinecap="round" />
-                    <path d="M42 45 C45 10, 60 5, 75 14" stroke="#22C55E" strokeWidth="6" strokeLinecap="round" />
-                    <path d="M42 45 C58 20, 80 25, 96 38" stroke="#16A34A" strokeWidth="6" strokeLinecap="round" />
-                    <path d="M42 45 C55 35, 75 50, 88 64" stroke="#15803D" strokeWidth="5" strokeLinecap="round" />
-                    {/* Shadow on sand */}
-                    <ellipse cx="50" cy="148" rx="24" ry="4" fill="rgba(180, 83, 9, 0.2)" />
+                {/* 1. Left: Product Spec Barcode ID - Hidden on small mobile */}
+                <div className="hidden sm:flex" style={{ alignItems: "center", gap: "10px" }}>
+                  <svg width="46" height="28" viewBox="0 0 46 28" fill="none">
+                    <line x1="2" y1="2" x2="2" y2="26" stroke="#000" strokeWidth="3" />
+                    <line x1="8" y1="2" x2="8" y2="26" stroke="#000" strokeWidth="1.5" />
+                    <line x1="12" y1="2" x2="12" y2="26" stroke="#000" strokeWidth="2.5" />
+                    <line x1="17" y1="2" x2="17" y2="26" stroke="#000" strokeWidth="1" />
+                    <line x1="21" y1="2" x2="21" y2="26" stroke="#000" strokeWidth="3.5" />
+                    <line x1="28" y1="2" x2="28" y2="26" stroke="#000" strokeWidth="1" />
+                    <line x1="32" y1="2" x2="32" y2="26" stroke="#000" strokeWidth="2.5" />
+                    <line x1="38" y1="2" x2="38" y2="26" stroke="#000" strokeWidth="1.5" />
+                    <line x1="43" y1="2" x2="43" y2="26" stroke="#000" strokeWidth="2" />
                   </svg>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: "9px", color: "#64748B", fontWeight: 800 }}>SPEC NUMBER</span>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "#0A0A0A", fontWeight: 900 }}>#02-09-2026 / RDS</span>
+                  </div>
                 </div>
 
-                {/* 2. Center: Classic Wooden Boat 🛶 + Current Role Badge (Full Responsive) */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", flex: "1 1 200px", maxWidth: "420px", width: "100%", margin: "0 auto" }}>
-
-                  {/* Wooden Canoe Boat SVG */}
-                  <svg width="180" height="52" viewBox="0 0 240 65" fill="none" style={{ maxWidth: "100%", width: "80%" }}>
-                    {/* Boat shadow */}
-                    <ellipse cx="120" cy="60" rx="90" ry="5" fill="rgba(180, 83, 9, 0.25)" />
-                    {/* Boat Hull */}
-                    <path d="M25 25 L50 56 L190 56 L215 25 Z" fill="#FDE047" stroke="#A16207" strokeWidth="2.5" />
-                    {/* Inside floor */}
-                    <path d="M35 25 L55 50 L185 50 L205 25 Z" fill="#FEF08A" stroke="#CA8A04" strokeWidth="1.5" />
-                    {/* Mast / Paddle */}
-                    <line x1="120" y1="5" x2="120" y2="58" stroke="#78350F" strokeWidth="2.5" strokeLinecap="round" />
-                    {/* Life ring circle */}
-                    <circle cx="140" cy="38" r="7" fill="#FFFFFF" stroke="#DC2626" strokeWidth="2" />
-                    <circle cx="140" cy="38" r="3" fill="#FEF08A" />
-                  </svg>
-
-                  {/* High Contrast Neubrutalist Job Stamp Resting on Beach */}
+                {/* 2. Center: High-Contrast Athletic Command Plaque */}
+                <div style={{ flex: "1 1 280px", maxWidth: "520px", margin: "0 auto", width: "100%" }}>
                   <div style={{
                     background: "#FFFFFF",
                     border: "3px solid #000000",
-                    boxShadow: "4px 4px 0px #000000",
-                    borderRadius: "10px",
+                    boxShadow: "5px 5px 0px #000000",
+                    borderRadius: "6px",
                     padding: "10px 16px",
                     display: "flex",
                     alignItems: "center",
@@ -841,82 +743,30 @@ export default function Home() {
                     flexWrap: "wrap",
                     justifyContent: "center",
                     width: "100%",
-                    maxWidth: "460px",
                   }}>
-                    <span style={{ width: "9px", height: "9px", borderRadius: "50%", backgroundColor: "#0284C7", display: "inline-block" }} />
-                    <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", fontWeight: 800, color: "#0F172A", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+                    <span style={{ width: "9px", height: "9px", borderRadius: "50%", backgroundColor: "#CCFF00", border: "1.5px solid #000000", display: "inline-block" }} className="anim-volt-pulse" />
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", fontWeight: 900, color: "#0A0A0A", textTransform: "uppercase", letterSpacing: "0.04em" }}>
                       IT DEVELOPER @ RDS GROUP
                     </span>
                     <span style={{ color: "#CBD5E1" }}>|</span>
-                    <span style={{ fontFamily: "var(--font-mono)", fontSize: "10px", fontWeight: 700, color: "#0369A1" }}>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: "10px", fontWeight: 800, color: "#0A0A0A" }}>
                       02 SEP 2026 - PRESENT
                     </span>
                     <span style={{
-                      background: "#0284C7",
-                      color: "#FFFFFF",
+                      background: "#CCFF00",
+                      color: "#000000",
                       fontSize: "9px",
-                      fontWeight: 800,
+                      fontWeight: 900,
                       fontFamily: "var(--font-mono)",
                       padding: "2px 6px",
                       borderRadius: "4px",
+                      border: "1.5px solid #000000",
                     }}>
-                      C# &amp; .NET
+                      C# &amp; .NET 9
                     </span>
                   </div>
                 </div>
 
-                {/* 3. Right: Surfboard, Beach Umbrella & Cute Crab 🦀 (Hidden on mobile only) */}
-                <div className="hidden md:flex" style={{ alignItems: "flex-end", gap: "12px" }}>
-
-                  {/* Beach Umbrella & Lounger SVG */}
-                  <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
-                    {/* Umbrella pole */}
-                    <line x1="45" y1="35" x2="35" y2="85" stroke="#475569" strokeWidth="2.5" strokeLinecap="round" />
-                    {/* Umbrella canopy */}
-                    <path d="M15 35 C15 15, 75 15, 75 35 Z" fill="#F97316" stroke="#C2410C" strokeWidth="2" />
-                    <path d="M35 18 C30 25, 25 35, 25 35 L45 35 L45 15 Z" fill="#FFFFFF" />
-                    <path d="M55 18 C60 25, 65 35, 65 35 L45 35 L45 15 Z" fill="#FFFFFF" />
-                    {/* Beach lounger chair */}
-                    <line x1="50" y1="80" x2="80" y2="80" stroke="#0284C7" strokeWidth="4" strokeLinecap="round" />
-                    <line x1="50" y1="80" x2="42" y2="68" stroke="#0284C7" strokeWidth="4" strokeLinecap="round" />
-                    <line x1="55" y1="80" x2="55" y2="86" stroke="#475569" strokeWidth="2" />
-                    <line x1="75" y1="80" x2="75" y2="86" stroke="#475569" strokeWidth="2" />
-                  </svg>
-
-                  {/* Surfboard sticking in sand */}
-                  <div style={{
-                    width: "18px",
-                    height: "65px",
-                    borderRadius: "9999px 9999px 4px 4px",
-                    background: "linear-gradient(180deg, #38BDF8 0%, #0284C7 50%, #F59E0B 100%)",
-                    border: "2px solid #000000",
-                    boxShadow: "3px 3px 0px #000000",
-                    transform: "rotate(8deg)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}>
-                    <div style={{ width: "2px", height: "45px", background: "#FFFFFF" }} />
-                  </div>
-
-                  {/* Cute Animated Red Crab 🦀 */}
-                  <div className="anim-crab" style={{ marginBottom: "6px" }}>
-                    <svg width="42" height="30" viewBox="0 0 45 32" fill="none">
-                      {/* Crab body */}
-                      <ellipse cx="22" cy="18" rx="11" ry="8" fill="#EF4444" stroke="#991B1B" strokeWidth="1.5" />
-                      {/* Crab eyes */}
-                      <circle cx="17" cy="9" r="2.5" fill="#FFFFFF" stroke="#991B1B" strokeWidth="1" />
-                      <circle cx="17" cy="9" r="1.2" fill="#000000" />
-                      <circle cx="27" cy="9" r="2.5" fill="#FFFFFF" stroke="#991B1B" strokeWidth="1" />
-                      <circle cx="27" cy="9" r="1.2" fill="#000000" />
-                      {/* Crab claws */}
-                      <path d="M12 15 C6 11, 4 4, 9 6 C12 8, 14 13, 12 15 Z" fill="#EF4444" stroke="#991B1B" strokeWidth="1.2" />
-                      <path d="M32 15 C38 11, 40 4, 35 6 C32 8, 30 13, 32 15 Z" fill="#EF4444" stroke="#991B1B" strokeWidth="1.2" />
-                      {/* Legs */}
-                      <path d="M13 22 L7 27 M14 24 L9 30 M31 22 L37 27 M30 24 L35 30" stroke="#991B1B" strokeWidth="1.5" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                </div>
 
               </div>
             </div>
@@ -1772,7 +1622,7 @@ export default function Home() {
                     <span className="brutal-dot brutal-dot-cyan" />
                     <span className="brutal-dot brutal-dot-teal" />
                     <span className="brutal-dot brutal-dot-coral" />
-                    <span style={{ marginLeft: "6px" }}>FILOSOFI REKAYASA // ERGA WANDA</span>
+                    <span style={{ marginLeft: "6px" }}>FILOSOFI REKAYASA // ERGA WANDA AFRIZA</span>
                   </div>
                   <span className="brutal-sticker brutal-sticker-cyan" style={{ padding: "2px 8px", fontSize: "8.5px" }}>
                     PRINSIP KERJA
@@ -2000,7 +1850,7 @@ export default function Home() {
                     textAlign: "center",
                     marginTop: "6px",
                   }}>
-                    ⚓ © 2026 ERGA WANDA AFRIZA • IT DEVELOPER @ RDS GROUP
+                    ⚡ © 2026 ERGA WANDA AFRIZA • IT DEVELOPER @ RDS GROUP
                   </div>
                 </div>
               </motion.div>
