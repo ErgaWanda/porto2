@@ -1,11 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMail, FiMapPin, FiGlobe } from "react-icons/fi";
 import { FaWhatsapp, FaGithub } from "react-icons/fa";
 
 import ProjectModal from "@/components/ui/ProjectModal";
+import GitHubActivity from "@/components/sections/GitHubActivity";
 import { projects } from "@/data/projects";
 
 export default function Home() {
@@ -36,6 +37,17 @@ export default function Home() {
   const [sending, setSending] = useState(false);
   const [formStatus, setFormStatus] = useState<{ type: "success" | "activation" | "error"; text: string } | null>(null);
   const [isTagDragging, setIsTagDragging] = useState(false);
+
+  // Auto-close mobile menu if viewport resized to desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Athletic / Volt Neon Lab - Full Name: Erga Wanda Afriza
   const nameWord1 = [{ char: "E" }, { char: "R" }, { char: "G" }, { char: "A" }];
@@ -239,37 +251,49 @@ export default function Home() {
 
           {/* Brand Logo — always visible */}
           <a href="#about" className="navbar-brand">
-            <div className="navbar-logo-badge">EW</div>
+            <div className="navbar-logo-badge">⚡</div>
             <div className="navbar-brand-text">
               <span className="navbar-brand-name">ERGA WANDA AFRIZA</span>
-              <span className="navbar-brand-role">IT DEV @ RDS GROUP</span>
+              <span className="navbar-brand-role">
+                <span className="navbar-brand-status-dot anim-volt-pulse" />
+                IT DEV @ RDS GROUP
+              </span>
             </div>
           </a>
 
           {/* Desktop nav links — hidden on mobile via CSS */}
           <nav className="navbar-desktop">
-            <a href="#projects" className="tactical-nav-link">Proyek</a>
-            <a href="#experience" className="tactical-nav-link">Pengalaman</a>
-            <a href="#skills" className="tactical-nav-link">Keahlian</a>
-            <a href="#process" className="tactical-nav-link">Alur Kerja</a>
-            <a href="#contact" className="tactical-nav-link">Kontak</a>
+            <a href="#projects" className="tactical-nav-link">
+              <span style={{ color: "#94A3B8", fontSize: "10px", fontFamily: "var(--font-mono)" }}>01/</span> Proyek
+            </a>
+            <a href="#experience" className="tactical-nav-link">
+              <span style={{ color: "#94A3B8", fontSize: "10px", fontFamily: "var(--font-mono)" }}>02/</span> Pengalaman
+            </a>
+            <a href="#skills" className="tactical-nav-link">
+              <span style={{ color: "#94A3B8", fontSize: "10px", fontFamily: "var(--font-mono)" }}>03/</span> Keahlian
+            </a>
+            <a href="#process" className="tactical-nav-link">
+              <span style={{ color: "#94A3B8", fontSize: "10px", fontFamily: "var(--font-mono)" }}>04/</span> Alur Kerja
+            </a>
+            <a href="#contact" className="tactical-nav-link">
+              <span style={{ color: "#94A3B8", fontSize: "10px", fontFamily: "var(--font-mono)" }}>05/</span> Kontak
+            </a>
           </nav>
 
           {/* Desktop CTA buttons — hidden on mobile via CSS */}
           <div className="navbar-desktop navbar-actions">
             <button
               onClick={() => setContactModalOpen(true)}
-              className="btn-beach-cyan"
-              style={{ padding: "7px 16px", fontSize: "12px", boxShadow: "2.5px 2.5px 0px #000" }}
+              className="navbar-btn-volt"
             >
-              ✉ Hubungi Saya
+              <span>⚡</span>
+              <span>Hubungi Saya</span>
             </button>
             <a
               href="https://github.com/ErgaWanda"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-beach-dark"
-              style={{ padding: "7px 12px", fontSize: "12px", boxShadow: "2.5px 2.5px 0px #000" }}
+              className="navbar-btn-github"
               aria-label="GitHub Profile"
             >
               <FaGithub style={{ fontSize: "15px" }} />
@@ -282,7 +306,7 @@ export default function Home() {
             className="navbar-mobile navbar-hamburger"
             aria-label="Toggle Navigation Menu"
             style={{
-              background: mobileMenuOpen ? "#EF4444" : "#FACC15",
+              background: mobileMenuOpen ? "#EF4444" : "#CCFF00",
               color: mobileMenuOpen ? "#FFFFFF" : "#000000",
             }}
           >
@@ -290,23 +314,40 @@ export default function Home() {
           </button>
         </div>
 
-        {/* Mobile Drawer Menu */}
+        {/* Mobile Drawer Menu (Tactical Floating Card) */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -10, scale: 0.98 }}
+              initial={{ opacity: 0, y: -8, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.98 }}
-              transition={{ duration: 0.18 }}
+              exit={{ opacity: 0, y: -8, scale: 0.96 }}
+              transition={{ duration: 0.16 }}
               className="mobile-nav-drawer"
             >
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              {/* Header Bar */}
+              <div className="mobile-nav-header">
+                <span>⚡ MENU NAVIGASI // NODE</span>
+                <span style={{
+                  background: "#CCFF00",
+                  color: "#000000",
+                  padding: "1px 6px",
+                  borderRadius: "3px",
+                  border: "1.5px solid #000000",
+                  fontSize: "9px",
+                  fontFamily: "var(--font-mono)",
+                  fontWeight: 900
+                }}>
+                  ACTIVE
+                </span>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                 {[
-                  { label: "Proyek Pilihan", href: "#projects", icon: "🚀", badge: "PORTFOLIO" },
-                  { label: "Pengalaman Kerja", href: "#experience", icon: "💼", badge: "RDS GROUP" },
-                  { label: "Keahlian Teknis", href: "#skills", icon: "🛠️", badge: "5 PILAR" },
-                  { label: "Alur Kerja", href: "#process", icon: "⚡", badge: "METODOLOGI" },
-                  { label: "Hubungi Saya", href: "#contact", icon: "✉️", badge: "KONTAK" },
+                  { num: "01", label: "Proyek Pilihan", href: "#projects", badge: "PORTFOLIO" },
+                  { num: "02", label: "Pengalaman Kerja", href: "#experience", badge: "RDS GROUP" },
+                  { num: "03", label: "Keahlian Teknis", href: "#skills", badge: "5 PILAR" },
+                  { num: "04", label: "Alur Kerja", href: "#process", badge: "METODOLOGI" },
+                  { num: "05", label: "Hubungi Saya", href: "#contact", badge: "KONTAK" },
                 ].map((item) => (
                   <a
                     key={item.label}
@@ -314,17 +355,28 @@ export default function Home() {
                     onClick={() => setMobileMenuOpen(false)}
                     className="mobile-nav-item"
                   >
-                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                      <span>{item.icon}</span>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <span style={{
+                        background: "#CCFF00",
+                        color: "#000000",
+                        fontFamily: "var(--font-mono)",
+                        fontSize: "9.5px",
+                        fontWeight: 900,
+                        padding: "2px 5px",
+                        borderRadius: "4px",
+                        border: "1.5px solid #000000",
+                      }}>
+                        {item.num}
+                      </span>
                       <span>{item.label}</span>
                     </div>
                     <span style={{
-                      fontSize: "9px",
+                      fontSize: "8.5px",
                       fontFamily: "var(--font-mono)",
                       fontWeight: 800,
-                      background: "#E2E8F0",
-                      padding: "2px 6px",
-                      borderRadius: "4px",
+                      background: "#F1F5F9",
+                      padding: "2px 5px",
+                      borderRadius: "3px",
                       border: "1px solid #000",
                     }}>
                       {item.badge}
@@ -334,23 +386,23 @@ export default function Home() {
               </div>
 
               {/* Mobile CTA */}
-              <div style={{ borderTop: "2px solid #000000", paddingTop: "12px", marginTop: "10px", display: "flex", flexDirection: "column", gap: "8px" }}>
+              <div style={{ borderTop: "2px solid #000000", paddingTop: "10px", marginTop: "8px", display: "flex", flexDirection: "column", gap: "6px" }}>
                 <button
                   onClick={() => { setMobileMenuOpen(false); setContactModalOpen(true); }}
-                  className="btn-beach-cyan"
-                  style={{ width: "100%", justifyContent: "center" }}
+                  className="navbar-btn-volt"
+                  style={{ width: "100%", justifyContent: "center", padding: "8px 12px", fontSize: "11.5px" }}
                 >
-                  ✉ Kirim Pesan
+                  ⚡ Hubungi Saya Langsung
                 </button>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px" }}>
                   <a href="https://wa.me/6288291067259" target="_blank" rel="noopener noreferrer"
-                    className="btn-beach-white" style={{ justifyContent: "center", fontSize: "12px", padding: "8px 10px" }}>
-                    <FaWhatsapp style={{ color: "#16A34A", fontSize: "14px" }} />
+                    className="btn-beach-white" style={{ justifyContent: "center", fontSize: "11px", padding: "6px 8px" }}>
+                    <FaWhatsapp style={{ color: "#16A34A", fontSize: "13px" }} />
                     WhatsApp
                   </a>
                   <a href="https://github.com/ErgaWanda" target="_blank" rel="noopener noreferrer"
-                    className="btn-beach-dark" style={{ justifyContent: "center", fontSize: "12px", padding: "8px 10px" }}>
-                    <FaGithub style={{ fontSize: "14px" }} />
+                    className="navbar-btn-github" style={{ justifyContent: "center", fontSize: "11px", padding: "6px 8px" }}>
+                    <FaGithub style={{ fontSize: "13px" }} />
                     GitHub
                   </a>
                 </div>
@@ -368,7 +420,7 @@ export default function Home() {
         className="ocean-hero-canvas"
         id="about"
         onClick={handleOceanClick}
-        style={{ marginTop: "-56px", paddingTop: "80px", cursor: "pointer", position: "relative", overflowX: "hidden" }}
+        style={{ paddingTop: "96px", cursor: "pointer", position: "relative", overflowX: "hidden" }}
       >
         {/* Interactive Kinetic Volt Ripple Rings on Click */}
         {ripples.map((rip) => (
@@ -753,6 +805,12 @@ export default function Home() {
           Clean, sunny, vibrant Neubrutalism matching the beach aesthetic
           ============================================================ */}
       <div className="coastal-light-body" style={{ background: "transparent", color: "#0F172A", paddingTop: "40px" }}>
+
+        {/* ============================================================
+            GITHUB CONTRIBUTION ACTIVITY (TELEMETRY / REAL COMMITS)
+            Placed directly above Proyek Pilihan
+            ============================================================ */}
+        <GitHubActivity />
 
         {/* ============================================================
             SECTION 1: PROYEK PILIHAN (BRIGHT NEUBRUTALISM)
