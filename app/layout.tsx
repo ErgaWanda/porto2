@@ -1,5 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#050d08",
+};
 
 export const metadata: Metadata = {
   title: "Erga Wanda Afriza — IT Developer & Software Engineer",
@@ -44,7 +50,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&family=Titan+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700;800&family=Alex+Brush&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&family=Alex+Brush&display=swap"
           rel="stylesheet"
         />
       </head>
@@ -52,3 +58,4 @@ export default function RootLayout({
     </html>
   );
 }
+

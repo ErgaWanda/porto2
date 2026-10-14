@@ -175,45 +175,39 @@ export default function GitHubActivity() {
   };
 
   return (
-    <section className="relative z-10" id="github-activity" style={{ padding: "10px 0 45px 0" }}>
+    <section className="relative z-10" id="github-activity" style={{ padding: "20px 0 50px 0" }}>
       <div className="container-premium">
 
-        {/* Section Header (Cartoon Neubrutalism) */}
-        <div className="brutal-section-title-box" style={{ marginBottom: "24px" }}>
-          <div>
-            <div style={{ fontFamily: "var(--font-cartoon)", fontSize: "12px", color: "#16A34A", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "6px", fontWeight: 700 }}>
-              // AKTIVITAS OPEN SOURCE &amp; KODE
-            </div>
-            <h2 style={{ fontFamily: "var(--font-cartoon-title)", fontSize: "clamp(32px, 4.5vw, 44px)", letterSpacing: "0.02em", margin: 0, lineHeight: 1.1, color: "#0F172A" }}>
-              KONTRIBUSI <span style={{ color: "#16A34A" }}>GITHUB</span>
-            </h2>
-          </div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-            <span className="brutal-sticker" style={{ background: "#DCFCE7", border: "2.5px solid #000000", color: "#15803D", fontWeight: 800 }}>
+        {/* Section Header (PS5 Dark Theme) */}
+        <div style={{ marginBottom: "24px" }}>
+          <div className="ps5-section-label">// OPEN SOURCE &amp; CODE AKTIVITAS</div>
+          <h2 className="ps5-section-title">
+            KONTRIBUSI <span>GITHUB</span>
+          </h2>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", marginTop: "12px" }}>
+            <span className="ps5-badge">
               ⚡ {totalCount}+ KONTRIBUSI TAHUN INI
             </span>
             <a
               href="https://github.com/ErgaWanda"
               target="_blank"
               rel="noopener noreferrer"
-              className="brutal-sticker hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform"
-              style={{ background: "#0F172A", border: "2.5px solid #000000", color: "#FFFFFF", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}
+              className="ps5-badge hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform"
+              style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}
             >
               <FaGithub size={14} />
-              <span>@ErgaWanda</span>
+              <span>@ErgaWanda → GitHub</span>
               <FaExternalLinkAlt size={10} style={{ opacity: 0.7 }} />
             </a>
           </div>
         </div>
 
-        {/* Main GitHub Calendar Outer Container (Authentic GitHub Dark Theme) */}
+        {/* Main GitHub Calendar Outer Container (PS5 Dark Theme) */}
         <div
           style={{
-            background: "#0D1117",
-            border: "2.5px solid #000000",
-            boxShadow: "4px 4px 0px #000000",
-            borderRadius: "10px",
+            background: "#0d1117",
+            border: "1px solid rgba(48,54,61,0.6)",
+            borderRadius: "14px",
             padding: "20px 24px",
             position: "relative",
             overflow: "hidden",
@@ -238,8 +232,8 @@ export default function GitHubActivity() {
                   width: "28px",
                   height: "28px",
                   borderRadius: "6px",
-                  background: "#161B22",
-                  border: "1.5px solid #30363D",
+                  background: "#161b22",
+                  border: "1.5px solid rgba(48,54,61,0.8)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -249,10 +243,10 @@ export default function GitHubActivity() {
                 <FaGithub size={16} />
               </div>
               <div>
-                <div style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "#F0F6FC", fontWeight: 800, letterSpacing: "0.02em" }}>
+                <div style={{ fontFamily: "JetBrains Mono, var(--font-mono)", fontSize: "12px", color: "#e6edf3", fontWeight: 800, letterSpacing: "0.02em" }}>
                   github.com/ErgaWanda
                 </div>
-                <div style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "#8B949E" }}>
+                <div style={{ fontFamily: "JetBrains Mono, var(--font-mono)", fontSize: "10px", color: "#8b949e" }}>
                   Public Contributions &amp; Commits Calendar
                 </div>
               </div>
@@ -264,13 +258,13 @@ export default function GitHubActivity() {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "6px",
-                  background: "#161B22",
-                  border: "1px solid #30363D",
+                  background: "#161b22",
+                  border: "1px solid rgba(48,54,61,0.6)",
                   borderRadius: "20px",
                   padding: "4px 10px",
-                  fontFamily: "var(--font-mono)",
+                  fontFamily: "JetBrains Mono, var(--font-mono)",
                   fontSize: "10px",
-                  color: isLiveLoaded ? "#39D353" : "#8B949E",
+                  color: isLiveLoaded ? "#39D353" : "#8b949e",
                   fontWeight: 700,
                 }}
               >
@@ -279,7 +273,7 @@ export default function GitHubActivity() {
                     width: "6px",
                     height: "6px",
                     borderRadius: "50%",
-                    background: isLiveLoaded ? "#39D353" : "#16A34A",
+                    background: isLiveLoaded ? "#39D353" : "#8b949e",
                     boxShadow: isLiveLoaded ? "0 0 8px #39D353" : "none",
                   }}
                 />
@@ -410,7 +404,7 @@ export default function GitHubActivity() {
             </div>
           </div>
 
-          {/* Calendar Bottom Footer (Matching User Screenshot) */}
+          {/* Calendar Bottom Footer */}
           <div
             style={{
               display: "flex",
@@ -461,7 +455,7 @@ export default function GitHubActivity() {
           </div>
         </div>
 
-        {/* Quick Highlights / Stat Cards (Neubrutalism Cards) */}
+        {/* Stat Cards (PS5 Glass Theme) */}
         <div
           style={{
             display: "grid",
@@ -470,71 +464,71 @@ export default function GitHubActivity() {
             marginTop: "16px",
           }}
         >
+          {/* Commits Card */}
           <div
             style={{
-              background: "#FFFFFF",
-              border: "2px solid #000000",
-              boxShadow: "3px 3px 0px #000000",
-              borderRadius: "6px",
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.09)",
+              borderRadius: "12px",
               padding: "12px 16px",
               display: "flex",
               alignItems: "center",
               gap: "12px",
             }}
           >
-            <div style={{ width: "36px", height: "36px", borderRadius: "4px", background: "#DCFCE7", border: "1.5px solid #000000", display: "flex", alignItems: "center", justifyContent: "center", color: "#16A34A" }}>
+            <div style={{ width: "36px", height: "36px", borderRadius: "4px", background: "rgba(16,185,129,0.15)", display: "flex", alignItems: "center", justifyContent: "center", color: "#34d399" }}>
               <FaCodeBranch size={16} />
             </div>
             <div>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "#64748B", fontWeight: 700 }}>TOTAL KONTRIBUSI</div>
-              <div style={{ fontFamily: "var(--font-cartoon-title)", fontSize: "20px", color: "#0F172A", lineHeight: 1.1 }}>
-                {totalCount} <span style={{ fontSize: "12px", fontFamily: "var(--font-mono)", color: "#16A34A" }}>Commits</span>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "rgba(240,240,240,0.5)", fontWeight: 700 }}>TOTAL KONTRIBUSI</div>
+              <div style={{ fontFamily: "var(--font-space-grotesk, Space Grotesk, sans-serif)", fontSize: "20px", color: "#f0f0f0", lineHeight: 1.1 }}>
+                {totalCount} <span style={{ fontSize: "12px", fontFamily: "var(--font-mono)", color: "#34d399" }}>Commits</span>
               </div>
             </div>
           </div>
 
+          {/* Active Days Card */}
           <div
             style={{
-              background: "#FFFFFF",
-              border: "2px solid #000000",
-              boxShadow: "3px 3px 0px #000000",
-              borderRadius: "6px",
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.09)",
+              borderRadius: "12px",
               padding: "12px 16px",
               display: "flex",
               alignItems: "center",
               gap: "12px",
             }}
           >
-            <div style={{ width: "36px", height: "36px", borderRadius: "4px", background: "#FEF9C3", border: "1.5px solid #000000", display: "flex", alignItems: "center", justifyContent: "center", color: "#CA8A04" }}>
+            <div style={{ width: "36px", height: "36px", borderRadius: "4px", background: "rgba(245,158,11,0.12)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fbbf24" }}>
               <FaCalendarAlt size={16} />
             </div>
             <div>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "#64748B", fontWeight: 700 }}>HARI AKTIF</div>
-              <div style={{ fontFamily: "var(--font-cartoon-title)", fontSize: "20px", color: "#0F172A", lineHeight: 1.1 }}>
-                {Object.keys(dataMap).length} <span style={{ fontSize: "12px", fontFamily: "var(--font-mono)", color: "#CA8A04" }}>Hari</span>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "rgba(240,240,240,0.5)", fontWeight: 700 }}>HARI AKTIF</div>
+              <div style={{ fontFamily: "var(--font-space-grotesk, Space Grotesk, sans-serif)", fontSize: "20px", color: "#f0f0f0", lineHeight: 1.1 }}>
+                {Object.keys(dataMap).length} <span style={{ fontSize: "12px", fontFamily: "var(--font-mono)", color: "#fbbf24" }}>Hari</span>
               </div>
             </div>
           </div>
 
+          {/* Peak Day Card */}
           <div
             style={{
-              background: "#FFFFFF",
-              border: "2px solid #000000",
-              boxShadow: "3px 3px 0px #000000",
-              borderRadius: "6px",
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.09)",
+              borderRadius: "12px",
               padding: "12px 16px",
               display: "flex",
               alignItems: "center",
               gap: "12px",
             }}
           >
-            <div style={{ width: "36px", height: "36px", borderRadius: "4px", background: "#FEE2E2", border: "1.5px solid #000000", display: "flex", alignItems: "center", justifyContent: "center", color: "#DC2626" }}>
+            <div style={{ width: "36px", height: "36px", borderRadius: "4px", background: "rgba(239,68,68,0.12)", display: "flex", alignItems: "center", justifyContent: "center", color: "#f87171" }}>
               <FaFire size={16} />
             </div>
             <div>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "#64748B", fontWeight: 700 }}>PEAK HARIAN TERTINGGI</div>
-              <div style={{ fontFamily: "var(--font-cartoon-title)", fontSize: "20px", color: "#0F172A", lineHeight: 1.1 }}>
-                25 <span style={{ fontSize: "12px", fontFamily: "var(--font-mono)", color: "#DC2626" }}>Commits/Hari</span>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "rgba(240,240,240,0.5)", fontWeight: 700 }}>PEAK HARIAN TERTINGGI</div>
+              <div style={{ fontFamily: "var(--font-space-grotesk, Space Grotesk, sans-serif)", fontSize: "20px", color: "#f0f0f0", lineHeight: 1.1 }}>
+                25 <span style={{ fontSize: "12px", fontFamily: "var(--font-mono)", color: "#f87171" }}>Commits/Hari</span>
               </div>
             </div>
           </div>
@@ -569,4 +563,3 @@ export default function GitHubActivity() {
     </section>
   );
 }
-

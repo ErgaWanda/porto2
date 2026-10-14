@@ -43,11 +43,12 @@ export const projects: Project[] = [
   {
     id: 2,
     title: "Sentiment Analysis — Universitas Darma Persada",
-    subtitle: "Analisis Sentimen Publik berbasis NLP",
-    desc: "Aplikasi web analisis sentimen publik Universitas Darma Persada menggunakan Naive Bayes.",
+    subtitle: "Penelitian Skripsi S1 — Analisis Sentimen Publik Berbasis NLP",
+    badge: "🎓 SKRIPSI S1",
+    desc: "Penelitian Skripsi S1: Aplikasi web analisis sentimen opini publik terhadap Universitas Darma Persada menggunakan Natural Language Processing (NLP) & Naive Bayes.",
     longDesc:
-      "Aplikasi web yang mengumpulkan dan menganalisis sentimen publik tentang Universitas Darma Persada dari berbagai sumber online. Mengimplementasikan pipeline machine learning Naive Bayes untuk klasifikasi teks, dengan visualisasi hasil analisis interaktif menggunakan Vue.js.",
-    stack: ["Python", "Naive Bayes", "MySQL", "Vue.js", "Flask", "Scikit-learn"],
+      "Aplikasi web penelitian skripsi sarjana (S1) yang mengumpulkan dan menganalisis sentimen publik tentang Universitas Darma Persada dari berbagai sumber online. Mengimplementasikan pipeline Machine Learning Naive Bayes untuk klasifikasi teks dan analisis sentimen, dilengkapi visualisasi interaktif word cloud, confusion matrix, serta distribusi sentimen menggunakan Vue.js dan Flask.",
+    stack: ["Python", "Naive Bayes", "NLP", "Flask", "Vue.js", "Scikit-learn", "MySQL"],
     img: "/images/unsada_sentiment/image21.png",
     screenshots: [
       "/images/unsada_sentiment/image17.png",
@@ -71,9 +72,10 @@ export const projects: Project[] = [
     year: "2024",
     status: "live",
     highlights: [
-      "Scraping otomatis dari berbagai sumber data publik online",
-      "Pipeline ML Naive Bayes dengan preprocessing teks Bahasa Indonesia",
-      "Dashboard visualisasi sentimen interaktif (positif/negatif/netral)",
+      "Penelitian Skripsi S1 Teknik Informatika di Universitas Darma Persada",
+      "Scraping otomatis dari berbagai sumber data opini publik online",
+      "Pipeline NLP & ML Naive Bayes dengan preprocessing teks Bahasa Indonesia",
+      "Visualisasi Confusion Matrix, Word Cloud, dan chart distribusi sentimen interaktif",
       "Penyimpanan hasil analisis di MySQL untuk historical tracking",
     ],
   },
