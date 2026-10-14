@@ -21,8 +21,10 @@ export const PillNav: React.FC<PillNavProps> = ({
       style={{
         display: "inline-flex",
         alignItems: "center",
-        padding: "4px 6px",
-        gap: "4px",
+        padding: "3px",
+        gap: "3px",
+        height: "38px",
+        boxSizing: "border-box",
         background: "rgba(8, 24, 15, 0.65)",
         backdropFilter: "blur(24px)",
         WebkitBackdropFilter: "blur(24px)",
@@ -39,30 +41,22 @@ export const PillNav: React.FC<PillNavProps> = ({
             onClick={() => onSelectNav(item.id)}
             className={isActive ? "liquid-glass-active" : "liquid-glass-inactive"}
             style={{
+              height: "32px",
+              padding: "0 16px",
+              boxSizing: "border-box",
               borderRadius: "9999px",
-              padding: "7px 18px",
               fontFamily: "var(--font-family-body)",
-              fontSize: "13.5px",
+              fontSize: "13px",
               fontWeight: isActive ? 700 : 500,
               cursor: "pointer",
-              transition: "all 0.28s cubic-bezier(0.16, 1, 0.3, 1)",
+              transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
               whiteSpace: "nowrap",
               display: "inline-flex",
               alignItems: "center",
-              gap: "7px",
+              justifyContent: "center",
+              lineHeight: 1,
             }}
           >
-            {isActive && (
-              <span
-                style={{
-                  width: "5px",
-                  height: "5px",
-                  borderRadius: "50%",
-                  background: "#4ade80",
-                  boxShadow: "0 0 8px #22c55e",
-                }}
-              />
-            )}
             <span>{item.label}</span>
           </button>
         );

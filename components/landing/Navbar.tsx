@@ -93,9 +93,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
             style={{
-              display: "flex",
+              display: "inline-flex",
               alignItems: "center",
               gap: "10px",
+              height: "38px",
               textDecoration: "none",
               color: "#ffffff",
             }}
@@ -103,13 +104,13 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <div
               style={{
-                width: isScrolled ? "30px" : "34px",
-                height: isScrolled ? "30px" : "34px",
+                width: isScrolled ? "30px" : "32px",
+                height: isScrolled ? "30px" : "32px",
                 borderRadius: "50%",
                 overflow: "hidden",
                 position: "relative",
-                border: "2px solid #22c55e",
-                boxShadow: "0 0 10px rgba(34, 197, 94, 0.45)",
+                border: "1.5px solid rgba(255, 255, 255, 0.65)",
+                boxShadow: "0 2px 10px rgba(0, 0, 0, 0.35)",
                 flexShrink: 0,
                 transition: "all 0.25s ease",
               }}
@@ -127,11 +128,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span
                 style={{
                   fontFamily: "var(--font-family-display)",
-                  fontSize: isScrolled ? "19px" : "21px",
+                  fontSize: isScrolled ? "18px" : "20px",
                   fontWeight: 800,
                   letterSpacing: "-0.04em",
                   color: "#ffffff",
                   textShadow: "0 2px 10px rgba(0, 0, 0, 0.5)",
+                  lineHeight: 1,
                   transition: "all 0.25s ease",
                 }}
               >
@@ -149,6 +151,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   padding: "2px 7px",
                   borderRadius: "9999px",
                   letterSpacing: "0.02em",
+                  lineHeight: 1.2,
                 }}
               >
                 RDS Group
@@ -162,6 +165,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             style={{
               alignItems: "center",
               justifyContent: "center",
+              height: "38px",
             }}
           >
             <PillNav
@@ -176,18 +180,20 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="nav-desktop-container"
             style={{
               alignItems: "center",
-              gap: "10px",
+              gap: "8px",
+              height: "38px",
             }}
           >
             <button
               onClick={onCvClick}
               style={{
+                height: "34px",
+                padding: "0 15px",
                 background: "rgba(255, 255, 255, 0.12)",
                 backdropFilter: "blur(16px)",
                 WebkitBackdropFilter: "blur(16px)",
                 border: "1px solid rgba(255, 255, 255, 0.35)",
                 borderRadius: "9999px",
-                padding: isScrolled ? "6px 13px" : "7px 15px",
                 color: "#ffffff",
                 fontFamily: "var(--font-family-body)",
                 fontSize: "12.5px",
@@ -195,13 +201,16 @@ export const Navbar: React.FC<NavbarProps> = ({
                 cursor: "pointer",
                 display: "inline-flex",
                 alignItems: "center",
+                justifyContent: "center",
                 gap: "6px",
+                lineHeight: 1,
+                boxSizing: "border-box",
                 transition: "all 0.2s ease",
                 boxShadow: "0 4px 14px rgba(0, 0, 0, 0.25)",
               }}
               title="Pratinjau CV"
             >
-              <FiFileText size={13} style={{ color: "#4ade80" }} />
+              <FiFileText size={13} style={{ color: "rgba(255, 255, 255, 0.9)" }} />
               <span>Curriculum Vitae</span>
             </button>
 
@@ -209,10 +218,17 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={onContactClick}
               className="btn-primary-green"
               style={{
-                padding: isScrolled ? "6px 18px" : "7px 22px",
+                height: "34px",
+                padding: "0 20px",
                 fontSize: "12.5px",
                 fontWeight: 700,
                 cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                lineHeight: 1,
+                boxSizing: "border-box",
+                borderRadius: "9999px",
               }}
             >
               Contact
@@ -292,17 +308,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                   }}
                 >
                   <span>{item.label}</span>
-                  {active && (
-                    <span
-                      style={{
-                        width: "6px",
-                        height: "6px",
-                        borderRadius: "50%",
-                        background: "#4ade80",
-                        boxShadow: "0 0 8px #22c55e",
-                      }}
-                    />
-                  )}
                 </button>
               );
             })}
