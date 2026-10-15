@@ -40,13 +40,13 @@ const MONTH_NAMES = [
   "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"
 ];
 
-// GitHub Authentic Palette (Dark Theme matching user's screenshot)
+// GitHub Authentic Glassmorphism Palette (Nature Frosted Glass Theme)
 const LEVEL_COLORS = [
-  "#161B22", // Level 0: Empty / Dark
-  "#0E4429", // Level 1: Low Green
-  "#006D32", // Level 2: Medium-low Green
-  "#26A641", // Level 3: Medium-high Green
-  "#39D353", // Level 4: High Green
+  "rgba(255, 255, 255, 0.09)", // Level 0: Pure Frosted Glass Tile
+  "rgba(34, 197, 94, 0.45)",  // Level 1: Soft Emerald Glass
+  "rgba(34, 197, 94, 0.75)",  // Level 2: Medium Emerald Glass
+  "#22c55e",                   // Level 3: Vivid Emerald
+  "#4ade80",                   // Level 4: Brilliant Mint Emerald
 ];
 
 export default function GitHubActivity() {
@@ -175,112 +175,199 @@ export default function GitHubActivity() {
   };
 
   return (
-    <section className="relative z-10" id="github-activity" style={{ padding: "20px 0 50px 0" }}>
-      <div className="container-premium">
-
-        {/* Section Header (PS5 Dark Theme) */}
-        <div style={{ marginBottom: "24px" }}>
-          <div className="ps5-section-label">// OPEN SOURCE &amp; CODE AKTIVITAS</div>
-          <h2 className="ps5-section-title">
-            KONTRIBUSI <span>GITHUB</span>
-          </h2>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", marginTop: "12px" }}>
-            <span className="ps5-badge">
-              ⚡ {totalCount}+ KONTRIBUSI TAHUN INI
-            </span>
-            <a
-              href="https://github.com/ErgaWanda"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ps5-badge hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform"
-              style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}
+    <div style={{ width: "100%", position: "relative" }}>
+      {/* Section Header */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
+          flexWrap: "wrap",
+          gap: "20px",
+          marginBottom: "28px",
+        }}
+      >
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+            <span
+              style={{
+                background: "rgba(34, 197, 94, 0.18)",
+                border: "1px solid rgba(34, 197, 94, 0.4)",
+                color: "#4ade80",
+                fontFamily: "var(--font-family-mono)",
+                fontSize: "11px",
+                fontWeight: 700,
+                padding: "4px 12px",
+                borderRadius: "9999px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                letterSpacing: "0.04em",
+              }}
             >
-              <FaGithub size={14} />
-              <span>@ErgaWanda → GitHub</span>
-              <FaExternalLinkAlt size={10} style={{ opacity: 0.7 }} />
-            </a>
+              // TELEMETRI KONTRIBUSI GITHUB
+            </span>
           </div>
-        </div>
-
-        {/* Main GitHub Calendar Outer Container (PS5 Dark Theme) */}
-        <div
-          style={{
-            background: "#0d1117",
-            border: "1px solid rgba(48,54,61,0.6)",
-            borderRadius: "14px",
-            padding: "20px 24px",
-            position: "relative",
-            overflow: "hidden",
-          }}
-        >
-          {/* Top telemetry bar */}
-          <div
+          <h2
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginBottom: "16px",
-              paddingBottom: "12px",
-              borderBottom: "1px solid #21262D",
-              flexWrap: "wrap",
-              gap: "10px",
+              fontFamily: "var(--font-family-display)",
+              fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)",
+              fontWeight: 800,
+              color: "#ffffff",
+              letterSpacing: "-0.03em",
+              margin: 0,
+              lineHeight: 1.15,
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <div
-                style={{
-                  width: "28px",
-                  height: "28px",
-                  borderRadius: "6px",
-                  background: "#161b22",
-                  border: "1.5px solid rgba(48,54,61,0.8)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "#F0F6FC",
-                }}
-              >
-                <FaGithub size={16} />
-              </div>
-              <div>
-                <div style={{ fontFamily: "JetBrains Mono, var(--font-mono)", fontSize: "12px", color: "#e6edf3", fontWeight: 800, letterSpacing: "0.02em" }}>
-                  github.com/ErgaWanda
-                </div>
-                <div style={{ fontFamily: "JetBrains Mono, var(--font-mono)", fontSize: "10px", color: "#8b949e" }}>
-                  Public Contributions &amp; Commits Calendar
-                </div>
-              </div>
-            </div>
+            Aktivitas Open Source &amp; Code Repository
+          </h2>
+          <p
+            style={{
+              fontFamily: "var(--font-family-body)",
+              fontSize: "14.5px",
+              color: "rgba(255, 255, 255, 0.72)",
+              marginTop: "8px",
+              marginBottom: 0,
+              maxWidth: "650px",
+            }}
+          >
+            Catatan komit publik nyata, konsistensi rekayasa kode, dan kontribusi repositori aktif selama 12 bulan terakhir.
+          </p>
+        </div>
 
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <span
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  background: "#161b22",
-                  border: "1px solid rgba(48,54,61,0.6)",
-                  borderRadius: "20px",
-                  padding: "4px 10px",
-                  fontFamily: "JetBrains Mono, var(--font-mono)",
-                  fontSize: "10px",
-                  color: isLiveLoaded ? "#39D353" : "#8b949e",
-                  fontWeight: 700,
-                }}
-              >
-                <span
-                  style={{
-                    width: "6px",
-                    height: "6px",
-                    borderRadius: "50%",
-                    background: isLiveLoaded ? "#39D353" : "#8b949e",
-                    boxShadow: isLiveLoaded ? "0 0 8px #39D353" : "none",
-                  }}
-                />
-                {isLiveLoaded ? "LIVE SYNCED" : "DATA AKTIF"}
-              </span>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+          <span
+            style={{
+              background: "rgba(255, 255, 255, 0.10)",
+              backdropFilter: "blur(16px)",
+              border: "1px solid rgba(255, 255, 255, 0.25)",
+              color: "#ffffff",
+              fontFamily: "var(--font-family-mono)",
+              fontSize: "12px",
+              fontWeight: 700,
+              padding: "7px 16px",
+              borderRadius: "9999px",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              boxShadow: "0 4px 14px rgba(0, 0, 0, 0.15)",
+            }}
+          >
+            ⚡ {totalCount}+ KONTRIBUSI TAHUN INI
+          </span>
+          <a
+            href="https://github.com/ErgaWanda"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              textDecoration: "none",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              background: "rgba(255, 255, 255, 0.12)",
+              backdropFilter: "blur(16px)",
+              border: "1px solid rgba(255, 255, 255, 0.3)",
+              color: "#ffffff",
+              fontFamily: "var(--font-family-mono)",
+              fontSize: "12px",
+              fontWeight: 700,
+              padding: "7px 16px",
+              borderRadius: "9999px",
+              boxShadow: "0 4px 14px rgba(0, 0, 0, 0.15)",
+              transition: "all 0.2s ease",
+            }}
+            className="hover:scale-105"
+          >
+            <FaGithub size={15} />
+            <span>@ErgaWanda → GitHub</span>
+            <FaExternalLinkAlt size={10} style={{ opacity: 0.7 }} />
+          </a>
+        </div>
+      </div>
+
+      {/* Main GitHub Calendar Outer Container (Pure Liquid Glass) */}
+      <div
+        style={{
+          background: "rgba(255, 255, 255, 0.08)",
+          backdropFilter: "blur(28px) saturate(140%)",
+          WebkitBackdropFilter: "blur(28px) saturate(140%)",
+          border: "1px solid rgba(255, 255, 255, 0.22)",
+          borderTop: "1.5px solid rgba(255, 255, 255, 0.5)",
+          borderRadius: "20px",
+          padding: "20px 24px",
+          position: "relative",
+          overflow: "hidden",
+          boxShadow: "0 20px 50px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.35)",
+        }}
+      >
+        {/* Top telemetry bar */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: "16px",
+            paddingBottom: "12px",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.12)",
+            flexWrap: "wrap",
+            gap: "10px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div
+              style={{
+                width: "30px",
+                height: "30px",
+                borderRadius: "8px",
+                background: "rgba(255, 255, 255, 0.14)",
+                border: "1px solid rgba(255, 255, 255, 0.3)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#ffffff",
+              }}
+            >
+              <FaGithub size={16} />
+            </div>
+            <div>
+              <div style={{ fontFamily: "var(--font-family-mono)", fontSize: "12.5px", color: "#ffffff", fontWeight: 800, letterSpacing: "0.02em" }}>
+                github.com/ErgaWanda
+              </div>
+              <div style={{ fontFamily: "var(--font-family-mono)", fontSize: "10px", color: "rgba(255, 255, 255, 0.65)" }}>
+                Public Contributions &amp; Commits Calendar
+              </div>
             </div>
           </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                background: "rgba(34, 197, 94, 0.18)",
+                border: "1px solid rgba(34, 197, 94, 0.45)",
+                borderRadius: "20px",
+                padding: "4px 10px",
+                fontFamily: "var(--font-family-mono)",
+                fontSize: "10px",
+                color: isLiveLoaded ? "#4ade80" : "rgba(255, 255, 255, 0.7)",
+                fontWeight: 700,
+              }}
+            >
+              <span
+                style={{
+                  width: "6px",
+                  height: "6px",
+                  borderRadius: "50%",
+                  background: isLiveLoaded ? "#4ade80" : "rgba(255, 255, 255, 0.6)",
+                  boxShadow: isLiveLoaded ? "0 0 8px #22c55e" : "none",
+                }}
+              />
+              {isLiveLoaded ? "LIVE SYNCED" : "DATA AKTIF"}
+            </span>
+          </div>
+        </div>
 
           {/* Scrollable Calendar Area */}
           <div
@@ -412,10 +499,10 @@ export default function GitHubActivity() {
               justifyContent: "space-between",
               marginTop: "16px",
               paddingTop: "12px",
-              borderTop: "1px solid #21262D",
-              fontFamily: "var(--font-mono)",
+              borderTop: "1px solid rgba(255, 255, 255, 0.12)",
+              fontFamily: "var(--font-family-mono)",
               fontSize: "11px",
-              color: "#8B949E",
+              color: "rgba(255, 255, 255, 0.7)",
               flexWrap: "wrap",
               gap: "10px",
             }}
@@ -425,11 +512,11 @@ export default function GitHubActivity() {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                color: "#8B949E",
+                color: "rgba(255, 255, 255, 0.7)",
                 textDecoration: "none",
                 fontSize: "11px",
               }}
-              className="hover:text-[#58A6FF] hover:underline"
+              className="hover:text-white hover:underline"
             >
               Learn how we count contributions
             </a>
@@ -442,9 +529,9 @@ export default function GitHubActivity() {
                   style={{
                     width: "11px",
                     height: "11px",
-                    borderRadius: "2px",
+                    borderRadius: "2.5px",
                     backgroundColor: col,
-                    outline: "1px solid rgba(255, 255, 255, 0.05)",
+                    outline: "1px solid rgba(255, 255, 255, 0.12)",
                     outlineOffset: "-1px",
                   }}
                   title={`Level ${idx}`}
@@ -455,34 +542,53 @@ export default function GitHubActivity() {
           </div>
         </div>
 
-        {/* Stat Cards (PS5 Glass Theme) */}
+        {/* Stat Cards (Nature Frosted Glass Theme) */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
             gap: "14px",
-            marginTop: "16px",
+            marginTop: "18px",
           }}
         >
           {/* Commits Card */}
           <div
             style={{
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.09)",
-              borderRadius: "12px",
-              padding: "12px 16px",
+              background: "rgba(255, 255, 255, 0.09)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              border: "1px solid rgba(255, 255, 255, 0.22)",
+              borderTop: "1.5px solid rgba(255, 255, 255, 0.45)",
+              borderRadius: "16px",
+              padding: "16px 20px",
               display: "flex",
               alignItems: "center",
-              gap: "12px",
+              gap: "14px",
+              boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.25)",
             }}
           >
-            <div style={{ width: "36px", height: "36px", borderRadius: "4px", background: "rgba(16,185,129,0.15)", display: "flex", alignItems: "center", justifyContent: "center", color: "#34d399" }}>
-              <FaCodeBranch size={16} />
+            <div
+              style={{
+                width: "42px",
+                height: "42px",
+                borderRadius: "10px",
+                background: "rgba(34, 197, 94, 0.2)",
+                border: "1px solid rgba(34, 197, 94, 0.4)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#4ade80",
+                flexShrink: 0,
+              }}
+            >
+              <FaCodeBranch size={18} />
             </div>
             <div>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "rgba(240,240,240,0.5)", fontWeight: 700 }}>TOTAL KONTRIBUSI</div>
-              <div style={{ fontFamily: "var(--font-space-grotesk, Space Grotesk, sans-serif)", fontSize: "20px", color: "#f0f0f0", lineHeight: 1.1 }}>
-                {totalCount} <span style={{ fontSize: "12px", fontFamily: "var(--font-mono)", color: "#34d399" }}>Commits</span>
+              <div style={{ fontFamily: "var(--font-family-mono)", fontSize: "10.5px", color: "rgba(255, 255, 255, 0.65)", fontWeight: 700, letterSpacing: "0.04em" }}>
+                TOTAL KONTRIBUSI
+              </div>
+              <div style={{ fontFamily: "var(--font-family-display)", fontSize: "22px", fontWeight: 800, color: "#ffffff", lineHeight: 1.1, marginTop: "2px" }}>
+                {totalCount} <span style={{ fontSize: "12px", fontFamily: "var(--font-family-mono)", color: "#4ade80", fontWeight: 700 }}>Commits</span>
               </div>
             </div>
           </div>
@@ -490,22 +596,41 @@ export default function GitHubActivity() {
           {/* Active Days Card */}
           <div
             style={{
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.09)",
-              borderRadius: "12px",
-              padding: "12px 16px",
+              background: "rgba(255, 255, 255, 0.09)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              border: "1px solid rgba(255, 255, 255, 0.22)",
+              borderTop: "1.5px solid rgba(255, 255, 255, 0.45)",
+              borderRadius: "16px",
+              padding: "16px 20px",
               display: "flex",
               alignItems: "center",
-              gap: "12px",
+              gap: "14px",
+              boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.25)",
             }}
           >
-            <div style={{ width: "36px", height: "36px", borderRadius: "4px", background: "rgba(245,158,11,0.12)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fbbf24" }}>
-              <FaCalendarAlt size={16} />
+            <div
+              style={{
+                width: "42px",
+                height: "42px",
+                borderRadius: "10px",
+                background: "rgba(245, 158, 11, 0.2)",
+                border: "1px solid rgba(245, 158, 11, 0.4)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#fbbf24",
+                flexShrink: 0,
+              }}
+            >
+              <FaCalendarAlt size={18} />
             </div>
             <div>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "rgba(240,240,240,0.5)", fontWeight: 700 }}>HARI AKTIF</div>
-              <div style={{ fontFamily: "var(--font-space-grotesk, Space Grotesk, sans-serif)", fontSize: "20px", color: "#f0f0f0", lineHeight: 1.1 }}>
-                {Object.keys(dataMap).length} <span style={{ fontSize: "12px", fontFamily: "var(--font-mono)", color: "#fbbf24" }}>Hari</span>
+              <div style={{ fontFamily: "var(--font-family-mono)", fontSize: "10.5px", color: "rgba(255, 255, 255, 0.65)", fontWeight: 700, letterSpacing: "0.04em" }}>
+                HARI AKTIF
+              </div>
+              <div style={{ fontFamily: "var(--font-family-display)", fontSize: "22px", fontWeight: 800, color: "#ffffff", lineHeight: 1.1, marginTop: "2px" }}>
+                {Object.keys(dataMap).length} <span style={{ fontSize: "12px", fontFamily: "var(--font-family-mono)", color: "#fbbf24", fontWeight: 700 }}>Hari</span>
               </div>
             </div>
           </div>
@@ -513,22 +638,41 @@ export default function GitHubActivity() {
           {/* Peak Day Card */}
           <div
             style={{
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.09)",
-              borderRadius: "12px",
-              padding: "12px 16px",
+              background: "rgba(255, 255, 255, 0.09)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              border: "1px solid rgba(255, 255, 255, 0.22)",
+              borderTop: "1.5px solid rgba(255, 255, 255, 0.45)",
+              borderRadius: "16px",
+              padding: "16px 20px",
               display: "flex",
               alignItems: "center",
-              gap: "12px",
+              gap: "14px",
+              boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.25)",
             }}
           >
-            <div style={{ width: "36px", height: "36px", borderRadius: "4px", background: "rgba(239,68,68,0.12)", display: "flex", alignItems: "center", justifyContent: "center", color: "#f87171" }}>
-              <FaFire size={16} />
+            <div
+              style={{
+                width: "42px",
+                height: "42px",
+                borderRadius: "10px",
+                background: "rgba(239, 68, 68, 0.2)",
+                border: "1px solid rgba(239, 68, 68, 0.4)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#f87171",
+                flexShrink: 0,
+              }}
+            >
+              <FaFire size={18} />
             </div>
             <div>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "rgba(240,240,240,0.5)", fontWeight: 700 }}>PEAK HARIAN TERTINGGI</div>
-              <div style={{ fontFamily: "var(--font-space-grotesk, Space Grotesk, sans-serif)", fontSize: "20px", color: "#f0f0f0", lineHeight: 1.1 }}>
-                25 <span style={{ fontSize: "12px", fontFamily: "var(--font-mono)", color: "#f87171" }}>Commits/Hari</span>
+              <div style={{ fontFamily: "var(--font-family-mono)", fontSize: "10.5px", color: "rgba(255, 255, 255, 0.65)", fontWeight: 700, letterSpacing: "0.04em" }}>
+                PEAK HARIAN TERTINGGI
+              </div>
+              <div style={{ fontFamily: "var(--font-family-display)", fontSize: "22px", fontWeight: 800, color: "#ffffff", lineHeight: 1.1, marginTop: "2px" }}>
+                25 <span style={{ fontSize: "12px", fontFamily: "var(--font-family-mono)", color: "#f87171", fontWeight: 700 }}>Commits/Hari</span>
               </div>
             </div>
           </div>
@@ -542,24 +686,24 @@ export default function GitHubActivity() {
               left: `${hoveredDay.x}px`,
               top: `${hoveredDay.y - 36}px`,
               transform: "translateX(-50%)",
-              background: "#1F242C",
-              color: "#F0F6FC",
-              padding: "4px 8px",
-              borderRadius: "4px",
+              background: "rgba(8, 24, 15, 0.94)",
+              backdropFilter: "blur(16px)",
+              WebkitBackdropFilter: "blur(16px)",
+              color: "#ffffff",
+              padding: "6px 12px",
+              borderRadius: "8px",
               fontSize: "11px",
-              fontFamily: "var(--font-mono)",
+              fontFamily: "var(--font-family-mono)",
               pointerEvents: "none",
               zIndex: 9999,
-              boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
-              border: "1px solid #30363D",
+              boxShadow: "0 8px 24px rgba(0, 0, 0, 0.5)",
+              border: "1px solid rgba(255, 255, 255, 0.25)",
               whiteSpace: "nowrap",
             }}
           >
             <strong>{hoveredDay.count} kontribusi</strong> pada {formatDate(hoveredDay.date)}
           </div>
         )}
-
-      </div>
-    </section>
+    </div>
   );
 }

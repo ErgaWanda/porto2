@@ -40,7 +40,11 @@ export const Navbar: React.FC<NavbarProps> = ({
 
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      setIsScrolled(scrollY > 45);
+      setIsScrolled((prev) => {
+        if (!prev && scrollY > 50) return true;
+        if (prev && scrollY < 20) return false;
+        return prev;
+      });
 
       // Scroll spy logic
       if (scrollY < 180) {
@@ -104,15 +108,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <div
               style={{
-                width: isScrolled ? "30px" : "32px",
-                height: isScrolled ? "30px" : "32px",
+                width: "32px",
+                height: "32px",
                 borderRadius: "50%",
                 overflow: "hidden",
                 position: "relative",
                 border: "1.5px solid rgba(255, 255, 255, 0.65)",
                 boxShadow: "0 2px 10px rgba(0, 0, 0, 0.35)",
                 flexShrink: 0,
-                transition: "all 0.25s ease",
               }}
             >
               <Image
@@ -128,13 +131,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span
                 style={{
                   fontFamily: "var(--font-family-display)",
-                  fontSize: isScrolled ? "18px" : "20px",
+                  fontSize: "19px",
                   fontWeight: 800,
                   letterSpacing: "-0.04em",
                   color: "#ffffff",
                   textShadow: "0 2px 10px rgba(0, 0, 0, 0.5)",
                   lineHeight: 1,
-                  transition: "all 0.25s ease",
                 }}
               >
                 ewanda<span style={{ color: "#22c55e" }}>.</span>

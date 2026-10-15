@@ -328,28 +328,30 @@ section[id] {
 .navbar-fixed-wrapper {
   position: fixed;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateZ(0);
   z-index: 1000;
   width: min(1140px, calc(100% - 32px));
   top: 0;
-  transition: all 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: top 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+              width 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: top, width;
 }
 
 .navbar-fixed-wrapper.scrolled {
   width: min(1040px, calc(100% - 36px));
-  top: 12px;
+  top: 10px;
 }
 
 .iphone-notch-navbar,
 .glass-navbar {
   width: 100%;
   padding: 13px 28px;
-  border-radius: 0 0 32px 32px;
+  border-radius: 0 0 30px 30px;
   background: rgba(6, 18, 12, 0.90);
   backdrop-filter: blur(32px) saturate(160%);
   -webkit-backdrop-filter: blur(32px) saturate(160%);
   border: 1px solid rgba(255, 255, 255, 0.24);
-  border-top: none;
+  border-top: 1.5px solid transparent;
   border-bottom: 1.5px solid rgba(255, 255, 255, 0.45);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55),
               inset 0 -1px 2px rgba(255, 255, 255, 0.25);
@@ -357,7 +359,12 @@ section[id] {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: all 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: padding 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+              border-radius 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: padding, border-radius, box-shadow;
   position: relative;
 }
 
@@ -365,7 +372,7 @@ section[id] {
 .iphone-notch-navbar.scrolled,
 .glass-navbar.scrolled {
   padding: 8px 24px;
-  border-radius: 9999px;
+  border-radius: 30px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-top: 1.5px solid rgba(255, 255, 255, 0.55);
   background: rgba(5, 16, 10, 0.94);
@@ -375,31 +382,32 @@ section[id] {
 
 /* Notch Concave Shoulder Wings (Top-attached Ear Fillets) */
 @media (min-width: 901px) {
-  .iphone-notch-navbar:not(.scrolled)::before {
+  .iphone-notch-navbar::before,
+  .iphone-notch-navbar::after {
     content: "";
     position: absolute;
     top: 0;
-    left: -18px;
     width: 18px;
     height: 18px;
-    background: radial-gradient(circle at 0 18px, transparent 18px, rgba(6, 18, 12, 0.90) 19px);
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .iphone-notch-navbar:not(.scrolled)::after {
-    content: "";
-    position: absolute;
-    top: 0;
+  .iphone-notch-navbar::before {
+    left: -18px;
+    background: radial-gradient(circle at 0 18px, transparent 18px, rgba(6, 18, 12, 0.90) 19px);
+  }
+  .iphone-notch-navbar::after {
     right: -18px;
-    width: 18px;
-    height: 18px;
     background: radial-gradient(circle at 18px 18px, transparent 18px, rgba(6, 18, 12, 0.90) 19px);
-    pointer-events: none;
-    transition: opacity 0.3s ease;
   }
   .iphone-notch-navbar.scrolled::before,
   .iphone-notch-navbar.scrolled::after {
     opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
   }
 }
 
@@ -408,19 +416,22 @@ section[id] {
   position: absolute;
   top: 4px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(0);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   opacity: 0.9;
   pointer-events: none;
-  transition: all 0.3s ease;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 2;
 }
 
 .iphone-notch-navbar.scrolled .notch-hardware-bar {
-  display: none !important;
+  opacity: 0;
+  transform: translateX(-50%) translateY(-8px) scale(0.85);
+  pointer-events: none;
 }
 
 .notch-speaker-grill {
@@ -482,6 +493,8 @@ section[id] {
   .navbar-fixed-wrapper {
     width: calc(100% - 16px) !important;
     top: 0 !important;
+    transition: top 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+                width 0.42s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
   .navbar-fixed-wrapper.scrolled {
     width: calc(100% - 16px) !important;
@@ -495,7 +508,7 @@ section[id] {
   .iphone-notch-navbar.scrolled,
   .glass-navbar.scrolled {
     padding: 8px 12px !important;
-    border-radius: 9999px !important;
+    border-radius: 24px !important;
   }
   .notch-hardware-bar {
     top: 3px !important;

@@ -352,39 +352,22 @@ export default function Home() {
             zIndex: 10,
           }}
         >
-          <GlassCard className="skills-card-glass" style={{ padding: "32px", borderRadius: "24px" }}>
-            <div style={{ marginBottom: "20px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
-                <span
-                  style={{
-                    background: "rgba(34, 197, 94, 0.18)",
-                    border: "1px solid rgba(34, 197, 94, 0.35)",
-                    color: "#4ade80",
-                    fontFamily: "var(--font-family-mono)",
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    padding: "4px 12px",
-                    borderRadius: "9999px",
-                  }}
-                >
-                  // TELEMETRI KONTRIBUSI GITHUB
-                </span>
-              </div>
-              <h3
-                style={{
-                  fontFamily: "var(--font-family-display)",
-                  fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
-                  fontWeight: 800,
-                  color: "#ffffff",
-                  letterSpacing: "-0.02em",
-                  margin: 0,
-                }}
-              >
-                Aktivitas Open Source &amp; Repository
-              </h3>
-            </div>
-            <GitHubActivity />
-          </GlassCard>
+          <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 24px" }}>
+            <GlassCard
+              style={{
+                padding: "36px 32px",
+                borderRadius: "28px",
+                background: "rgba(255, 255, 255, 0.08)",
+                backdropFilter: "blur(32px) saturate(140%)",
+                WebkitBackdropFilter: "blur(32px) saturate(140%)",
+                border: "1px solid rgba(255, 255, 255, 0.25)",
+                borderTop: "1.5px solid rgba(255, 255, 255, 0.55)",
+                boxShadow: "0 25px 70px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.4)",
+              }}
+            >
+              <GitHubActivity />
+            </GlassCard>
+          </div>
         </section>
 
         {/* Workflow & Engineering Philosophy (Workflow) */}
