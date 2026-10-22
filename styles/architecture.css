@@ -1,0 +1,324 @@
+/* ============================================================
+   SPEC SHEET — Tech architecture showcase (section 02)
+   ------------------------------------------------------------
+   Component-scoped rules only. Everything is built from
+   styles/theme.css tokens & primitives; no new colours, no
+   blurred shadows, sharp corners except pills & --r-sm.
+   ============================================================ */
+
+/* ── Band ─────────────────────────────────────────────────────
+   Sits flush to the viewport edge; the nested .sheet restores
+   the gutter, so no full-bleed calculation is needed here. */
+.arch-band {
+  position: relative;
+  --arch-accent: var(--accent-soft);
+}
+
+/* The active blueprint sets data-hue on the band, so --arch-accent
+   is that hue at 32% — loud enough to read as colour-coded, light
+   enough to keep ink text on every plate that uses it. */
+
+/* ── Selector plate ──────────────────────────────────────── */
+/* Selector plate: the two-class selector keeps this winning over
+   .panel's own background regardless of stylesheet order. */
+.panel.arch__tabs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: var(--gap);
+  background: var(--surface-2);
+}
+
+.arch-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--surface);
+  color: var(--ink);
+  border: var(--bw-hair) solid var(--ink-20);
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background var(--dur) var(--ease-out),
+              border-color var(--dur) var(--ease-out),
+              color var(--dur) var(--ease-out);
+}
+
+.arch-tab:hover {
+  background: var(--paper-deep);
+  border-color: var(--ink-40);
+}
+
+.arch-tab--on {
+  background: var(--arch-accent);
+  border: var(--bw) solid var(--ink);
+}
+
+.arch-tab__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+/* ── Blueprint grid ──────────────────────────────────────── */
+.arch {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.arch__head {
+  grid-column: span 12;
+  padding: clamp(18px, 2.6vw, 30px);
+  animation: plateIn 0.4s var(--ease-out) both;
+}
+
+.arch__pipeline {
+  grid-column: span 5;
+  padding: clamp(16px, 2vw, 26px);
+  background: var(--surface-2) !important;
+  animation: plateIn 0.4s var(--ease-out) both;
+}
+
+.arch__term {
+  grid-column: span 7;
+  background: var(--ink) !important;
+  display: flex;
+  flex-direction: column;
+  animation: plateIn 0.4s var(--ease-out) both;
+}
+
+/* ── Identity cell ───────────────────────────────────────── */
+.arch__title {
+  margin: 0 0 12px;
+  max-width: 26ch;
+}
+
+.arch__desc {
+  margin: 0 0 20px;
+}
+
+.arch__tags {
+  margin-bottom: 22px;
+}
+
+.chip.arch__seal {
+  border: var(--bw) solid var(--ink);
+  background: var(--arch-accent);
+  color: var(--ink);
+  padding: 5px 12px;
+  gap: 7px;
+  white-space: normal;
+}
+
+/* Collapsed-rule metric band — neighbours share one hairline */
+.arch__stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border-top: var(--bw) solid var(--ink);
+  border-bottom: var(--bw) solid var(--ink);
+}
+
+.arch__stats > * {
+  padding: 13px 14px;
+  border-right: var(--bw-hair) solid var(--ink-20);
+}
+
+.arch__stats > *:last-child { border-right: 0; }
+
+.arch-metric .stat__num {
+  font-size: clamp(1.15rem, 1.9vw, 1.55rem);
+  overflow-wrap: anywhere;
+}
+
+.mono.arch-metric__unit {
+  font-size: 9.5px;
+  color: var(--ink-60);
+}
+
+/* ── Pipeline steps ──────────────────────────────────────── */
+.arch__flow-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+}
+
+.arch-step {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  padding: 14px 0;
+  border-top: var(--bw) solid var(--ink-20);
+}
+
+.arch-step:first-of-type { border-top: 0; }
+
+/* Solid hue, not the soft tint: a 30px chip has no room to be pastel. */
+.arch-step__num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: var(--accent);
+  border: var(--bw) solid var(--ink);
+  border-radius: var(--r-sharp);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.arch-step__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+}
+
+.arch-step__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.arch-step__desc {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-60);
+}
+
+/* ── Code terminal ───────────────────────────────────────── */
+.arch__term .term__body {
+  flex: 1;
+  max-height: min(560px, 62vh);
+  overflow: auto;
+}
+
+/* .term__bar uppercases and text-transform inherits, so the two
+   literal code identifiers opt back out. */
+.arch__file {
+  margin-left: 6px;
+  color: var(--paper);
+  text-transform: none;
+}
+
+.arch__copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  padding: 3px 9px;
+  background: transparent;
+  border: var(--bw-hair) solid transparent;
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: var(--paper);
+  opacity: 0.62;
+  cursor: pointer;
+  transition: opacity var(--dur) var(--ease-out),
+              color var(--dur) var(--ease-out),
+              border-color var(--dur) var(--ease-out);
+}
+
+.arch__copy:hover {
+  opacity: 1;
+  color: var(--acid);
+  border-color: var(--acid);
+}
+
+.arch__copy--done {
+  color: var(--acid);
+  opacity: 1;
+}
+
+.tag.arch__lang {
+  background: var(--arch-accent);
+  border-color: var(--ink);
+  color: var(--ink);
+  text-transform: none;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 1000px) {
+  .arch__pipeline,
+  .arch__term { grid-column: span 12; }
+}
+
+@media (max-width: 680px) {
+  .arch__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .arch__stats > *:nth-child(2) { border-right: 0; }
+  .arch__stats > *:nth-child(-n+2) {
+    border-bottom: var(--bw-hair) solid var(--ink-20);
+  }
+  .arch-tab { flex: 1 1 auto; justify-content: center; }
+}
+
+/* ============================================================
+   HAND-CUT PASS — tabs, seals and step numbers are stamped,
+   not aligned to a grid. Tokens only; no new colours.
+   ============================================================ */
+
+.arch-tab {
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  transform: rotate(-1.1deg);
+}
+
+.arch-tab:nth-child(even) { transform: rotate(0.9deg); }
+
+.arch-tab:hover {
+  transform: translate(-3px, -3px) rotate(0deg);
+  box-shadow: 6px 5px 0 var(--ink);
+}
+
+.arch-tab--on {
+  border-width: var(--bw-edge-sm);
+  transform: rotate(-0.5deg);
+  box-shadow: 5px 4px 0 var(--ink);
+}
+
+.chip.arch__seal {
+  border-width: var(--bw-edge-sm);
+}
+
+/* The metric band tips a fraction off the plate it sits on. */
+.arch__stats {
+  border-top-width: var(--bw-bold);
+  border-bottom-width: var(--bw-bold);
+  transform: rotate(-0.3deg);
+}
+
+.arch-step__num {
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  transform: rotate(-2.6deg);
+}
+
+.arch-step:nth-child(even) .arch-step__num {
+  transform: rotate(2.2deg);
+}
+
+.arch-step__title { transform: rotate(-0.3deg); }
+
+.arch__copy { border-radius: var(--sk-sm); }
+
+/* Crooked tag tails on the pipeline rows read as taped-on labels. */
+.arch-step .tag:nth-child(2) { transform: rotate(1.4deg); }
+
+.tag.arch__lang { border-width: var(--bw-edge-sm); }

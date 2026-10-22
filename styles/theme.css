@@ -1,0 +1,1794 @@
+/* ============================================================
+   SPECTRUM SPEC SHEET — Elegant Neubrutalism Design System
+   ------------------------------------------------------------
+   Language: warm ink on bone paper, sharp corners, collapsed
+   hairline rules, offset plates used sparingly for depth.
+   Colour is per-section: each band declares data-hue and every
+   accent inside it resolves through --accent, so the page reads
+   as a printed colour-coded spec, not a single-accent minimal.
+   ============================================================ */
+
+:root {
+  /* ── Ink & Paper ─────────────────────────────────────── */
+  --ink: #1a1815;
+  /* 0.88, not 0.82: secondary text has to survive sitting directly on a
+     saturated band, and 0.82 measures 4.17:1 on cobalt. */
+  --ink-80: rgba(26, 24, 21, 0.88);
+  --ink-60: rgba(26, 24, 21, 0.64);
+  --ink-40: rgba(26, 24, 21, 0.44);
+  --ink-20: rgba(26, 24, 21, 0.2);
+  --ink-12: rgba(26, 24, 21, 0.13);
+  --ink-06: rgba(26, 24, 21, 0.06);
+
+  --paper: #efece3;
+  --paper-deep: #e5e1d5;
+  --surface: #fbfaf6;
+  --surface-2: #f4f1e8;
+
+  /* ── Spectrum: flat saturated blocks ───────────────────────
+     Every hue is tuned light enough to carry --ink text at >=4.5:1,
+     so a band can BE the colour instead of being a wash of it. */
+  --hue-flame:  #ff5a26;
+  --hue-sun:    #ffc02e;
+  --hue-moss:   #7ac434;
+  --hue-teal:   #1fc8b2;
+  --hue-cobalt: #5c86ff;
+  --hue-grape:  #b177ff;
+  --hue-rose:   #ff5c8a;
+
+  /* --accent is the section identity colour; it defaults to flame so
+     anything outside a [data-hue] band keeps the original look. */
+  --accent: var(--hue-flame);
+  --signal: var(--hue-flame);
+  --ultra: var(--hue-cobalt);
+  --acid: #dbe84f;
+  --moss: var(--hue-moss);
+
+  /* ── Hue ramps ───────────────────────────────────────────────
+     --accent-deep is the ONLY role-split: it carries white text as a
+     fill and reads as text on light surfaces. 50% hue + ink is the
+     lowest mix where all 7 hues clear 4.5:1 in both directions. */
+  --accent-tint:  color-mix(in srgb, var(--accent) 15%, var(--surface));
+  --accent-soft:  color-mix(in srgb, var(--accent) 32%, var(--surface));
+  --accent-wash:  color-mix(in srgb, var(--accent) 11%, var(--paper));
+  --accent-deep:  color-mix(in srgb, var(--accent) 50%, var(--ink));
+  --accent-plate: 14px 11px 0 var(--accent);
+
+  /* ── Muted tints (spectrum-derived paper washes) ─────────── */
+  --tint-sand:  #f7e7c4;
+  --tint-sky:   #dde5fa;
+  --tint-moss:  #d8ead9;
+  --tint-clay:  #f8ddd3;
+  --tint-stone: #eae7de;
+  --tint-teal:  #d5e9ea;
+  --tint-grape: #e7dcf6;
+  --tint-rose:  #f8dbe4;
+
+  /* ── Geometry ──────────────────────────────────────────
+     Radii stay zeroed for the *soft* roles (--r-sm/--r-pill): no pills,
+     no rounded cards. The hand-cut look comes from --sk-* instead —
+     paired radii this large collapse into a bowed, drawn-by-hand edge,
+     and --bw-edge-* gives every box four different border widths so no
+     two edges match. Nothing here reads as a machine-drawn frame. */
+  --bw-hair: 3px;
+  --bw: 5px;
+  --bw-bold: 7px;
+  --bw-brut: 10px;
+  --bw-ultra: 14px;
+
+  --bw-edge-a: 9px 5px 8px 6px;
+  --bw-edge-b: 5px 10px 6px 8px;
+  --bw-edge-c: 7px 4px 9px 5px;
+  /* Small boxes cannot carry a 9px side without eating the label. */
+  --bw-edge-sm: 5px 3px 5px 4px;
+
+  --r-sharp: 0px;
+  --r-sm: 0px;
+  --r-pill: 0px;
+
+  --sk-box: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  --sk-box-b: 15px 225px 15px 255px / 255px 15px 225px 15px;
+  --sk-md: 22px 6px 26px 7px / 7px 24px 6px 20px;
+  --sk-sm: 11px 4px 13px 5px / 5px 12px 4px 10px;
+
+  /* Hand-made texture. Flat colour is the other tell of a machine page:
+     --hatch is the tooth a felt pen leaves in a fill, --grain is the paper
+     it landed on, --trace is the second pass of ink around a panel. */
+  --hatch: repeating-linear-gradient(
+    -38deg,
+    rgba(26, 24, 21, 0.07) 0 2px,
+    transparent 2px 7px
+  );
+  /* Second pass at a different angle, so neighbouring blocks never stripe
+     in lockstep — parallel hatching is the thing a plotter does. */
+  --hatch-b: repeating-linear-gradient(
+    43deg,
+    rgba(26, 24, 21, 0.07) 0 2px,
+    transparent 2px 8px
+  );
+  --hatch-inv: repeating-linear-gradient(
+    -38deg,
+    rgba(239, 236, 227, 0.13) 0 2px,
+    transparent 2px 7px
+  );
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='170'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.86' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.10 0 0 0 0 0.09 0 0 0 0 0.08 0.34 0 0 0 -0.18'/%3E%3C/filter%3E%3Crect width='170' height='170' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  /* Wobble brushes, so the CSS reads as intent rather than a magic string. */
+  --trace: rgba(26, 24, 21, 0.22);
+  --ink-line: url(#ink-line);
+  --ink-line-b: url(#ink-line-b);
+  --ink-line-v: url(#ink-line-v);
+  --ink-line-v-b: url(#ink-line-v-b);
+  --ink-frame: url(#ink-frame);
+  --ink-frame-b: url(#ink-frame-b);
+  --ink-chip: url(#ink-chip);
+  --ink-chip-b: url(#ink-chip-b);
+
+  /* Mis-registration: blocks sit a hair off the grid, labels sit more. */
+  --tilt-a: -0.5deg;
+  --tilt-b: 0.42deg;
+  --tilt-c: -0.9deg;
+  --tilt-chip: -2.2deg;
+  --tilt-chip-b: 1.9deg;
+  --tilt-st: -5deg;
+
+  /* Hard offset plates — no blur; the offset IS the depth. The x/y pair
+     is deliberately unequal so the shadow reads as a bad print register. */
+  --plate-1: 8px 8px 0 var(--ink);
+  --plate-2: 16px 14px 0 var(--ink);
+  --plate-3: 22px 26px 0 var(--ink);
+  --plate-4: 30px 30px 0 var(--ink);
+  --plate-signal: 12px 12px 0 var(--signal);
+  --plate-acid: 14px 12px 0 var(--acid);
+  --plate-flat: none;
+
+  /* ── Type ────────────────────────────────────────────── */
+  --font-display: "Bricolage Grotesque", "Titillium Web", -apple-system, sans-serif;
+  --font-body: "Instrument Sans", "Titillium Web", -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --tracking-tight: -0.035em;
+  --tracking-mono: 0.1em;
+
+  /* ── Rhythm ──────────────────────────────────────────── */
+  --sheet-max: 1240px;
+  --gutter: 26px;
+  --rail-w: 74px;
+  --gap: 22px;
+  --section-y: clamp(64px, 9vw, 116px);
+
+  /* ── Motion ──────────────────────────────────────────── */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur: 0.22s;
+
+  /* ── Legacy aliases (kept while components migrate) ───── */
+  --neo-bg: var(--paper);
+  --neo-surface: var(--surface);
+  --neo-black: var(--ink);
+  --font-family-display: var(--font-display);
+  --font-family-body: var(--font-body);
+  --font-family-mono: var(--font-mono);
+}
+
+/* ============================================================
+   0. SECTION HUE SCOPE
+   ------------------------------------------------------------
+   A band opts into a colour by carrying data-hue. The derived
+   washes must be redeclared here, not in :root: custom-property
+   substitution resolves against the element's own --accent, so a
+   :root-only declaration would freeze every section to flame.
+   ============================================================ */
+
+[data-hue] {
+  --accent-tint:  color-mix(in srgb, var(--accent) 15%, var(--surface));
+  --accent-soft:  color-mix(in srgb, var(--accent) 32%, var(--surface));
+  --accent-wash:  color-mix(in srgb, var(--accent) 11%, var(--paper));
+  --accent-deep:  color-mix(in srgb, var(--accent) 50%, var(--ink));
+  --accent-plate: 14px 11px 0 var(--accent);
+}
+
+[data-hue="flame"]  { --accent: var(--hue-flame); }
+[data-hue="sun"]    { --accent: var(--hue-sun); }
+[data-hue="moss"]   { --accent: var(--hue-moss); }
+[data-hue="teal"]   { --accent: var(--hue-teal); }
+[data-hue="cobalt"] { --accent: var(--hue-cobalt); }
+[data-hue="grape"]  { --accent: var(--hue-grape); }
+[data-hue="rose"]   { --accent: var(--hue-rose); }
+
+/* A hue band IS the colour — a flat saturated block, not a wash of it.
+   Panels inside stay --surface so the page reads as white cards on
+   colour, which is the neubrutalist composition this palette wants.
+   The block is hatched, never flat: a screen can be one solid value, a
+   wall of painted colour always shows the direction of the stroke. */
+.band-bleed[data-hue] {
+  background: var(--accent);
+  background-image: var(--hatch);
+}
+
+/* Bands stroke in alternating directions. One angle down the whole page is
+   a pattern fill; a hand reloads the pen between sheets. */
+.band-bleed[data-hue]:nth-of-type(even) { --hatch: var(--hatch-b); }
+
+/* Heavy ink seam between blocks; adjacent bands stack into a double rule. */
+.band-bleed { border-bottom: var(--bw-brut) solid var(--ink); }
+
+/* The seam is drawn, not butt-joined: an ink stroke laid across the
+   junction by hand, so the page reads as taped sheets instead of a stack
+   of perfectly aligned form sections. It is deliberately thicker than the
+   border it covers — the displacement map moves its edges by up to 3px, and
+   the overlap is what stops the straight border showing through the dip. */
+.band-bleed::after {
+  content: "";
+  position: absolute;
+  left: -1.5%;
+  bottom: calc(var(--bw-brut) * -1 - 7px);
+  width: 103%;
+  height: calc(var(--bw-ultra) + 10px);
+  background: var(--ink);
+  filter: var(--ink-line);
+  transform: rotate(-0.15deg);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.band-bleed:nth-of-type(even)::after { filter: var(--ink-line-b); }
+
+/* On a saturated band a hue-coloured plate or tick is the same colour as
+   the background behind it, so those roles fall back to ink / acid.
+   --accent-deep joins them: a dark tint of the band's own hue is the
+   worst text colour on that band (teal-deep on teal measures ~2:1).
+   Slabs carry their own data-hue scope, so their subtitles stay coloured. */
+.band-bleed[data-hue] {
+  --accent-plate: 14px 11px 0 var(--ink);
+  --plate-signal: 12px 10px 0 var(--ink);
+  --accent-deep: var(--ink);
+  /* 64% ink is 3.4:1 on cobalt. Inside a block, "faint" has to stop
+     meaning transparent and start meaning smaller. */
+  --ink-60: rgba(26, 24, 21, 0.88);
+  --ink-40: rgba(26, 24, 21, 0.78);
+}
+
+.band-bleed[data-hue] .eyebrow::before { background: var(--ink); }
+.band-bleed[data-hue] .plate { background: var(--ink); background-image: var(--hatch-inv); }
+.band-bleed[data-hue] .spec::before { background: var(--acid); }
+
+/* A flame CTA on a flame block is only a border. Acid keeps it loud. */
+.band-bleed[data-hue] .btn--primary { --btn-bg: var(--acid); }
+.band-bleed[data-hue] .btn--primary:hover { --btn-bg: var(--surface); }
+
+/* 12% ink dividers disappear on a saturated block. */
+.band-bleed[data-hue] .hero__stack { border-top: var(--bw) solid var(--ink); }
+
+/* On a saturated block, secondary text cannot lean on opacity — 64% ink
+   over cobalt only reaches 3.4:1. Weight and size carry the hierarchy. */
+.band-bleed[data-hue] .section__sub,
+.band-bleed[data-hue] .lede,
+.band-bleed[data-hue] .mono,
+.band-bleed[data-hue] .stat__label,
+.band-bleed[data-hue] .section__meta { color: var(--ink); }
+
+.band-bleed[data-hue] .section__num { color: var(--ink); }
+
+/* ============================================================
+   1. BASE
+   ============================================================ */
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15.5px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+p { text-wrap: pretty; }
+
+::selection {
+  background: var(--acid);
+  color: var(--ink);
+}
+
+/* ============================================================
+   2. SHEET LAYOUT — the printed page + gutter rail
+   ============================================================ */
+
+.sheet {
+  position: relative;
+  width: 100%;
+  max-width: var(--sheet-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.sheet--ruled {
+  background-image: linear-gradient(
+    to right,
+    var(--ink-12) 0 1px,
+    transparent 1px calc(100% - 1px),
+    var(--ink-12) calc(100% - 1px) 100%
+  );
+}
+
+.band {
+  position: relative;
+  padding: var(--section-y) 0;
+}
+
+.band--deep { background: var(--paper-deep); }
+.band--ink { background: var(--ink); color: var(--paper); }
+
+/* Collapsed-rule bento grid: the container's ink background shows
+   through the gaps, so neighbours share one heavy rule. The outer frame
+   is hand-cut — four unequal border widths and a bowed radius — while
+   the cells keep square corners, so the inner seams stay flush. */
+.bento {
+  display: grid;
+  gap: var(--bw);
+  background: var(--ink);
+  border: var(--bw-bold) solid var(--ink);
+  border-width: var(--bw-edge-c);
+  border-radius: var(--sk-box);
+  box-shadow: var(--plate-2);
+  overflow: hidden;
+}
+
+.bento > * { background: var(--surface); }
+
+.bento--flush { gap: var(--bw); }
+
+/* ============================================================
+   3. PANELS
+   ============================================================ */
+
+.panel {
+  position: relative;
+  background: var(--surface);
+  border: var(--bw-bold) solid var(--ink);
+  border-width: var(--bw-edge-a);
+  border-radius: var(--sk-md);
+  box-shadow: var(--plate-1);
+  padding: clamp(18px, 3vw, 28px);
+}
+
+/* The pen goes round twice. A fainter outline laid just inside the ink
+   frame, inset by four different amounts and wobbling on a brush of its
+   own, is the most reliable "somebody drew this" tell there is. Text-free
+   by construction, so the displacement never touches a glyph. */
+.panel::after {
+  content: "";
+  position: absolute;
+  inset: 5px 8px 6px 4px;
+  border: var(--bw-hair) solid var(--trace);
+  border-radius: var(--sk-sm);
+  pointer-events: none;
+  filter: var(--ink-frame);
+}
+
+.panel:nth-child(even)::after { inset: 6px 4px 5px 9px; filter: var(--ink-frame-b); }
+
+.panel--pad-sm { padding: 16px; }
+.panel--pad-lg { padding: clamp(24px, 4vw, 42px); }
+
+/* Depth variants — plate-3 is reserved for hero-scale panels only.
+   The lifted ones also sit a hair off level, like a card stuck down
+   with tape; .panel--hover drives them back flat. */
+.panel--plate { box-shadow: var(--plate-2); transform: rotate(var(--tilt-b)); }
+.panel--plate-lg { box-shadow: var(--plate-3); transform: rotate(var(--tilt-a)); }
+.panel--plate-signal { box-shadow: var(--plate-signal); transform: rotate(var(--tilt-b)); }
+
+.panel--sand { background: var(--tint-sand); }
+.panel--sky { background: var(--tint-sky); }
+.panel--moss { background: var(--tint-moss); }
+.panel--clay { background: var(--tint-clay); }
+.panel--stone { background: var(--tint-stone); }
+.panel--surface2 { background: var(--surface-2); }
+
+/* Bright block: ink text, never white (white on flame is only 3.1:1). */
+.panel--signal { background: var(--signal); color: var(--ink); }
+.panel--signal .stat__label,
+.panel--signal .mono { color: rgba(26, 24, 21, 0.78); }
+
+.panel--ink {
+  background: var(--ink);
+  background-image: var(--hatch-inv);
+  color: var(--paper);
+  --trace: rgba(239, 236, 227, 0.26);
+}
+.panel--ink h1, .panel--ink h2, .panel--ink h3, .panel--ink h4 { color: var(--paper); }
+
+/* Every tinted fill gets pen tooth. The hatch is the fill, not a wash over
+   it, and it runs at the angle a hand holds a marker — flat colour is the
+   one thing no sheet of paper ever had. */
+.panel--signal,
+.panel--sand,
+.panel--sky,
+.panel--moss,
+.panel--clay,
+.panel--stone,
+.panel--surface2 { background-image: var(--hatch); }
+
+.panel--hover {
+  transition: transform var(--dur) var(--ease-out),
+              box-shadow var(--dur) var(--ease-out);
+}
+
+.panel--hover:hover {
+  transform: translate(-5px, -5px);
+  box-shadow: var(--plate-3);
+}
+
+/* Panel header/footer rules */
+.panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: var(--bw-hair) solid var(--ink-20);
+}
+
+.panel__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding-top: 14px;
+  margin-top: 18px;
+  border-top: var(--bw-hair) solid var(--ink-20);
+}
+
+/* ============================================================
+   4. TYPOGRAPHY UTILITIES
+   ============================================================ */
+
+.display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(2.7rem, 7.4vw, 5.4rem);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 0.92;
+}
+
+.display-l {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4.2vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.display-m {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.lede {
+  font-size: clamp(15px, 1.5vw, 17px);
+  line-height: 1.7;
+  color: var(--ink-80);
+  max-width: 62ch;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--ink-60);
+  line-height: 1.4;
+}
+
+.mono--ink { color: var(--ink); }
+.mono--signal { color: var(--accent-deep); }
+.mono--lg { font-size: 12.5px; }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 26px;
+  height: var(--bw-bold);
+  background: var(--accent);
+  flex-shrink: 0;
+  /* A dash drawn, not stamped — a fine-pen tremor on a 26px mark. */
+  filter: var(--ink-chip);
+  transform: rotate(-2.4deg);
+}
+
+/* Marker highlight — acid swipe, the only "loud" device. Two passes at
+   crossing angles, so the union is thicker in the middle than at the ends
+   and neither edge runs parallel to the baseline. One straight band would
+   read as a filled rectangle; this reads as one drag of a felt pen. */
+.mark {
+  background:
+    linear-gradient(1deg, transparent 0 52%, var(--acid) 52% 97%, transparent 97%),
+    linear-gradient(-1.7deg, transparent 0 57%, var(--acid) 57% 93%, transparent 93%);
+  padding: 0 5px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.mark--signal {
+  background: linear-gradient(
+    -1.2deg,
+    transparent 0 54%,
+    rgba(228, 87, 46, 0.32) 54% 96%,
+    transparent 96%
+  );
+}
+
+/* ============================================================
+   5. SECTION HEADERS
+   ============================================================ */
+
+.section { position: relative; }
+
+.section__head {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: end;
+  gap: clamp(18px, 3vw, 40px);
+  margin-bottom: clamp(26px, 4vw, 44px);
+  padding-bottom: 24px;
+}
+
+/* Section heads used to close with a border: a perfect rectangle under
+   every title, i.e. a form frame. The rule is now a separate stroke —
+   thicker than the box it used to edge, bent by the displacement map the
+   way a long ruler line bends, and overhanging the sheet so it never lines
+   up with the gutter. */
+.section__head::before {
+  content: "";
+  position: absolute;
+  left: -1.4%;
+  bottom: 0;
+  width: 102.8%;
+  height: var(--bw-brut);
+  background: var(--ink);
+  filter: var(--ink-line-b);
+  transform: rotate(-0.24deg);
+}
+
+/* Registration tick: the section's hue stamped across the heavy rule.
+   On a hue band the tick would vanish, so it flips to ink there. */
+.section__head::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: calc(var(--bw-brut) * -0.45);
+  width: clamp(72px, 9vw, 132px);
+  height: var(--bw-ultra);
+  background: var(--accent);
+  border-radius: var(--sk-sm);
+  transform: rotate(-1.3deg);
+}
+
+.band-bleed[data-hue] .section__head::after { background: var(--ink); }
+
+.section__lead {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  min-width: 0;
+}
+
+.section__num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--accent-deep);
+  flex-shrink: 0;
+}
+
+.section__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.95rem, 4.6vw, 3.4rem);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 0.98;
+  text-transform: uppercase;
+  margin: 0;
+  transform: rotate(-0.45deg);
+  transform-origin: left bottom;
+}
+
+.section__aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.section__sub {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--ink-60);
+  max-width: 52ch;
+  margin: 0;
+}
+
+.section__meta {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--ink-40);
+  white-space: nowrap;
+}
+
+/* ============================================================
+   6. BUTTONS
+   ============================================================ */
+
+.btn {
+  --btn-bg: var(--surface);
+  --btn-fg: var(--ink);
+  --btn-tilt: -0.55deg;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 24px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border: var(--bw-bold) solid var(--ink);
+  border-width: var(--bw-edge-c);
+  border-radius: var(--sk-sm);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: var(--plate-1);
+  transform: rotate(var(--btn-tilt));
+  transition: transform 0.14s var(--ease-out),
+              box-shadow 0.14s var(--ease-out),
+              background 0.14s ease;
+}
+
+/* The plate is load-bearing: hover lifts INTO a bigger shadow and pulls
+   the button level, press drives the block flush until the shadow
+   disappears entirely. */
+.btn:hover {
+  transform: translate(-5px, -5px) rotate(0deg);
+  box-shadow: 14px 14px 0 var(--ink);
+}
+
+.btn:active {
+  transform: translate(3px, 3px) rotate(0deg);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+/* Bright fill, ink label: every hue clears 4.5:1 against ink, none of
+   them clear it against white. */
+.btn--primary { --btn-bg: var(--accent); --btn-fg: var(--ink); }
+.btn--primary:hover { --btn-bg: var(--acid); }
+
+.btn--ink { --btn-bg: var(--ink); --btn-fg: var(--paper); }
+.btn--ink:hover { --btn-bg: #2c2925; }
+
+.btn--acid { --btn-bg: var(--acid); --btn-fg: var(--ink); }
+
+.btn--ghost { --btn-bg: transparent; }
+.btn--ghost:hover { --btn-bg: var(--surface-2); }
+
+.btn--sm {
+  padding: 9px 15px;
+  font-size: 11px;
+  border-width: var(--bw);
+  --btn-tilt: -0.35deg;
+}
+.btn--block { width: 100%; }
+
+/* Buttons sitting next to each other lean opposite ways, so a CTA row
+   never lines up like a toolbar. */
+.btn + .btn { --btn-tilt: 0.5deg; }
+
+.btn__icon { display: inline-flex; flex-shrink: 0; }
+
+/* ============================================================
+   7. CHIPS, TAGS & STATS
+   ============================================================ */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  background: var(--surface);
+  background-image: var(--hatch);
+  color: var(--ink);
+  border: var(--bw) solid var(--ink);
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: rotate(-0.8deg);
+}
+
+.chip + .chip { transform: rotate(0.7deg); --hatch: var(--hatch-b); }
+
+.chip--ink {
+  background: var(--ink);
+  background-image: var(--hatch-inv);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.chip--signal {
+  background: var(--accent-deep);
+  background-image: var(--hatch-inv);
+  color: #fff;
+  border-color: var(--ink);
+}
+.chip--acid { background: var(--acid); }
+
+/* Squared and ink-ringed: a circle dot on a bright band has no edge. */
+.chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 0;
+  background: var(--ink);
+  border: var(--bw-hair) solid var(--ink);
+  flex-shrink: 0;
+}
+
+.chip__dot--live {
+  background: var(--moss);
+  box-shadow: 0 0 0 0 rgba(26, 24, 21, 0.5);
+  animation: pulseDot 2.4s var(--ease-out) infinite;
+}
+
+.tag {
+  --tag-tilt: var(--tilt-chip);
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background: var(--surface);
+  background-image: var(--hatch);
+  border: var(--bw) solid var(--ink);
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+  transform: rotate(var(--tag-tilt));
+  transition: background 0.15s ease, transform 0.15s var(--ease-out);
+}
+
+/* Every other tag leans the other way; hovering sticks it straight down. */
+.tag:nth-child(even) { --tag-tilt: var(--tilt-chip-b); --hatch: var(--hatch-b); }
+.tag:hover { background: var(--acid); transform: translate(-3px, -3px) rotate(0deg); }
+.tag--signal {
+  background: var(--accent-deep);
+  background-image: var(--hatch-inv);
+  color: #fff;
+  border-color: var(--ink);
+}
+
+.stat { display: flex; flex-direction: column; gap: 2px; }
+
+.stat__num {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.stat__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+}
+
+/* ============================================================
+   8. RULES, PLATES & DECOR
+   ============================================================ */
+
+/* Rules are drawn strokes, not borders. The wobble is a real displacement
+   filter rather than a clip-path polygon: CSS clips *after* filtering, so a
+   polygon can only nibble the edges of a straight bar, while the map bends
+   the bar itself. Alternate rules take the other seed so two rules in one
+   panel never curve in lockstep. */
+.rule {
+  border: 0;
+  height: var(--bw-bold);
+  background: var(--ink);
+  filter: var(--ink-line);
+  transform: rotate(-0.3deg);
+  margin: 0;
+}
+
+.rule:nth-child(even) {
+  filter: var(--ink-line-b);
+  transform: rotate(0.26deg);
+}
+
+.rule--ink { height: var(--bw-brut); }
+.rule--signal { background: var(--accent); }
+
+.hairline-grid {
+  background-image:
+    linear-gradient(to right, var(--ink-06) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--ink-06) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Caution tape — the page's seam, not a one-off accent */
+.hazard {
+  height: 16px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--ink) 0 12px,
+    var(--acid) 12px 24px
+  );
+  border-top: var(--bw) solid var(--ink);
+  border-bottom: var(--bw) solid var(--ink);
+}
+
+/* Offset colour plate behind a panel (brutalist depth, no blur). The
+   x/y pair is unequal so the plate reads as a mis-printed sheet. */
+.plate {
+  position: absolute;
+  inset: 0;
+  transform: translate(14px, 11px) rotate(-0.35deg);
+  background: var(--accent);
+  background-image: var(--hatch);
+  border: var(--bw-bold) solid var(--ink);
+  border-width: var(--bw-edge-b);
+  border-radius: var(--sk-md);
+  filter: var(--ink-frame);
+  z-index: -1;
+}
+
+.plate--acid { background: var(--acid); background-image: var(--hatch); }
+.plate--ink { background: var(--ink); background-image: var(--hatch-inv); }
+
+/* Corner ticks — quiet registration marks, cut square on purpose so
+   they still read as printer's marks against the hand-edged boxes. */
+.ticks::before,
+.ticks::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: var(--bw) solid var(--ink);
+}
+
+.ticks::before { top: -3px; left: -3px; border-right: 0; border-bottom: 0; transform: rotate(-2deg); }
+.ticks::after { bottom: -3px; right: -3px; border-left: 0; border-top: 0; transform: rotate(1.6deg); }
+
+/* ============================================================
+   9. NAV
+   ============================================================ */
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+  padding: 10px 12px 10px 18px;
+  background: var(--surface);
+  border: var(--bw-bold) solid var(--ink);
+  box-shadow: var(--plate-2);
+}
+
+.nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+.nav__mark {
+  width: 34px;
+  height: 34px;
+  object-fit: cover;
+  border: var(--bw) solid var(--ink);
+  filter: grayscale(1) contrast(1.12);
+  transition: filter 0.25s ease;
+}
+
+.nav__brand:hover .nav__mark { filter: grayscale(0) contrast(1); }
+
+.nav__name {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.nav__list {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav__item {
+  position: relative;
+  padding: 7px 12px;
+  background: transparent;
+  border: var(--bw-hair) solid transparent;
+  border-radius: var(--sk-sm);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-80);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.nav__item:hover {
+  color: var(--ink);
+  background: var(--accent-tint);
+  border-color: var(--ink);
+}
+
+.nav__item--active {
+  color: var(--ink);
+  background: var(--acid);
+  border-color: var(--ink);
+}
+
+.nav__item--active:hover {
+  color: var(--ink);
+  background: var(--acid);
+  border-color: var(--ink);
+}
+
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   10. FORMS
+   ============================================================ */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  width: 100%;
+}
+
+.field__label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+}
+
+.field__input,
+.field__textarea {
+  width: 100%;
+  padding: 13px 14px;
+  background: var(--surface);
+  color: var(--ink);
+  border: var(--bw-bold) solid var(--ink);
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-md);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  box-shadow: var(--plate-1);
+  transform: rotate(-0.22deg);
+  transition: transform 0.14s var(--ease-out),
+              box-shadow 0.14s var(--ease-out),
+              background 0.14s ease;
+}
+
+/* Odd fields lean the other way: a stack of inputs is never aligned. */
+.field:nth-child(even) .field__input,
+.field:nth-child(even) .field__textarea { transform: rotate(0.24deg); }
+
+.field__textarea { resize: vertical; min-height: 120px; }
+
+/* Focus presses the field flat, matching the button interaction. */
+.field__input:focus,
+.field__textarea:focus {
+  outline: none;
+  background: #fff;
+  transform: translate(4px, 4px) rotate(0deg);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.field__input::placeholder,
+.field__textarea::placeholder { color: var(--ink-40); }
+
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border: var(--bw) solid var(--ink);
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-md);
+  background: var(--tint-moss);
+  font-size: 14px;
+  line-height: 1.5;
+  transform: rotate(-0.35deg);
+}
+
+.notice--error { background: var(--tint-clay); }
+.notice--info { background: var(--tint-sky); }
+
+/* ============================================================
+   11. MODALS
+   ============================================================ */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(26, 24, 21, 0.62);
+  backdrop-filter: blur(3px);
+}
+
+.dialog {
+  position: relative;
+  width: 100%;
+  background: var(--surface);
+  border: var(--bw-brut) solid var(--ink);
+  border-width: var(--bw-edge-b);
+  border-radius: var(--sk-box-b);
+  box-shadow: var(--plate-3);
+  max-height: min(88vh, 900px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: rotate(-0.25deg);
+}
+
+/* The panel is focused programmatically so screen readers land inside it;
+   *:focus-visible must not paint a ring around the whole plate. */
+.dialog:focus,
+.dialog:focus-visible { outline: none; }
+
+.dialog--sm { max-width: 560px; }
+.dialog--md { max-width: 860px; }
+.dialog--lg { max-width: 1100px; }
+
+.dialog__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 15px 18px;
+  border-bottom: var(--bw) solid var(--ink);
+  background: var(--surface-2);
+  flex-shrink: 0;
+}
+
+.dialog__heading {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.dialog__title { margin: 0; }
+
+.dialog__body {
+  padding: clamp(18px, 3vw, 28px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  flex: 1;
+}
+
+.dialog__foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 14px 18px;
+  border-top: var(--bw) solid var(--ink);
+  background: var(--surface-2);
+  flex-shrink: 0;
+}
+
+.dialog__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: var(--surface);
+  border: var(--bw) solid var(--ink);
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  color: var(--ink);
+  cursor: pointer;
+  flex-shrink: 0;
+  transform: rotate(-3deg);
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s var(--ease-out);
+}
+
+.dialog__close:hover { background: var(--signal); color: var(--ink); transform: rotate(0deg); }
+
+.dialog__foot--inline {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+}
+
+/* ── CV dialog: document held inside its own plate ─────────────── */
+.cv-frame {
+  display: block;
+  width: 100%;
+  height: min(64vh, 720px);
+  background: var(--paper-deep);
+  border: var(--bw) solid var(--ink);
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-md);
+}
+
+/* ── Shared modal body copy ───────────────────────────────────── */
+.modal__intro {
+  margin: 0 0 18px;
+  max-width: 46ch;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink-80);
+}
+
+.modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── Project dialog ───────────────────────────────────────────── */
+.pmodal {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pmodal__lead {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.pmodal__subtitle {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--ink-60);
+}
+
+.pmodal__hero {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-height: 38vh;
+}
+
+.pmodal__thumbs {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(128px, 1fr);
+  gap: var(--bw);
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.pmodal__thumb {
+  display: block;
+  padding: 0;
+  background: var(--surface);
+  border: var(--bw) solid var(--ink-20);
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+  transform: rotate(-1.1deg);
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s var(--ease-out);
+}
+
+.pmodal__thumb:nth-child(even) { transform: rotate(1.3deg); }
+
+.pmodal__thumb:hover,
+.pmodal__thumb--on { border-color: var(--ink); transform: rotate(0deg); }
+.pmodal__thumb:hover { background: var(--tint-sand); }
+
+.pmodal__thumb--on { background: var(--tint-sky); }
+
+.pmodal__thumb img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  height: auto;
+  object-fit: cover;
+}
+
+.pmodal__thumb .mono {
+  display: block;
+  padding: 5px 8px;
+  border-top: var(--bw-hair) solid var(--ink-20);
+  font-size: 9.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pmodal__desc {
+  max-width: 74ch;
+  font-size: 15px;
+}
+
+.pmodal__cols {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+}
+
+.pmodal__col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  min-width: 0;
+}
+
+.pmodal__highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pmodal__highlights li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-80);
+}
+
+.pmodal__highlights svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--moss);
+}
+
+.pmodal__facts {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: auto 0 0;
+  border-top: var(--bw-hair) solid var(--ink-20);
+}
+
+.pmodal__facts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: var(--bw-hair) solid var(--ink-20);
+}
+
+.pmodal__facts > div:last-child { border-bottom: none; }
+
+.pmodal__facts dt {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+}
+
+.pmodal__facts dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ============================================================
+   12. CODE / TERMINAL SURFACES
+   ============================================================ */
+
+.term {
+  background: var(--ink);
+  color: #d8d4c8;
+  border: var(--bw) solid var(--ink);
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-md);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.75;
+  overflow: hidden;
+}
+
+.term__bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-bottom: var(--bw-hair) solid rgba(239, 236, 227, 0.16);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(239, 236, 227, 0.55);
+}
+
+.term__dot { width: 9px; height: 9px; border-radius: 0; background: var(--signal); }
+.term__dot--acid { background: var(--acid); }
+.term__dot--moss { background: #6fa883; }
+
+.term__body {
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+
+.term__body pre { margin: 0; white-space: pre; }
+
+.tok-key { color: #e0a96d; }
+.tok-str { color: #9ecfa0; }
+.tok-com { color: rgba(239, 236, 227, 0.4); font-style: italic; }
+.tok-fn { color: #a9bdf0; }
+
+/* ============================================================
+   13. MOTION
+   ============================================================ */
+
+@keyframes pulseDot {
+  0% { box-shadow: 0 0 0 0 rgba(62, 107, 79, 0.5); }
+  70% { box-shadow: 0 0 0 7px rgba(62, 107, 79, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(62, 107, 79, 0); }
+}
+
+@keyframes marqueeX {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes plateIn {
+  from { opacity: 0; translate: 0 14px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+/* Scroll reveal — driven by IntersectionObserver adding .is-in.
+   Motion lives on `translate`, never on `transform`: the whole
+   point of this typeface is that plates sit slightly crooked, and
+   a reveal that owned `transform` would straighten every one of
+   them the moment it landed. */
+.reveal {
+  opacity: 0;
+  translate: 0 18px;
+  transition: opacity 0.6s var(--ease-out), translate 0.6s var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+
+.reveal.is-in {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* Line-mask reveal for display headings.
+   The padded clip box keeps descenders and tight display line-heights
+   (0.94) from being sliced; the negative margin cancels the extra space. */
+.mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+
+.mask > * {
+  display: block;
+  transform: translateY(calc(100% + 0.16em));
+  transition: transform 0.8s var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+
+.mask.is-in > * { transform: translateY(0); }
+
+/* Marquee band — tape laid across the page, not a rule between blocks.
+   Wider than the sheet, turned a hair, and pulled up into the bands it
+   separates so both junctions read as a crooked edge. */
+.marquee {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  background: var(--ink);
+  color: var(--paper);
+  border-top: var(--bw-brut) solid var(--ink);
+  border-bottom: var(--bw-brut) solid var(--ink);
+  padding: 18px 0;
+  width: 106%;
+  margin-inline: -3%;
+  margin-block: calc(var(--bw-ultra) * -1);
+  transform: rotate(-0.7deg);
+}
+
+.marquee__track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 40px;
+  width: max-content;
+  padding-right: 40px;
+  animation: marqueeX 38s linear infinite;
+}
+
+.marquee:hover .marquee__track { animation-play-state: paused; }
+
+.marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.marquee__sep {
+  width: 9px;
+  height: 9px;
+  background: var(--acid);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   14. ACCESSIBILITY
+   ============================================================ */
+
+/* Ink ring reads on every light surface and on all 7 hue blocks; the
+   acid halo keeps it visible inside an ink band. */
+:focus-visible {
+  outline: var(--bw-bold) solid var(--ink);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 calc(var(--bw-bold) + 3px) var(--acid);
+}
+
+.band-bleed--ink :focus-visible,
+.marquee :focus-visible {
+  outline-color: var(--acid);
+  box-shadow: 0 0 0 calc(var(--bw-bold) + 3px) var(--ink);
+}
+
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 9999;
+  padding: 10px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  border: var(--bw) solid var(--ink);
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  transform: rotate(-1.2deg);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: top 0.2s var(--ease-out);
+}
+
+.skip-link:focus { top: 16px; }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1 !important; translate: none !important; }
+  .mask > * { transform: none !important; }
+}
+
+/* ============================================================
+   15. RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 900px) {
+  :root {
+    --gutter: 16px;
+    --section-y: clamp(48px, 8vw, 72px);
+  }
+  .section__head {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+  }
+  .section__lead { flex-wrap: wrap; gap: 10px; }
+  .section__meta { white-space: normal; }
+
+  /* A 255px bow needs a wide sheet to read as a curve; on a narrow one it
+     just eats the corner content. Step down to the small cut. */
+  .bento { border-radius: var(--sk-md); }
+}
+
+@media (max-width: 640px) {
+  body { font-size: 15px; }
+  .panel { padding: 18px 16px; }
+  .nav { padding: 8px 8px 8px 14px; }
+  .dialog { max-height: 92vh; }
+  .dialog__head { padding: 13px 14px; }
+  .dialog__body { padding: 16px 14px; }
+  .dialog__foot { padding: 12px 14px; }
+  .pmodal__cols { grid-template-columns: minmax(0, 1fr); }
+  .cv-frame { height: min(56vh, 520px); }
+
+  /* Mis-registration is cheap on a wide sheet and expensive on a narrow
+     one: a rotated full-bleed strip loses its corners. Keep the wobble in
+     the frames and stamps, halve it on the big blocks. */
+  .marquee {
+    width: 103%;
+    margin-inline: -1.5%;
+    transform: rotate(-0.35deg);
+  }
+  .band-bleed::after { left: -1%; width: 102%; }
+  .topbar::after { left: -1%; width: 102%; }
+  .btn { --btn-tilt: -0.3deg; }
+}
+
+/* ============================================================
+   16. LIVE INK — the sheet finishes itself
+
+   Everything above this line draws the page; this section decides
+   *when*. `InkDraw` tags a stroke-bearing node with `.is-drawn` a
+   moment before it scrolls in, and the strokes then run in on the
+   independent `scale` property — never `transform`, which every
+   crooked plate in this design already owns.
+
+   Order of events per node: the ruler line sweeps, the pencil
+   outline fades, the stamp lands.
+   ============================================================ */
+
+@keyframes drawX { from { scale: 0 1; } to { scale: 1 1; } }
+@keyframes drawY { from { scale: 1 0; } to { scale: 1 1; } }
+@keyframes inkFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes inkStamp {
+  0% { opacity: 0; scale: 1.75 1.75; rotate: 5deg; }
+  55% { opacity: 1; }
+  100% { opacity: 1; scale: 1 1; rotate: 0deg; }
+}
+@keyframes inkTrace { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+@keyframes inkDrift { from { scale: 1; } to { scale: 1.045; } }
+
+/* ── Ruler lines: sweep along their own axis ───────────────── */
+.rule.is-drawn,
+.section__head.is-drawn::before,
+.tline.is-drawn::before,
+.tline.is-drawn::after,
+.contact.is-drawn::before,
+.footer.is-drawn::before,
+.topbar.is-drawn::after,
+.hero__stack.is-drawn::before,
+.spec__bio.is-drawn::before,
+.ledger__note.is-drawn::before,
+.ledger__output.is-drawn::before,
+.ledger__tabs.is-drawn::after,
+.ledger__list li.is-drawn::after,
+.tline__row.is-drawn::before,
+.meter__scale.is-drawn,
+.gh__foot.is-drawn::before,
+.frame.is-drawn::after {
+  transform-origin: left center;
+  animation: drawX 0.62s var(--ease-out) both;
+}
+
+/* The rail is the one stroke that runs downhill. */
+.tline__row.is-drawn::after {
+  transform-origin: center top;
+  animation: drawY 0.78s var(--ease-out) both;
+}
+
+/* ── Pencil outlines: they arrive after the line they trace ── */
+.panel.is-drawn::after,
+.pslab__band.is-drawn::after {
+  animation: inkFade 0.5s var(--ease-out) 0.34s both;
+}
+
+/* ── Stamps land last ──────────────────────────────────────── */
+.section__head.is-drawn::after,
+.pslab__sticker.is-drawn,
+.pslab__stamp.is-drawn,
+.plate.is-drawn {
+  animation: inkStamp 0.44s var(--ease-out) 0.46s both;
+}
+
+/* ── Washi tape: the sheet is glued down, not printed ──────── */
+.spec__portrait::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 12px;
+  width: 68px;
+  height: 21px;
+  background: rgba(219, 232, 79, 0.72);
+  clip-path: polygon(2% 10%, 98% 0, 100% 34%, 97% 96%, 44% 100%, 1% 88%, 0 36%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 3;
+  rotate: -8deg;
+}
+
+/* ── Marker sweep: highlighter dragged under a title on hover.
+   It rides the inline `.hl`, never the heading box — a block
+   fragment paints one rectangle per line, so the marker would
+   overshoot every line shorter than the widest one. ─────────── */
+.hl {
+  background-image: linear-gradient(var(--acid), var(--acid));
+  background-repeat: no-repeat;
+  background-position: 0 86%;
+  background-size: 0% 32%;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: background-size 0.4s var(--ease-out);
+}
+
+.pslab:hover .hl,
+.tline__row:hover .hl,
+.skill:hover .hl,
+.arch:hover .hl { background-size: 103% 32%; }
+
+/* The lead slab's title is paper on ink: acid under white type would
+   erase it, so the flagship takes the project's own hue instead. */
+.pslab--lead .hl { background-image: linear-gradient(var(--accent), var(--accent)); }
+
+/* A sticker only looks stuck on if it moves when you reach for it. */
+.pslab:hover .pslab__sticker { rotate: -3.5deg; }
+
+/* ── The flagship still breathes: one slow crop, nothing else ── */
+.pslab--lead .pslab__media img {
+  transform-origin: 50% 18%;
+  animation: inkDrift 26s var(--ease-out) infinite alternate;
+}
+
+/* ── Margin notes: the arrow a person draws on a printed page ─ */
+.ink-note {
+  position: absolute;
+  display: inline-grid;
+  justify-items: start;
+  gap: 3px;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.ink-note__stroke {
+  width: 104px;
+  height: 42px;
+  overflow: visible;
+  filter: var(--ink-frame);
+}
+
+.ink-note--down .ink-note__stroke { width: 48px; height: 50px; }
+
+.ink-note__body,
+.ink-note__head {
+  stroke: var(--ink);
+  stroke-width: 3.4;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+
+.ink-note.is-drawn .ink-note__body { animation: inkTrace 0.5s linear both; }
+.ink-note.is-drawn .ink-note__head { animation: inkTrace 0.26s linear 0.44s both; }
+
+.ink-note__label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--acid);
+  padding: 3px 8px;
+  border: var(--bw-hair) solid var(--ink);
+  border-radius: var(--sk-sm);
+  box-shadow: 3px 3px 0 var(--ink);
+  rotate: -1.4deg;
+}
+
+.ink-note--on-ink .ink-note__label { background: var(--paper); }
+
+.hero-note { bottom: -52px; left: 0; rotate: -9deg; }
+.tline-note { top: 58px; right: 26px; }
+
+@media (max-width: 1180px) {
+  .hero-note, .tline-note { display: none; }
+}

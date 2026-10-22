@@ -1,0 +1,371 @@
+/* ============================================================
+   04 · EXPERIENCE — editorial career timeline
+   ------------------------------------------------------------
+   One vertical ink rule down a left rail. Every role is a ROW
+   of that rule — never a floating box. Only the current entry
+   gets ground, scale and the section's single offset plate.
+   ============================================================ */
+
+.tline {
+  --tick: 34px;
+  --row-pad: clamp(22px, 3vw, 34px);
+  position: relative;
+  border-top: var(--bw) solid var(--ink);
+  border-bottom: var(--bw) solid var(--ink);
+}
+
+/* ── Row: rail + body ────────────────────────────────────── */
+
+.tline__row {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--rail-w) minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 30px);
+  padding: var(--row-pad) 0;
+  border-bottom: var(--bw-hair) solid var(--ink-12);
+}
+
+.tline__row:last-child {
+  border-bottom: 0;
+}
+
+/* The ink rule, drawn per row so each row separator crosses it
+   like a tick on a printed scale. */
+.tline__row::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--rail-w) - 1px);
+  width: var(--bw);
+  background: var(--ink);
+}
+
+/* Numbered tick, straddling the rule */
+.tline__tick {
+  position: absolute;
+  top: var(--row-pad);
+  left: calc(var(--rail-w) - var(--tick) / 2);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: var(--tick);
+  height: var(--tick);
+  background: var(--surface);
+  border: var(--bw) solid var(--ink);
+  border-radius: var(--r-sharp);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--ink-60);
+}
+
+/* The tick is absolutely positioned, so it never claims a grid track —
+   the body has to be pinned to column 2 explicitly or it lands in the rail. */
+.tline__body {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 0;
+  padding-right: clamp(0px, 2vw, 22px);
+}
+
+/* ── Head ────────────────────────────────────────────────── */
+
+.tline__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.tline__id {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+/* Colour comes from the theme's `.mono--signal`, never set here:
+   load order between this file and theme.css is not guaranteed. */
+.tline__code {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.tline__code-ico {
+  flex-shrink: 0;
+}
+
+.tline__role {
+  margin: 0;
+  max-width: 30ch;
+  overflow-wrap: anywhere;
+}
+
+.tline__org {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--accent-deep);
+  overflow-wrap: anywhere;
+}
+
+.tline__when {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.tline__period {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.tline__cal {
+  flex-shrink: 0;
+  color: var(--ink-40);
+}
+
+.tline__loc {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink-60);
+  text-align: right;
+}
+
+.tline__pin {
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+/* ── Status chips (from the entry's badge copy) ──────────── */
+
+.tline__flags {
+  margin-top: 1px;
+}
+
+/* ── Body copy ───────────────────────────────────────────── */
+
+.tline__desc {
+  margin: 0;
+}
+
+/* ── Achievement list: check-marked rows on hairlines ────── */
+
+.tline__list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  /* Editorial measure: bullets never run the full sheet width. */
+  max-width: min(100%, 82ch);
+}
+
+.tline__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 11px 0;
+  border-bottom: var(--bw-hair) solid var(--ink-12);
+}
+
+.tline__list li:first-child {
+  padding-top: 0;
+}
+
+.tline__list li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+/* Ink, not moss: the row sits on the band's own saturated block where a
+   green glyph has almost no separation. */
+.tline__check {
+  flex-shrink: 0;
+  margin-top: 4px;
+  color: var(--ink);
+}
+
+.tline__win {
+  font-size: 13.5px;
+  line-height: 1.62;
+  color: var(--ink-80);
+}
+
+/* ── Stack ───────────────────────────────────────────────── */
+
+.tline__stack {
+  padding-top: 14px;
+  border-top: var(--bw-hair) solid var(--ink-20);
+}
+
+/* ── Current entry: heavier, and the only plate here ────── */
+
+.tline__row--current {
+  background: var(--accent-tint);
+  border-bottom: var(--bw) solid var(--ink);
+}
+
+.tline__row--current .tline__tick {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.tline__row--current .display-m {
+  font-size: clamp(1.45rem, 3vw, 2.05rem);
+}
+
+.tline__wins {
+  /* Same measure as the list, plus the panel's own padding. */
+  max-width: min(100%, calc(82ch + 32px));
+}
+
+/* ── Narrow viewports: shrink the rail, stack the head ───── */
+
+@media (max-width: 700px) {
+  .tline {
+    --tick: 28px;
+    --row-pad: 20px;
+    --rail-w: 46px;
+  }
+
+  .tline__head {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tline__when {
+    align-items: flex-start;
+  }
+
+  .tline__loc {
+    text-align: left;
+  }
+
+  .tline__list li {
+    gap: 9px;
+    padding: 10px 0;
+  }
+
+  .tline__check {
+    margin-top: 3px;
+  }
+}
+
+/* ============================================================
+   HAND-CUT PASS — the two spine rules and every tick on them
+   are pressed, not drawn with a ruler. Tokens only.
+   ============================================================ */
+
+/* Straight borders out, tapered ink strokes in */
+.tline {
+  border-top: 0;
+  border-bottom: 0;
+  padding-block: 4px;
+}
+
+.tline::before,
+.tline::after {
+  content: "";
+  position: absolute;
+  left: -1.2%;
+  width: 102.4%;
+  height: var(--bw-brut);
+  background: var(--ink);
+  pointer-events: none;
+  filter: var(--ink-line);
+}
+
+.tline::before { top: -2px; transform: rotate(-0.32deg); }
+.tline::after  { bottom: -2px; transform: rotate(0.28deg); filter: var(--ink-line-b); }
+
+/* The rail rule: bolder, and bent along its length like a line drawn down
+   a ruler held by hand. Each row carries its own stroke, so the joins
+   jog — that mismatch is the point. */
+.tline__row::after {
+  left: calc(var(--rail-w) - 2px);
+  width: var(--bw-bold);
+  filter: var(--ink-line-v);
+}
+
+.tline__row:nth-child(even)::after { filter: var(--ink-line-v-b); }
+
+.tline__tick {
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  transform: rotate(-2.2deg);
+}
+
+.tline__row:nth-child(even) .tline__tick {
+  transform: rotate(1.9deg);
+}
+
+.tline__row--current .tline__tick {
+  transform: rotate(0.8deg);
+}
+
+.tline__role { transform: rotate(-0.35deg); }
+
+@media (max-width: 700px) {
+  .tline::before,
+  .tline::after {
+    left: -1%;
+    width: 102%;
+  }
+  .tline__row::after {
+    left: calc(var(--rail-w) - 1px);
+    width: var(--bw);
+  }
+}
+
+/* The dividers were the last level lines in a column of bent ones: three
+   hairline borders and one heavy rule, all drawn straight by a browser.
+   Each is now a stroke on the row's own ::before, sitting where the border
+   used to be. */
+.tline__row,
+.tline__list li,
+.tline__stack {
+  position: relative;
+  border-bottom: 0;
+  border-top: 0;
+}
+
+.tline__row::before,
+.tline__list li::before,
+.tline__stack::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: -3px;
+  height: var(--bw-hair);
+  background: var(--ink-12);
+  pointer-events: none;
+  filter: var(--ink-line-b);
+}
+
+.tline__row::before,
+.tline__list li::before { bottom: 0; }
+
+.tline__stack::before {
+  top: 0;
+  background: var(--ink-20);
+}
+
+.tline__list li:last-child::before,
+.tline__row:last-child::before { display: none; }
+
+/* The current role closes on a heavy rule, not a hairline. */
+.tline__row--current::before {
+  height: var(--bw);
+  background: var(--ink);
+  filter: var(--ink-line);
+}

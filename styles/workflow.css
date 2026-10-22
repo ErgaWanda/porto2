@@ -1,0 +1,217 @@
+/* ============================================================
+   07 · WORKFLOW — numbered editorial sequence
+   ------------------------------------------------------------
+   Spec Sheet: shared hairline rules between rows, a large mono
+   step number on the rail, one connecting hairline that only
+   exists on desktop, and a single offset plate for the creed.
+   ============================================================ */
+
+.workflow__steps {
+  --wf-pad: clamp(18px, 2.6vw, 28px);
+  --wf-rail: clamp(52px, 7vw, 74px);
+  --wf-gap: clamp(14px, 2.4vw, 26px);
+}
+
+/* Collapsed 1px rules: the ink frame shows through every seam */
+.bento.workflow__steps {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--bw-hair);
+  position: relative;
+}
+
+.bento > .workflow__step {
+  display: grid;
+  grid-template-columns: var(--wf-rail) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--wf-gap);
+  padding: var(--wf-pad);
+  min-width: 0;
+}
+
+/* Connecting hairline down the number rail (drawn on reveal) */
+.bento > .workflow__line {
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--wf-pad) + 14px);
+  bottom: calc(var(--wf-pad) + 14px);
+  left: calc(var(--wf-pad) + var(--wf-rail) + var(--wf-gap) / 2);
+  width: var(--bw-hair);
+  background: var(--ink-20);
+  pointer-events: none;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.9s var(--ease-out) 0.2s;
+}
+
+.workflow__steps--in > .workflow__line { transform: scaleY(1); }
+
+/* ── Rail number ────────────────────────────────────────── */
+.mono.workflow__num {
+  font-size: clamp(1.5rem, 3.2vw, 2.15rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--ink);
+}
+
+/* ── Step body ──────────────────────────────────────────── */
+.workflow__body { display: flex; flex-direction: column; min-width: 0; }
+
+.workflow__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.workflow__titles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.workflow__title { margin: 0; max-width: 34ch; }
+
+.workflow__glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  background: var(--wf-accent, var(--surface-2));
+  color: var(--ink);
+  border: var(--bw-hair) solid var(--ink-20);
+  border-radius: var(--r-sharp);
+}
+
+.workflow__desc {
+  margin-top: 14px;
+  font-size: 14.5px;
+  line-height: 1.68;
+  color: var(--ink-80);
+  max-width: 66ch;
+}
+
+.workflow__deliver {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  align-self: flex-start;
+  margin-top: 16px;
+  padding-top: 13px;
+  border-top: var(--bw-hair) solid var(--ink-12);
+  color: var(--accent-deep);
+}
+
+/* ── Philosophy plate: the one offset in this section ───── */
+.workflow__creed {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(18px, 3vw, 34px);
+  flex-wrap: wrap;
+  overflow: hidden;
+  margin-top: var(--gap);
+}
+
+.workflow__creed-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  max-width: 74ch;
+  position: relative;
+}
+
+.lede.workflow__quote {
+  color: var(--ink);
+  font-weight: 600;
+  max-width: none;
+}
+
+.workflow__quote-mark {
+  position: absolute;
+  top: -22px;
+  right: 6px;
+  font-family: var(--font-display);
+  font-size: clamp(88px, 12vw, 150px);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--ink-12);
+  pointer-events: none;
+  user-select: none;
+}
+
+.workflow__author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 16px;
+  background: var(--surface);
+  border: var(--bw-hair) solid var(--ink-20);
+  border-radius: var(--r-sharp);
+}
+
+.workflow__author-name {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Legacy behaviour: no connecting hairline under 768px */
+  .workflow__line { display: none; }
+}
+
+@media (max-width: 620px) {
+  .bento > .workflow__step { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .mono.workflow__num { font-size: 1.45rem; }
+  .workflow__creed { padding: 20px 16px; }
+}
+
+/* ============================================================
+   HAND-CUT PASS — the connector is drawn freehand, the tiles
+   are cut crooked. Tokens only; no new colours.
+   ============================================================ */
+
+/* A wandering stroke instead of a hairline, still revealed by the same
+   scaleY transition — the map runs in local space, before the transform. */
+.bento > .workflow__line {
+  left: calc(var(--wf-pad) + var(--wf-rail) + (var(--wf-gap) / 2) - 3px);
+  width: var(--bw);
+  background: var(--ink-40);
+  filter: var(--ink-line-v);
+}
+
+.workflow__glyph {
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  transform: rotate(-1.6deg);
+  filter: var(--ink-chip);
+}
+
+.bento > .workflow__step:nth-child(even) .workflow__glyph {
+  transform: rotate(1.5deg);
+  filter: var(--ink-chip-b);
+}
+
+.workflow__num { transform: rotate(-1.2deg); }
+
+.workflow__author {
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-md);
+  transform: rotate(-0.6deg);
+}
+
+.workflow__deliver {
+  border-radius: var(--sk-sm) 0 0 0;
+}

@@ -1,7 +1,39 @@
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { FaGithub, FaExternalLinkAlt, FaFire, FaCalendarAlt, FaCodeBranch } from "react-icons/fa";
+import { FaGithub, FaExternalLinkAlt, FaFire, FaBolt, FaCalendarAlt, FaCodeBranch } from "react-icons/fa";
+import { useInView } from "react-intersection-observer";
+import { SectionHead } from "@/components/landing/SectionHead";
+import { Reveal } from "@/components/landing/Reveal";
+import "@/styles/github.css";
+
+function AnimatedNumber({ value, inView }: { value: number; inView: boolean }) {
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    let startTimestamp: number | null = null;
+    const duration = 1200;
+
+    const step = (timestamp: number) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      setDisplayValue(Math.floor(ease * value));
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        setDisplayValue(value);
+      }
+    };
+
+    const animId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(animId);
+  }, [value, inView]);
+
+  return <>{displayValue}</>;
+}
 
 interface DayData {
   date: string;
@@ -35,19 +67,9 @@ const INITIAL_ACTIVE_DAYS: Record<string, { count: number; level: number }> = {
   "2026-09-11": { count: 2, level: 2 },
 };
 
-const MONTH_NAMES = [
-  "Sep", "Oct", "Nov", "Dec", "Jan", "Feb",
-  "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"
-];
-
-// GitHub Authentic Glassmorphism Palette (Nature Frosted Glass Theme)
-const LEVEL_COLORS = [
-  "rgba(255, 255, 255, 0.09)", // Level 0: Pure Frosted Glass Tile
-  "rgba(34, 197, 94, 0.45)",  // Level 1: Soft Emerald Glass
-  "rgba(34, 197, 94, 0.75)",  // Level 2: Medium Emerald Glass
-  "#22c55e",                   // Level 3: Vivid Emerald
-  "#4ade80",                   // Level 4: Brilliant Mint Emerald
-];
+const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const DAY_LABEL_ROWS = [1, 3, 5];
+const LEGEND_LEVELS = [0, 1, 2, 3, 4];
 
 export default function GitHubActivity() {
   const [dataMap, setDataMap] = useState<Record<string, { count: number; level: number }>>(INITIAL_ACTIVE_DAYS);
@@ -100,7 +122,7 @@ export default function GitHubActivity() {
   const { weeks, monthLabels } = useMemo(() => {
     const today = new Date();
     const end = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    
+
     // Go back ~52 weeks from the current week's Saturday
     const endDayOfWeek = end.getDay();
     const start = new Date(end);
@@ -174,292 +196,111 @@ export default function GitHubActivity() {
     }
   };
 
+  const [sectionRef, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const peakDay = Object.values(dataMap).reduce((max, d) => Math.max(max, d.count), 0);
+
+  const stats = [
+    { key: "commits", Icon: FaCodeBranch, label: "Total commits", unit: "Commits", value: totalCount },
+    { key: "days", Icon: FaCalendarAlt, label: "Active coding days", unit: "Days", value: Object.keys(dataMap).length },
+    { key: "peak", Icon: FaFire, label: "Peak daily commits", unit: "Commits/Day", value: peakDay },
+  ];
+
   return (
-    <div style={{ width: "100%", position: "relative" }}>
-      {/* Section Header */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-end",
-          flexWrap: "wrap",
-          gap: "20px",
-          marginBottom: "28px",
-        }}
-      >
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
-            <span
-              style={{
-                background: "rgba(34, 197, 94, 0.18)",
-                border: "1px solid rgba(34, 197, 94, 0.4)",
-                color: "#4ade80",
-                fontFamily: "var(--font-family-mono)",
-                fontSize: "11px",
-                fontWeight: 700,
-                padding: "4px 12px",
-                borderRadius: "9999px",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                letterSpacing: "0.04em",
-              }}
-            >
-              // TELEMETRI KONTRIBUSI GITHUB
-            </span>
-          </div>
-          <h2
-            style={{
-              fontFamily: "var(--font-family-display)",
-              fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)",
-              fontWeight: 800,
-              color: "#ffffff",
-              letterSpacing: "-0.03em",
-              margin: 0,
-              lineHeight: 1.15,
-            }}
-          >
-            Aktivitas Open Source &amp; Code Repository
-          </h2>
-          <p
-            style={{
-              fontFamily: "var(--font-family-body)",
-              fontSize: "14.5px",
-              color: "rgba(255, 255, 255, 0.72)",
-              marginTop: "8px",
-              marginBottom: 0,
-              maxWidth: "650px",
-            }}
-          >
-            Catatan komit publik nyata, konsistensi rekayasa kode, dan kontribusi repositori aktif selama 12 bulan terakhir.
-          </p>
-        </div>
-
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-          <span
-            style={{
-              background: "rgba(255, 255, 255, 0.10)",
-              backdropFilter: "blur(16px)",
-              border: "1px solid rgba(255, 255, 255, 0.25)",
-              color: "#ffffff",
-              fontFamily: "var(--font-family-mono)",
-              fontSize: "12px",
-              fontWeight: 700,
-              padding: "7px 16px",
-              borderRadius: "9999px",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              boxShadow: "0 4px 14px rgba(0, 0, 0, 0.15)",
-            }}
-          >
-            ⚡ {totalCount}+ KONTRIBUSI TAHUN INI
-          </span>
-          <a
-            href="https://github.com/ErgaWanda"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              textDecoration: "none",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              background: "rgba(255, 255, 255, 0.12)",
-              backdropFilter: "blur(16px)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-              color: "#ffffff",
-              fontFamily: "var(--font-family-mono)",
-              fontSize: "12px",
-              fontWeight: 700,
-              padding: "7px 16px",
-              borderRadius: "9999px",
-              boxShadow: "0 4px 14px rgba(0, 0, 0, 0.15)",
-              transition: "all 0.2s ease",
-            }}
-            className="hover:scale-105"
-          >
-            <FaGithub size={15} />
-            <span>@ErgaWanda → GitHub</span>
-            <FaExternalLinkAlt size={10} style={{ opacity: 0.7 }} />
-          </a>
-        </div>
-      </div>
-
-      {/* Main GitHub Calendar Outer Container (Pure Liquid Glass) */}
-      <div
-        style={{
-          background: "rgba(255, 255, 255, 0.08)",
-          backdropFilter: "blur(28px) saturate(140%)",
-          WebkitBackdropFilter: "blur(28px) saturate(140%)",
-          border: "1px solid rgba(255, 255, 255, 0.22)",
-          borderTop: "1.5px solid rgba(255, 255, 255, 0.5)",
-          borderRadius: "20px",
-          padding: "20px 24px",
-          position: "relative",
-          overflow: "hidden",
-          boxShadow: "0 20px 50px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.35)",
-        }}
-      >
-        {/* Top telemetry bar */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: "16px",
-            paddingBottom: "12px",
-            borderBottom: "1px solid rgba(255, 255, 255, 0.12)",
-            flexWrap: "wrap",
-            gap: "10px",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <div
-              style={{
-                width: "30px",
-                height: "30px",
-                borderRadius: "8px",
-                background: "rgba(255, 255, 255, 0.14)",
-                border: "1px solid rgba(255, 255, 255, 0.3)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#ffffff",
-              }}
-            >
-              <FaGithub size={16} />
-            </div>
-            <div>
-              <div style={{ fontFamily: "var(--font-family-mono)", fontSize: "12.5px", color: "#ffffff", fontWeight: 800, letterSpacing: "0.02em" }}>
-                github.com/ErgaWanda
-              </div>
-              <div style={{ fontFamily: "var(--font-family-mono)", fontSize: "10px", color: "rgba(255, 255, 255, 0.65)" }}>
-                Public Contributions &amp; Commits Calendar
-              </div>
-            </div>
-          </div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <span
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                background: "rgba(34, 197, 94, 0.18)",
-                border: "1px solid rgba(34, 197, 94, 0.45)",
-                borderRadius: "20px",
-                padding: "4px 10px",
-                fontFamily: "var(--font-family-mono)",
-                fontSize: "10px",
-                color: isLiveLoaded ? "#4ade80" : "rgba(255, 255, 255, 0.7)",
-                fontWeight: 700,
-              }}
-            >
-              <span
-                style={{
-                  width: "6px",
-                  height: "6px",
-                  borderRadius: "50%",
-                  background: isLiveLoaded ? "#4ade80" : "rgba(255, 255, 255, 0.6)",
-                  boxShadow: isLiveLoaded ? "0 0 8px #22c55e" : "none",
-                }}
-              />
-              {isLiveLoaded ? "LIVE SYNCED" : "DATA AKTIF"}
-            </span>
-          </div>
-        </div>
-
-          {/* Scrollable Calendar Area */}
-          <div
-            ref={scrollRef}
-            style={{
-              overflowX: "auto",
-              paddingBottom: "8px",
-              WebkitOverflowScrolling: "touch",
-            }}
-          >
-            <div style={{ minWidth: "750px" }}>
-              {/* Month Labels Header */}
-              <div
-                style={{
-                  display: "flex",
-                  marginLeft: "34px",
-                  marginBottom: "6px",
-                  height: "16px",
-                  position: "relative",
-                }}
+    <section id="github" data-hue="moss" ref={sectionRef} className="band-bleed gh">
+      <div className="sheet">
+        <SectionHead
+          index="06"
+          title="Commit velocity & code consistency"
+          subtitle="Catatan komit publik nyata, konsistensi rekayasa kode, dan kontribusi repositori aktif selama 12 bulan terakhir."
+          meta="GitHub activity // repository metrics & commits"
+          actions={
+            <div className="row gh__actions">
+              <span className="chip chip--acid">
+                <FaBolt size={11} />
+                {totalCount}+ commits recorded
+              </span>
+              <a
+                className="btn btn--sm"
+                href="https://github.com/ErgaWanda"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                {monthLabels.map((m, i) => (
-                  <span
-                    key={i}
-                    style={{
-                      position: "absolute",
-                      left: `${m.colIndex * 14}px`,
-                      fontFamily: "var(--font-mono)",
-                      fontSize: "10px",
-                      color: "#8B949E",
-                      fontWeight: 600,
-                      userSelect: "none",
-                    }}
-                  >
-                    {m.name}
-                  </span>
-                ))}
+                <FaGithub size={14} className="btn__icon" />
+                @ErgaWanda → GitHub
+                <FaExternalLinkAlt size={10} className="btn__icon" />
+              </a>
+            </div>
+          }
+        />
+
+        <Reveal className="bento gh__grid">
+          {/* ── Contribution heatmap ─────────────────────── */}
+          <article className="gh__heatmap">
+            <div className="cell__head">
+              <div className="row row--tight">
+                <span className="gh__glyph gh__glyph--mark">
+                  <FaGithub size={18} />
+                </span>
+                <div className="col">
+                  <span className="mono mono--ink">github.com/ErgaWanda</span>
+                  <span className="mono">Public contributions &amp; commits stream // verified activity</span>
+                </div>
               </div>
 
-              {/* Main Days Grid with Mon, Wed, Fri row indicators */}
-              <div style={{ display: "flex", alignItems: "flex-start", gap: "6px" }}>
-                {/* Day Labels Column (Mon, Wed, Fri) */}
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "3px",
-                    width: "28px",
-                    textAlign: "right",
-                    paddingRight: "4px",
-                    userSelect: "none",
-                  }}
-                >
-                  <span style={{ height: "11px", lineHeight: "11px", fontSize: "9px", fontFamily: "var(--font-mono)", color: "transparent" }}>Sun</span>
-                  <span style={{ height: "11px", lineHeight: "11px", fontSize: "9px", fontFamily: "var(--font-mono)", color: "#8B949E", fontWeight: 600 }}>Mon</span>
-                  <span style={{ height: "11px", lineHeight: "11px", fontSize: "9px", fontFamily: "var(--font-mono)", color: "transparent" }}>Tue</span>
-                  <span style={{ height: "11px", lineHeight: "11px", fontSize: "9px", fontFamily: "var(--font-mono)", color: "#8B949E", fontWeight: 600 }}>Wed</span>
-                  <span style={{ height: "11px", lineHeight: "11px", fontSize: "9px", fontFamily: "var(--font-mono)", color: "transparent" }}>Thu</span>
-                  <span style={{ height: "11px", lineHeight: "11px", fontSize: "9px", fontFamily: "var(--font-mono)", color: "#8B949E", fontWeight: 600 }}>Fri</span>
-                  <span style={{ height: "11px", lineHeight: "11px", fontSize: "9px", fontFamily: "var(--font-mono)", color: "transparent" }}>Sat</span>
+              <span className="chip">
+                <span className={`gh__dot${isLiveLoaded ? " gh__dot--live" : ""}`} aria-hidden="true" />
+                {isLiveLoaded ? "Live data connected" : "Offline cached"}
+              </span>
+            </div>
+
+            <div className="gh__scroll" ref={scrollRef}>
+              <div className="gh__cal" style={{ ["--weeks" as string]: weeks.length }}>
+                {/* Month labels, one per week column */}
+                <div className="gh__months" aria-hidden="true">
+                  {monthLabels.map((m) => (
+                    <span
+                      key={`${m.name}-${m.colIndex}`}
+                      className="mono gh__month"
+                      style={{ ["--col" as string]: m.colIndex + 1 }}
+                    >
+                      {m.name}
+                    </span>
+                  ))}
                 </div>
 
-                {/* Weeks Columns */}
-                <div style={{ display: "flex", gap: "3px" }}>
-                  {weeks.map((week, wIdx) => (
-                    <div
-                      key={wIdx}
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "3px",
-                      }}
-                    >
-                      {/* For first week if it starts after Sunday, pad empty spots */}
-                      {wIdx === 0 && week.length > 0 && week[0].dayOfWeek > 0 && (
-                        Array.from({ length: week[0].dayOfWeek }).map((_, padIdx) => (
-                          <div
-                            key={`pad-start-${padIdx}`}
-                            style={{
-                              width: "11px",
-                              height: "11px",
-                              visibility: "hidden",
-                            }}
-                          />
-                        ))
-                      )}
+                <div className="gh__body">
+                  {/* Day indicators: Mon / Wed / Fri */}
+                  <div className="gh__dows" aria-hidden="true">
+                    {DAY_LABELS.map((label, idx) => (
+                      <span
+                        key={label}
+                        className={`mono gh__dow${DAY_LABEL_ROWS.includes(idx) ? "" : " gh__dow--blank"}`}
+                      >
+                        {label}
+                      </span>
+                    ))}
+                  </div>
 
-                      {week.map((day) => {
-                        const cellColor = LEVEL_COLORS[day.level] || LEVEL_COLORS[0];
-                        return (
-                          <div
+                  {/* Week columns */}
+                  <div className="gh__cells">
+                    {weeks.map((week, wIdx) => (
+                      <div key={wIdx} className="gh__week">
+                        {wIdx === 0 && week.length > 0 && week[0].dayOfWeek > 0 && (
+                          Array.from({ length: week[0].dayOfWeek }).map((_, padIdx) => (
+                            <span key={`pad-start-${padIdx}`} className="gh__cell gh__cell--pad" />
+                          ))
+                        )}
+
+                        {week.map((day) => (
+                          <span
                             key={day.dateStr}
+                            className={`gh__cell gh__lv--${day.level}`}
+                            role="img"
+                            aria-label={`${day.count} kontribusi pada ${formatDate(day.dateStr)}`}
                             onMouseEnter={(e) => {
                               const rect = e.currentTarget.getBoundingClientRect();
                               setHoveredDay({
@@ -470,240 +311,67 @@ export default function GitHubActivity() {
                               });
                             }}
                             onMouseLeave={() => setHoveredDay(null)}
-                            style={{
-                              width: "11px",
-                              height: "11px",
-                              borderRadius: "2px",
-                              backgroundColor: cellColor,
-                              outline: "1px solid rgba(255, 255, 255, 0.05)",
-                              outlineOffset: "-1px",
-                              cursor: "pointer",
-                              transition: "transform 0.15s ease, outline-color 0.15s ease",
-                            }}
-                            className="hover:scale-125 hover:outline-[#39D353]"
                           />
-                        );
-                      })}
-                    </div>
-                  ))}
+                        ))}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Calendar Bottom Footer */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginTop: "16px",
-              paddingTop: "12px",
-              borderTop: "1px solid rgba(255, 255, 255, 0.12)",
-              fontFamily: "var(--font-family-mono)",
-              fontSize: "11px",
-              color: "rgba(255, 255, 255, 0.7)",
-              flexWrap: "wrap",
-              gap: "10px",
-            }}
-          >
-            <a
-              href="https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-settings-on-your-profile/why-are-my-contributions-not-showing-up-on-my-profile"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: "rgba(255, 255, 255, 0.7)",
-                textDecoration: "none",
-                fontSize: "11px",
-              }}
-              className="hover:text-white hover:underline"
-            >
-              Learn how we count contributions
-            </a>
+            {/* Legend */}
+            <div className="gh__foot">
+              <a
+                className="gh__link"
+                href="https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-settings-on-your-profile/why-are-my-contributions-not-showing-up-on-my-profile"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Learn how we count contributions
+              </a>
 
-            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-              <span style={{ marginRight: "4px", fontSize: "11px" }}>Less</span>
-              {LEVEL_COLORS.map((col, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    width: "11px",
-                    height: "11px",
-                    borderRadius: "2.5px",
-                    backgroundColor: col,
-                    outline: "1px solid rgba(255, 255, 255, 0.12)",
-                    outlineOffset: "-1px",
-                  }}
-                  title={`Level ${idx}`}
-                />
-              ))}
-              <span style={{ marginLeft: "4px", fontSize: "11px" }}>More</span>
+              <div className="row row--tight">
+                <span className="gh__foot-label">Less</span>
+                {LEGEND_LEVELS.map((idx) => (
+                  <span key={idx} className={`gh__sw gh__lv--${idx}`} title={`Level ${idx}`} />
+                ))}
+                <span className="gh__foot-label">More</span>
+              </div>
             </div>
-          </div>
-        </div>
+          </article>
 
-        {/* Stat Cards (Nature Frosted Glass Theme) */}
+          {/* ── Telemetry cells ──────────────────────────── */}
+          {stats.map(({ key, Icon, label, unit, value }) => (
+            <article key={key} className={`gh__stat gh__stat--${key}`}>
+              <span className="gh__glyph">
+                <Icon size={18} />
+              </span>
+              <div className="stat">
+                <span className="stat__num">
+                  <AnimatedNumber value={value} inView={inView} />{" "}
+                  <span className="gh__stat-unit">{unit}</span>
+                </span>
+                <span className="stat__label">{label}</span>
+              </div>
+            </article>
+          ))}
+        </Reveal>
+      </div>
+
+      {/* Interactive floating tooltip */}
+      {hoveredDay && (
         <div
+          className="gh__tip"
+          aria-hidden="true"
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: "14px",
-            marginTop: "18px",
+            ["--tip-x" as string]: `${hoveredDay.x}px`,
+            ["--tip-y" as string]: `${hoveredDay.y - 38}px`,
           }}
         >
-          {/* Commits Card */}
-          <div
-            style={{
-              background: "rgba(255, 255, 255, 0.09)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              border: "1px solid rgba(255, 255, 255, 0.22)",
-              borderTop: "1.5px solid rgba(255, 255, 255, 0.45)",
-              borderRadius: "16px",
-              padding: "16px 20px",
-              display: "flex",
-              alignItems: "center",
-              gap: "14px",
-              boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.25)",
-            }}
-          >
-            <div
-              style={{
-                width: "42px",
-                height: "42px",
-                borderRadius: "10px",
-                background: "rgba(34, 197, 94, 0.2)",
-                border: "1px solid rgba(34, 197, 94, 0.4)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#4ade80",
-                flexShrink: 0,
-              }}
-            >
-              <FaCodeBranch size={18} />
-            </div>
-            <div>
-              <div style={{ fontFamily: "var(--font-family-mono)", fontSize: "10.5px", color: "rgba(255, 255, 255, 0.65)", fontWeight: 700, letterSpacing: "0.04em" }}>
-                TOTAL KONTRIBUSI
-              </div>
-              <div style={{ fontFamily: "var(--font-family-display)", fontSize: "22px", fontWeight: 800, color: "#ffffff", lineHeight: 1.1, marginTop: "2px" }}>
-                {totalCount} <span style={{ fontSize: "12px", fontFamily: "var(--font-family-mono)", color: "#4ade80", fontWeight: 700 }}>Commits</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Active Days Card */}
-          <div
-            style={{
-              background: "rgba(255, 255, 255, 0.09)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              border: "1px solid rgba(255, 255, 255, 0.22)",
-              borderTop: "1.5px solid rgba(255, 255, 255, 0.45)",
-              borderRadius: "16px",
-              padding: "16px 20px",
-              display: "flex",
-              alignItems: "center",
-              gap: "14px",
-              boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.25)",
-            }}
-          >
-            <div
-              style={{
-                width: "42px",
-                height: "42px",
-                borderRadius: "10px",
-                background: "rgba(245, 158, 11, 0.2)",
-                border: "1px solid rgba(245, 158, 11, 0.4)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#fbbf24",
-                flexShrink: 0,
-              }}
-            >
-              <FaCalendarAlt size={18} />
-            </div>
-            <div>
-              <div style={{ fontFamily: "var(--font-family-mono)", fontSize: "10.5px", color: "rgba(255, 255, 255, 0.65)", fontWeight: 700, letterSpacing: "0.04em" }}>
-                HARI AKTIF
-              </div>
-              <div style={{ fontFamily: "var(--font-family-display)", fontSize: "22px", fontWeight: 800, color: "#ffffff", lineHeight: 1.1, marginTop: "2px" }}>
-                {Object.keys(dataMap).length} <span style={{ fontSize: "12px", fontFamily: "var(--font-family-mono)", color: "#fbbf24", fontWeight: 700 }}>Hari</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Peak Day Card */}
-          <div
-            style={{
-              background: "rgba(255, 255, 255, 0.09)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              border: "1px solid rgba(255, 255, 255, 0.22)",
-              borderTop: "1.5px solid rgba(255, 255, 255, 0.45)",
-              borderRadius: "16px",
-              padding: "16px 20px",
-              display: "flex",
-              alignItems: "center",
-              gap: "14px",
-              boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.25)",
-            }}
-          >
-            <div
-              style={{
-                width: "42px",
-                height: "42px",
-                borderRadius: "10px",
-                background: "rgba(239, 68, 68, 0.2)",
-                border: "1px solid rgba(239, 68, 68, 0.4)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#f87171",
-                flexShrink: 0,
-              }}
-            >
-              <FaFire size={18} />
-            </div>
-            <div>
-              <div style={{ fontFamily: "var(--font-family-mono)", fontSize: "10.5px", color: "rgba(255, 255, 255, 0.65)", fontWeight: 700, letterSpacing: "0.04em" }}>
-                PEAK HARIAN TERTINGGI
-              </div>
-              <div style={{ fontFamily: "var(--font-family-display)", fontSize: "22px", fontWeight: 800, color: "#ffffff", lineHeight: 1.1, marginTop: "2px" }}>
-                25 <span style={{ fontSize: "12px", fontFamily: "var(--font-family-mono)", color: "#f87171", fontWeight: 700 }}>Commits/Hari</span>
-              </div>
-            </div>
-          </div>
+          <strong>{hoveredDay.count} kontribusi</strong> pada {formatDate(hoveredDay.date)}
         </div>
-
-        {/* Interactive Floating Tooltip */}
-        {hoveredDay && (
-          <div
-            style={{
-              position: "fixed",
-              left: `${hoveredDay.x}px`,
-              top: `${hoveredDay.y - 36}px`,
-              transform: "translateX(-50%)",
-              background: "rgba(8, 24, 15, 0.94)",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-              color: "#ffffff",
-              padding: "6px 12px",
-              borderRadius: "8px",
-              fontSize: "11px",
-              fontFamily: "var(--font-family-mono)",
-              pointerEvents: "none",
-              zIndex: 9999,
-              boxShadow: "0 8px 24px rgba(0, 0, 0, 0.5)",
-              border: "1px solid rgba(255, 255, 255, 0.25)",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <strong>{hoveredDay.count} kontribusi</strong> pada {formatDate(hoveredDay.date)}
-          </div>
-        )}
-    </div>
+      )}
+    </section>
   );
 }

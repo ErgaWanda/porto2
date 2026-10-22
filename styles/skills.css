@@ -1,0 +1,193 @@
+/* ============================================================
+   05 · SKILLS — collapsed-rule competency matrix
+   ------------------------------------------------------------
+   The signature move: cells carry no border and no shadow. The
+   ink ground of `.bento` shows through the 2px gaps, so every
+   neighbour shares ONE hairline. Proficiency is a quiet 5-step
+   tick scale — ink on paper, never a saturated rainbow.
+   ============================================================ */
+
+.skills {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.skills > .skill {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  grid-column: span 4;
+  min-width: 0;
+  padding: clamp(18px, 2.2vw, 26px);
+}
+
+.skills > .skill--wide {
+  grid-column: span 6;
+}
+
+/* Grounds are rationed: the lower band only. */
+.skills > .skill--stone {
+  background: var(--tint-stone);
+}
+
+.skills > .skill--moss {
+  background: var(--tint-moss);
+}
+
+.skills > .skill > .cell__head {
+  margin-bottom: 0;
+}
+
+/* ── Cell chrome ─────────────────────────────────────────── */
+
+.skill__stamp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.skill__num {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  background: var(--accent-tint);
+  border: var(--bw) solid var(--ink);
+  border-radius: var(--r-sharp);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--ink);
+}
+
+.skill__icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border: var(--bw) solid var(--ink);
+  border-radius: var(--r-sharp);
+  color: var(--ink);
+}
+
+.skill__title {
+  margin: 0;
+}
+
+.skill__desc {
+  margin: 0;
+}
+
+/* ── Footer: meter pinned to the base line of the cell ───── */
+
+.skill__foot {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.skill__tags {
+  padding-top: 2px;
+}
+
+/* ── Proficiency: continuous bar, sliced into 5 ticks ────── */
+
+.meter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.meter__scale {
+  position: relative;
+  height: 12px;
+  background: var(--surface-2);
+  border: var(--bw-hair) solid var(--ink-20);
+  overflow: hidden;
+}
+
+.meter__fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--pct, 0%);
+  background: var(--accent);
+}
+
+.meter__scale::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to right,
+    transparent 0 calc(20% - 1px),
+    var(--paper-deep) calc(20% - 1px) 20%
+  );
+}
+
+.meter__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Signal colour arrives from the theme's `.mono--signal`, never
+   set here: load order between this file and theme.css is not
+   guaranteed, and `.mono` already owns this element's colour. */
+.meter__rank {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Responsive collapse ─────────────────────────────────── */
+
+@media (max-width: 1000px) {
+  .skills > .skill,
+  .skills > .skill--wide {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 640px) {
+  .skills > .skill,
+  .skills > .skill--wide {
+    grid-column: span 12;
+  }
+
+  .skills > .skill {
+    padding: 18px 16px;
+  }
+
+  .skill__foot {
+    padding-top: 12px;
+  }
+}
+
+/* ============================================================
+   HAND-CUT PASS — die-cut squares and a meter that sits on the
+   line slightly crooked. Tokens only; no new colours.
+   ============================================================ */
+
+.skill__num,
+.skill__icon {
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+}
+
+.skill__num  { transform: rotate(-2.4deg); }
+.skill__icon { transform: rotate(1.8deg); filter: var(--ink-chip); }
+
+.skills > .skill:nth-child(even) .skill__num  { transform: rotate(2.2deg); }
+.skills > .skill:nth-child(even) .skill__icon { transform: rotate(-1.5deg); filter: var(--ink-chip-b); }
+
+/* The scale keeps sharp cut ends but never sits level, and no meter is
+   filled to a straight line by a hand. */
+.meter__scale { transform: rotate(-0.45deg); filter: var(--ink-line); }
+.skills > .skill:nth-child(even) .meter__scale { transform: rotate(0.4deg); filter: var(--ink-line-b); }

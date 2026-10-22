@@ -1,12 +1,55 @@
 "use client";
 
 import React from "react";
-import { FaGithub, FaWhatsapp } from "react-icons/fa";
+import { FaGithub, FaWhatsapp, FaLinkedin } from "react-icons/fa";
 import { FiMail, FiArrowUp, FiFileText, FiMapPin } from "react-icons/fi";
+import { Reveal } from "./Reveal";
+import "../../styles/footer.css";
 
 interface FooterProps {
   onCvClick?: () => void;
 }
+
+const FOOTER_LINKS = [
+  { label: "Proyek", id: "projects" },
+  { label: "Arsitektur", id: "architecture" },
+  { label: "Pengalaman", id: "experience" },
+  { label: "Keahlian", id: "skills" },
+  { label: "GitHub", id: "github" },
+  { label: "Metodologi", id: "workflow" },
+  { label: "Kontak", id: "contact" },
+];
+
+const SOCIALS = [
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com/in/erga-wanda-afriza-147564211",
+    title: "LinkedIn Profile (@erga-wanda-afriza)",
+    aria: "LinkedIn @erga-wanda-afriza",
+    Icon: FaLinkedin,
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/ErgaWanda",
+    title: "GitHub Profile (@ErgaWanda)",
+    aria: "GitHub @ErgaWanda",
+    Icon: FaGithub,
+  },
+  {
+    label: "WhatsApp",
+    href: "https://wa.me/6288291067259",
+    title: "Chat WhatsApp (+62 882-9106-7259)",
+    aria: "WhatsApp (+62 882-9106-7259)",
+    Icon: FaWhatsapp,
+  },
+  {
+    label: "Email",
+    href: "mailto:ewandaafriza@gmail.com",
+    title: "Email Resmi (ewandaafriza@gmail.com)",
+    aria: "Email Resmi (ewandaafriza@gmail.com)",
+    Icon: FiMail,
+  },
+];
 
 export const Footer: React.FC<FooterProps> = ({ onCvClick }) => {
   const scrollToTop = () => {
@@ -21,337 +64,94 @@ export const Footer: React.FC<FooterProps> = ({ onCvClick }) => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer
-      style={{
-        position: "relative",
-        zIndex: 10,
-        marginTop: "48px",
-        borderRadius: "28px 28px 0 0",
-        background: "rgba(6, 20, 13, 0.78)",
-        backdropFilter: "blur(28px) saturate(140%)",
-        WebkitBackdropFilter: "blur(28px) saturate(140%)",
-        borderTop: "1px solid rgba(255, 255, 255, 0.22)",
-        borderLeft: "1px solid rgba(255, 255, 255, 0.12)",
-        borderRight: "1px solid rgba(255, 255, 255, 0.12)",
-        boxShadow:
-          "0 -15px 50px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25)",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "1280px",
-          margin: "0 auto",
-          padding: "40px 24px 28px 24px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "28px",
-        }}
-      >
-        {/* ── Main Clean Modern Row ────────────────────────────── */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "24px",
-          }}
-        >
-          {/* Brand Info */}
-          <div>
-            <div
-              style={{
-                fontFamily: "var(--font-family-display)",
-                fontSize: "22px",
-                fontWeight: 800,
-                color: "#ffffff",
-                letterSpacing: "-0.03em",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-              }}
-            >
-              <span>ewanda</span>
-              <span style={{ color: "#22c55e" }}>.</span>
-              <span
-                style={{
-                  fontFamily: "var(--font-family-mono)",
-                  fontSize: "9.5px",
-                  fontWeight: 700,
-                  color: "#86efac",
-                  background: "rgba(34, 197, 94, 0.18)",
-                  border: "1px solid rgba(34, 197, 94, 0.35)",
-                  padding: "2px 8px",
-                  borderRadius: "9999px",
-                  letterSpacing: "0.04em",
-                }}
-              >
-                RDS GROUP
-              </span>
-            </div>
-            <p
-              style={{
-                fontFamily: "var(--font-family-body)",
-                fontSize: "13.5px",
-                color: "rgba(255, 255, 255, 0.72)",
-                margin: "6px 0 0 0",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                flexWrap: "wrap",
-              }}
-            >
-              <span>Erga Wanda Afriza — IT Developer &amp; Software Engineer</span>
-              <span style={{ color: "rgba(255, 255, 255, 0.25)" }}>•</span>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", color: "rgba(255, 255, 255, 0.6)" }}>
-                <FiMapPin size={11} style={{ color: "#38bdf8" }} />
-                <span>Jakarta &amp; Bekasi, Indonesia</span>
-              </span>
-            </p>
+    <footer className="band-bleed band-bleed--ink footer">
+      <div className="sheet">
+        {/* ── Closing nameplate ──────────────────────────────── */}
+        <Reveal className="footer__mast">
+          <div className="col footer__id">
+            <span className="mono">
+              ewanda<span className="footer__mark">.</span>
+            </span>
+            <h2 className="display-xl footer__name">Erga Wanda Afriza</h2>
+            <p className="footer__role">IT Developer — RDS Group</p>
           </div>
 
-          {/* Social Links & Actions */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              flexWrap: "wrap",
-            }}
-          >
-            {/* GitHub */}
-            <a
-              href="https://github.com/ErgaWanda"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub @ErgaWanda"
-              style={{
-                width: "36px",
-                height: "36px",
-                borderRadius: "10px",
-                background: "rgba(255, 255, 255, 0.08)",
-                border: "1px solid rgba(255, 255, 255, 0.18)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#ffffff",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#22c55e";
-                e.currentTarget.style.color = "#4ade80";
-                e.currentTarget.style.background = "rgba(34, 197, 94, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.18)";
-                e.currentTarget.style.color = "#ffffff";
-                e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
-              }}
-              title="GitHub Profile (@ErgaWanda)"
-            >
-              <FaGithub size={15} />
-            </a>
-
-            {/* WhatsApp */}
-            <a
-              href="https://wa.me/6288291067259"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="WhatsApp"
-              style={{
-                width: "36px",
-                height: "36px",
-                borderRadius: "10px",
-                background: "rgba(255, 255, 255, 0.08)",
-                border: "1px solid rgba(255, 255, 255, 0.18)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#ffffff",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#22c55e";
-                e.currentTarget.style.color = "#4ade80";
-                e.currentTarget.style.background = "rgba(34, 197, 94, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.18)";
-                e.currentTarget.style.color = "#ffffff";
-                e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
-              }}
-              title="WhatsApp Direct"
-            >
-              <FaWhatsapp size={15} />
-            </a>
-
-            {/* Email */}
-            <a
-              href="mailto:ewandaafriza@gmail.com"
-              aria-label="Kirim Email"
-              style={{
-                width: "36px",
-                height: "36px",
-                borderRadius: "10px",
-                background: "rgba(255, 255, 255, 0.08)",
-                border: "1px solid rgba(255, 255, 255, 0.18)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#ffffff",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#22c55e";
-                e.currentTarget.style.color = "#4ade80";
-                e.currentTarget.style.background = "rgba(34, 197, 94, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.18)";
-                e.currentTarget.style.color = "#ffffff";
-                e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
-              }}
-              title="Email Resmi (ewandaafriza@gmail.com)"
-            >
-              <FiMail size={15} />
-            </a>
-
-            {/* CV Modal Trigger */}
+          <div className="col footer__facts">
+            <span className="mono">Basis</span>
+            <span className="footer__loc">
+              <FiMapPin size={13} aria-hidden="true" />
+              <span>Jakarta &amp; Bekasi, Indonesia</span>
+            </span>
             {onCvClick && (
               <button
+                type="button"
+                className="btn btn--sm footer__cv"
                 onClick={onCvClick}
-                style={{
-                  background: "rgba(255, 255, 255, 0.09)",
-                  border: "1px solid rgba(255, 255, 255, 0.22)",
-                  borderRadius: "9999px",
-                  padding: "7px 14px",
-                  color: "#ffffff",
-                  fontFamily: "var(--font-family-body)",
-                  fontSize: "12.5px",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.18)";
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.4)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.09)";
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.22)";
-                }}
+                title="Unduh resume"
               >
-                <FiFileText size={12} style={{ color: "#4ade80" }} />
-                <span>Lihat CV</span>
+                <FiFileText size={13} className="btn__icon" />
+                <span>Unduh resume</span>
               </button>
             )}
-
-            {/* Back to Top Button */}
-            <button
-              onClick={scrollToTop}
-              style={{
-                background: "rgba(34, 197, 94, 0.14)",
-                border: "1px solid rgba(34, 197, 94, 0.35)",
-                borderRadius: "9999px",
-                padding: "7px 14px",
-                color: "#86efac",
-                fontFamily: "var(--font-family-mono)",
-                fontSize: "11px",
-                fontWeight: 700,
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "5px",
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#22c55e";
-                e.currentTarget.style.borderColor = "#22c55e";
-                e.currentTarget.style.color = "#041408";
-                e.currentTarget.style.transform = "translateY(-2px)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "rgba(34, 197, 94, 0.14)";
-                e.currentTarget.style.borderColor = "rgba(34, 197, 94, 0.35)";
-                e.currentTarget.style.color = "#86efac";
-                e.currentTarget.style.transform = "translateY(0)";
-              }}
-            >
-              <FiArrowUp size={12} />
-              <span>Atas</span>
-            </button>
           </div>
-        </div>
+        </Reveal>
 
-        {/* ── Semantic Quick Nav Links Row ────────────────────── */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "16px",
-            paddingTop: "16px",
-            borderTop: "1px solid rgba(255, 255, 255, 0.1)",
-          }}
-        >
-          {/* Nav Items */}
-          <nav
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "20px",
-              flexWrap: "wrap",
-            }}
-          >
-            {[
-              { label: "Proyek", id: "projects" },
-              { label: "Pengalaman", id: "experience" },
-              { label: "Keahlian", id: "skills" },
-              { label: "GitHub", id: "github" },
-              { label: "Alur Kerja", id: "workflow" },
-              { label: "Kontak", id: "contact" },
-            ].map((link) => (
-              <button
-                key={link.id}
-                onClick={() => scrollTo(link.id)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  padding: 0,
-                  color: "rgba(255, 255, 255, 0.72)",
-                  fontFamily: "var(--font-family-body)",
-                  fontSize: "13px",
-                  fontWeight: 500,
-                  cursor: "pointer",
-                  transition: "color 0.2s ease",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#4ade80")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255, 255, 255, 0.72)")}
-              >
-                {link.label}
-              </button>
-            ))}
+        {/* ── Quiet nav + social chips ───────────────────────── */}
+        <Reveal className="footer__body" delay={90}>
+          <nav className="footer__nav" aria-label="Navigasi footer">
+            <span className="mono">Jelajahi</span>
+            <ul className="footer__list">
+              {FOOTER_LINKS.map((link) => (
+                <li key={link.id}>
+                  <button
+                    type="button"
+                    className="footer__link"
+                    onClick={() => scrollTo(link.id)}
+                  >
+                    {link.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
           </nav>
 
-          {/* Copyright & Info */}
-          <div
-            style={{
-              fontFamily: "var(--font-family-mono)",
-              fontSize: "11px",
-              color: "rgba(255, 255, 255, 0.5)",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
-            <span>&copy; {currentYear} Erga Wanda Afriza</span>
-            <span>•</span>
-            <span>Next.js &amp; React Glassmorphism</span>
+          <div className="wrap-tags footer__chips">
+            {SOCIALS.map((s) => (
+              <a
+                key={s.label}
+                className="chip"
+                href={s.href}
+                target={s.href.startsWith("mailto:") ? undefined : "_blank"}
+                rel={s.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                aria-label={s.aria}
+                title={s.title}
+              >
+                <s.Icon size={13} aria-hidden="true" />
+                {s.label}
+              </a>
+            ))}
           </div>
+        </Reveal>
+
+        {/* ── Bottom line ────────────────────────────────────── */}
+        <hr className="footer__rule" />
+
+        <div className="row row--between footer__base">
+          <p className="mono footer__copy">
+            <span>&copy; {currentYear} Erga Wanda Afriza</span>
+            <span aria-hidden="true">•</span>
+            <span className="footer__strong">Digital Engineering Portfolio</span>
+          </p>
+
+          <button
+            type="button"
+            className="btn btn--sm footer__top"
+            onClick={scrollToTop}
+            aria-label="Kembali ke atas halaman"
+          >
+            <FiArrowUp size={13} className="btn__icon" />
+            <span>Kembali ke atas</span>
+          </button>
         </div>
       </div>
     </footer>

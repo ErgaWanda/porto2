@@ -1,0 +1,280 @@
+/* ============================================================
+   08 · CONTACT — working form + direct channels + availability
+   Presentation only; owned by components/landing/ContactSection.tsx
+   All colour comes from styles/theme.css tokens.
+   ============================================================ */
+
+/* The band sits inside the page .sheet, so it cannot truly bleed.
+   A shallow inner gutter keeps it reading as a boxed plate on the
+   page instead of doubling the sheet gutter. */
+.contact {
+  position: relative;
+  z-index: 1;
+  background: var(--surface-2);
+  border-top: var(--bw) solid var(--ink);
+  border-bottom: var(--bw) solid var(--ink);
+}
+
+.contact .sheet {
+  padding-inline: clamp(0px, 1.4vw, 18px);
+}
+
+/* ── Layout: form left, channels right ─────────────────────── */
+.contact__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 34px);
+  align-items: start;
+}
+
+.contact__side {
+  gap: 14px;
+  min-width: 0;
+}
+
+/* ── Form plate ────────────────────────────────────────────── */
+.contact__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
+.contact__lede {
+  margin: 0 0 22px;
+  max-width: 46ch;
+  font-size: 13.5px;
+  line-height: 1.62;
+  color: var(--ink-60);
+}
+
+.contact__form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.contact__fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 14px;
+}
+
+.contact__field--full {
+  grid-column: 1 / -1;
+}
+
+.contact__submit {
+  align-self: start;
+  margin-top: 2px;
+}
+
+.contact__submit:disabled,
+.contact__submit:disabled:hover {
+  transform: none;
+  box-shadow: var(--plate-flat);
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.contact__notice {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.contact__notice svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── Channel grid: collapsed 2px rules, no floating cards ──── */
+.contact__channels {
+  grid-template-columns: minmax(0, 1fr);
+  align-self: start;
+}
+
+.contact__cell {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  padding: 15px 16px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background var(--dur) var(--ease-out);
+}
+
+a.contact__cell:hover {
+  background: var(--accent-tint);
+}
+
+.contact__cell-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.contact__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  color: var(--ink);
+  background: var(--surface);
+  border: var(--bw) solid var(--ink);
+}
+
+.contact__cell-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.contact__value {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.32;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.contact__copy {
+  flex-shrink: 0;
+}
+
+/* Availability plate — quiet spec lines, not a shouty box. */
+.bento > .contact__cell--meta {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 16px;
+  padding: 18px 16px 20px;
+  background: var(--accent-tint);
+}
+
+.contact__meta-head {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.contact__facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+  padding-top: 14px;
+  border-top: var(--bw) solid var(--ink);
+}
+
+.contact__facts .stat__num {
+  font-size: clamp(1.15rem, 1.9vw, 1.5rem);
+  line-height: 1.1;
+}
+
+.contact__place {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 0;
+  max-width: 34ch;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-80);
+  overflow-wrap: anywhere;
+}
+
+.contact__place svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: var(--ink);
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 980px) {
+  .contact__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 620px) {
+  .contact .sheet {
+    padding-inline: 0;
+  }
+  .contact__fields,
+  .contact__facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .contact__cell {
+    padding: 14px;
+  }
+  .contact__submit {
+    align-self: stretch;
+  }
+}
+
+@media (max-width: 420px) {
+  .contact__cell {
+    flex-wrap: wrap;
+  }
+  .contact__copy {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ============================================================
+   HAND-CUT PASS — the band's edges are laid on with a knife,
+   the icon tiles are stamped crooked. Tokens only.
+   ============================================================ */
+
+/* Straight rules out; the seam is one bent ink stroke. */
+.contact {
+  border-top: 0;
+  border-bottom: 0;
+}
+
+.contact::before {
+  content: "";
+  position: absolute;
+  left: -1.4%;
+  top: -6px;
+  width: 102.8%;
+  height: calc(var(--bw-ultra) + 4px);
+  background: var(--ink);
+  filter: var(--ink-line);
+  transform: rotate(0.22deg);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.contact__icon {
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  transform: rotate(-1.6deg);
+  filter: var(--ink-chip);
+}
+
+.contact__cell:nth-child(even) .contact__icon {
+  transform: rotate(1.4deg);
+  filter: var(--ink-chip-b);
+}
+
+.contact__facts {
+  border-top-width: var(--bw-bold);
+  transform: rotate(-0.25deg);
+}
+
+.contact__value { transform: rotate(-0.35deg); }

@@ -1,0 +1,297 @@
+/* ============================================================
+   FOOTER — closing plate of the document (ink band)
+   Presentation only; owned by components/landing/Footer.tsx
+   On an ink ground tokens invert: text = var(--paper),
+   hairlines = the one sanctioned rgba (239, 236, 227, 0.2).
+   ============================================================ */
+
+.footer {
+  --footer-hair: rgba(239, 236, 227, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.band-bleed--ink.footer {
+  border-top: var(--bw-bold) solid var(--signal);
+}
+
+/* Inverted mono labels — theme's .mono is ink-based and unreadable here. */
+.footer .mono {
+  color: var(--paper);
+  opacity: 0.62;
+}
+
+/* ── Masthead: name + role at display scale ────────────────── */
+.footer__mast {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: clamp(20px, 4vw, 48px);
+  padding-bottom: clamp(22px, 3.5vw, 36px);
+  border-bottom: var(--bw-hair) solid var(--footer-hair);
+}
+
+.footer__id {
+  gap: 10px;
+  min-width: 0;
+}
+
+.footer__name {
+  margin: 0;
+  max-width: 18ch;
+  color: var(--paper);
+}
+
+.footer__role {
+  margin: 0;
+  font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 1.5;
+  color: var(--paper);
+  opacity: 0.78;
+}
+
+.footer__mark {
+  color: var(--signal);
+}
+
+.footer__facts {
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.footer__loc {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  color: var(--paper);
+  opacity: 0.86;
+}
+
+.footer__loc svg {
+  flex-shrink: 0;
+  color: var(--signal);
+}
+
+/* ── Body: quiet link list + social chips ──────────────────── */
+.footer__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: clamp(20px, 4vw, 48px);
+  padding-top: clamp(22px, 3.5vw, 34px);
+}
+
+.footer__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.footer__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer__link {
+  position: relative;
+  padding: 3px 0;
+  background: none;
+  border: 0;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+  text-align: left;
+  cursor: pointer;
+  transition: opacity 0.16s ease;
+}
+
+.footer__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: var(--bw);
+  background: var(--signal);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s var(--ease-out);
+}
+
+.footer__link:hover::after,
+.footer__link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.footer__link:hover {
+  opacity: 0.9;
+}
+
+.footer__chips {
+  gap: 8px;
+  justify-content: flex-start;
+}
+
+/* Chips stay pill-mono, but on ink they invert to a hairline frame. */
+.footer .chip {
+  color: var(--paper);
+  background: transparent;
+  border-color: var(--footer-hair);
+  text-decoration: none;
+  transition: color 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+}
+
+.footer .chip:hover {
+  color: var(--ink);
+  background: var(--paper);
+  border-color: var(--paper);
+}
+
+.footer .chip svg {
+  flex-shrink: 0;
+}
+
+/* ── Bottom line ───────────────────────────────────────────── */
+.footer__rule {
+  border: 0;
+  border-top: var(--bw-hair) solid var(--footer-hair);
+  margin: clamp(24px, 3.4vw, 34px) 0 0;
+}
+
+.footer__base {
+  gap: 14px;
+  padding-top: 18px;
+}
+
+.footer__copy {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  font-size: 10.5px;
+}
+
+.footer__strong {
+  color: var(--paper);
+  font-weight: 700;
+}
+
+/* Buttons on ink: hairline frame, paper label; one acid plate. */
+.footer .btn {
+  border-color: var(--footer-hair);
+  box-shadow: none;
+}
+
+.footer .btn:hover {
+  box-shadow: none;
+}
+
+.footer__cv {
+  --btn-bg: transparent;
+  --btn-fg: var(--paper);
+}
+
+.footer__cv:hover {
+  --btn-bg: var(--paper);
+  --btn-fg: var(--ink);
+}
+
+.footer__top {
+  --btn-bg: var(--acid);
+  --btn-fg: var(--ink);
+  border-color: var(--ink);
+}
+
+.footer__top:hover {
+  --btn-bg: var(--paper);
+  --btn-fg: var(--ink);
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .footer__mast,
+  .footer__body {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+  .footer__facts {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 20px;
+  }
+}
+
+@media (max-width: 520px) {
+  .footer__chips {
+    gap: 6px;
+  }
+  .footer__list {
+    gap: 4px 16px;
+  }
+  .footer__base {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ============================================================
+   HAND-CUT PASS — the flame rail is laid on crooked and the
+   closing rules are tapered bars, not hairline form lines.
+   Tokens only; no new colours.
+   ============================================================ */
+
+.band-bleed--ink.footer {
+  border-top-width: var(--bw-bold);
+}
+
+.footer::before {
+  content: "";
+  position: absolute;
+  left: -1.5%;
+  top: calc(var(--bw-bold) * -1);
+  width: 103%;
+  height: calc(var(--bw-brut) + var(--bw-bold));
+  background: var(--signal);
+  filter: var(--ink-line);
+  transform: rotate(0.2deg);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.footer__mast {
+  border-bottom-width: var(--bw);
+}
+
+/* An <hr> carries no content, so the whole rule can be a stroke. */
+.footer__rule {
+  border: 0;
+  height: var(--bw-bold);
+  background: var(--footer-hair);
+  filter: var(--ink-line-b);
+  transform: rotate(-0.24deg);
+}
+
+.footer .btn {
+  box-shadow: 6px 5px 0 var(--footer-hair);
+}
+
+.footer .btn:hover {
+  box-shadow: 9px 7px 0 var(--footer-hair);
+}
+
+.footer .btn.footer__top {
+  box-shadow: 7px 6px 0 var(--paper);
+}
+
+.footer .btn.footer__top:hover {
+  box-shadow: 10px 8px 0 var(--paper);
+}

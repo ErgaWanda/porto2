@@ -1,0 +1,319 @@
+/* ============================================================
+   06 · GITHUB ACTIVITY — contribution heatmap + commit telemetry
+   ------------------------------------------------------------
+   Spec Sheet: bone paper, collapsed-rule bento, hairline-outlined
+   empty cells, and a moss contribution ramp derived only from
+   tokens (no hardcoded green palette).
+   ============================================================ */
+
+.gh { position: relative; }
+
+/* ── Header actions ─────────────────────────────────────── */
+.gh__actions { width: 100%; }
+
+/* ── Icon tiles ─────────────────────────────────────────── */
+.gh__glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background: var(--surface);
+  color: var(--ink);
+  border: var(--bw-hair) solid var(--ink-20);
+  border-radius: var(--r-sharp);
+}
+
+.gh__glyph--mark {
+  width: 34px;
+  height: 34px;
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+/* ── Live/offline status dot ────────────────────────────── */
+.gh__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--r-pill);
+  background: var(--ink-40);
+  flex-shrink: 0;
+}
+
+.gh__dot--live { background: var(--accent); }
+
+/* ── Frame: one heatmap row + three telemetry cells ─────── */
+.bento.gh__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+
+.bento > .gh__heatmap,
+.bento > .gh__stat { padding: clamp(16px, 2.4vw, 26px); }
+
+.gh__heatmap { grid-column: span 12; }
+
+.gh__stat {
+  grid-column: span 4;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.bento > .gh__stat--commits { background: var(--tint-sand); }
+.bento > .gh__stat--days { background: var(--tint-sky); }
+.bento > .gh__stat--peak { background: var(--tint-clay); }
+
+.gh__stat-unit {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink-60);
+}
+
+/* ── Heatmap geometry ───────────────────────────────────── */
+/* --weeks is authored inline (dynamic); every track is a
+   fraction of the panel, so 53 columns scale down with the
+   viewport instead of scrolling the page. */
+.gh__cal {
+  --hm-rail: 30px;
+  --hm-gap: clamp(1px, 0.35vw, 3px);
+  position: relative;
+}
+
+.gh__scroll {
+  overflow-x: auto;
+  padding: 6px 2px 10px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.gh__months {
+  display: grid;
+  grid-template-columns: repeat(var(--weeks), minmax(0, 1fr));
+  column-gap: var(--hm-gap);
+  height: 14px;
+  margin-left: calc(var(--hm-rail) + 6px);
+  overflow: hidden;
+}
+
+.mono.gh__month {
+  grid-column: var(--col);
+  grid-row: 1;
+  justify-self: start;
+  align-self: end;
+  font-size: 9.5px;
+  letter-spacing: 0.02em;
+  color: var(--ink-40);
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* The final month sits flush right instead of bleeding past the grid */
+.mono.gh__month:last-child {
+  grid-column: var(--col) / -1;
+  justify-self: end;
+}
+
+.gh__body {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.gh__dows {
+  display: grid;
+  grid-template-rows: repeat(7, minmax(0, 1fr));
+  row-gap: var(--hm-gap);
+  width: var(--hm-rail);
+  flex-shrink: 0;
+}
+
+.mono.gh__dow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 0;
+  font-size: 10px;
+  letter-spacing: 0;
+  color: var(--ink-60);
+  user-select: none;
+}
+
+.gh__dow--blank { color: transparent; }
+
+.gh__cells {
+  display: grid;
+  grid-template-columns: repeat(var(--weeks), minmax(0, 1fr));
+  gap: var(--hm-gap);
+  flex: 1;
+  min-width: 0;
+}
+
+.gh__week {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hm-gap);
+  min-width: 0;
+}
+
+/* Sharp squares; the empty day is an outlined well, not a gray block */
+.gh__cell {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--r-sharp);
+  outline: var(--bw-hair) solid var(--ink-12);
+  outline-offset: -1px;
+  cursor: pointer;
+  transition: transform var(--dur) var(--ease-out),
+              outline-color var(--dur) var(--ease-out);
+}
+
+.gh__cell--pad { visibility: hidden; }
+
+.gh__cell:hover {
+  transform: scale(1.7);
+  outline-color: var(--ink);
+}
+
+/* ── Contribution ramp: --moss over --tint-moss, 5 steps ─ */
+.gh__lv--0 { background: transparent; }
+.gh__lv--1 { background: var(--accent-tint); }
+.gh__lv--2 { background: var(--accent-soft); }
+.gh__lv--3 { background: color-mix(in srgb, var(--accent) 82%, var(--surface)); }
+.gh__lv--4 { background: var(--accent); }
+
+.gh__lv--2,
+.gh__lv--3,
+.gh__lv--4 { outline-color: var(--ink-20); }
+
+/* ── Legend ─────────────────────────────────────────────── */
+.gh__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  padding-top: 13px;
+  border-top: var(--bw-hair) solid var(--ink-12);
+}
+
+.gh__sw {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--r-sharp);
+  outline: var(--bw-hair) solid var(--ink-12);
+  outline-offset: -1px;
+}
+
+.gh__foot-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink-60);
+}
+
+.gh__link {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--ink-60);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.gh__link:hover { color: var(--accent-deep); }
+
+/* ── Floating day tooltip (hard-offset plate, no blur) ─── */
+.gh__tip {
+  position: fixed;
+  left: var(--tip-x, 0);
+  top: var(--tip-y, 0);
+  z-index: 900;
+  transform: translateX(-50%);
+  max-width: min(240px, calc(100vw - 24px));
+  padding: 6px 10px;
+  background: var(--ink);
+  color: var(--paper);
+  border: var(--bw-hair) solid var(--ink);
+  border-radius: var(--r-sm);
+  box-shadow: var(--plate-1);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.45;
+  text-align: center;
+  pointer-events: none;
+}
+
+.gh__tip strong { color: var(--acid); font-weight: 700; }
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 620px) {
+  .bento > .gh__stat { grid-column: span 12; }
+  .bento > .gh__heatmap { padding: 14px 10px; }
+}
+
+@media (max-width: 760px) {
+  /* Drop the day rail so 53 columns keep as much width as possible */
+  .gh__cal { --hm-rail: 0px; }
+  .gh__dows { display: none; }
+  .gh__body { gap: 0; }
+  .gh__months { margin-left: 0; }
+  .mono.gh__month:nth-child(even) { display: none; }
+}
+
+/* ============================================================
+   HAND-CUT PASS — glyph tiles tipped, tooltip corner cut.
+   The contribution squares stay dead square on purpose: the
+   heatmap is a data grid, and the grid is the one honest ruler
+   on this page. Tokens only; no new colours.
+   ============================================================ */
+
+.gh__glyph {
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  transform: rotate(-1.8deg);
+  filter: var(--ink-chip);
+}
+
+.gh__glyph--mark {
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  transform: rotate(2.6deg);
+  filter: var(--ink-chip-b);
+}
+
+.gh__stat:nth-child(even) .gh__glyph {
+  transform: rotate(1.5deg);
+  filter: var(--ink-chip-b);
+}
+
+.gh__foot {
+  position: relative;
+  border-top: 0;
+  transform: rotate(-0.2deg);
+}
+
+.gh__foot::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  right: -4px;
+  top: 0;
+  height: var(--bw);
+  background: var(--ink-20);
+  pointer-events: none;
+  filter: var(--ink-line);
+}
+
+.gh__tip {
+  border-radius: var(--sk-sm);
+}

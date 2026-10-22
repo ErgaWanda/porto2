@@ -1,7 +1,7 @@
-@import "../styles/glass-theme.css";
+@import "../styles/theme.css";
 
 /* ============================================================
-   GLOBAL STYLES & RESETS - NATURE GLASSMORPHISM LANDING
+   SPEC SHEET — global base, resets & layout helpers
    ============================================================ */
 
 *, *::before, *::after {
@@ -12,52 +12,880 @@
 
 html {
   scroll-behavior: smooth;
-  font-family: var(--font-family-body);
-  background-color: #050d08;
-  color: #ffffff;
+  scroll-padding-top: 96px;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 body {
-  overflow-x: hidden;
-  background-color: #050d08;
   min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  background-color: var(--paper);
+  color: var(--ink);
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+img, svg, video { display: block; max-width: 100%; }
+button { font: inherit; }
+a { color: inherit; }
+
+/* ── Page frame: paper with a faint engineering grid ─────────── */
+.page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: clip;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(to right, var(--ink-06) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--ink-06) 1px, transparent 1px);
+  background-size: 48px 48px;
+  color: var(--ink);
+  font-family: var(--font-body);
 }
 
-::-webkit-scrollbar-track {
-  background: rgba(5, 13, 8, 0.8);
+/* Paper, not a viewport. One sheet of ink speckle lies over everything the
+   page paints — on top, because the hue blocks are opaque and no per-band
+   background could reach them without stealing a pseudo-element the seams
+   already own. The noise carries at most 0.15 alpha of ink, so glyphs keep
+   their edges: it reads as the tooth of the sheet, not as a filter over
+   the screen. Below every piece of chrome (topbar 1000, drawer 1200, HUD
+   1500, dialogs 2000+) and above the z:2 content, and it takes no input. */
+.page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background-image: var(--grain);
+  background-size: 170px 170px;
 }
 
+/* ── Scrollbar ───────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--paper-deep); }
 ::-webkit-scrollbar-thumb {
-  background: rgba(34, 197, 94, 0.35);
-  border-radius: 4px;
+  background: var(--ink);
+  border: 3px solid var(--paper-deep);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--signal); }
+
+/* ── Section band: full-bleed tinted strip with inset content ── */
+.band-bleed {
+  position: relative;
+  width: 100%;
+  padding: var(--section-y) 0;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(34, 197, 94, 0.6);
+/* Shared cell chrome for collapsed-rule bento grids */
+.cell__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
 }
 
-/* Mobile-First Navigation Toggle */
-.nav-mobile-btn {
-  display: flex !important;
+/* ── 01 · Impact ledger ──────────────────────────────────────── */
+.ledger {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
 }
 
-.nav-desktop-container {
-  display: none !important;
+.ledger > * { padding: clamp(18px, 2.4vw, 28px); }
+
+.ledger__flagship { grid-column: span 7; display: flex; flex-direction: column; }
+.ledger__kemhan { grid-column: span 5; display: flex; flex-direction: column; }
+.ledger__clock {
+  grid-column: span 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  background: var(--tint-sand) !important;
+}
+.ledger__term {
+  grid-column: span 6;
+  background: var(--ink) !important;
+  color: #d8d4c8;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+}
+.ledger__creds {
+  grid-column: span 3;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--surface-2) !important;
 }
 
-@media (min-width: 901px) {
-  .nav-mobile-btn {
-    display: none !important;
-  }
-  .nav-desktop-container {
-    display: flex !important;
-  }
+.ledger__title { margin: 0 0 14px; max-width: 22ch; }
+.ledger__desc { margin: 0 0 22px; }
+
+.ledger__stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border-top: var(--bw) solid var(--ink);
+  border-bottom: var(--bw) solid var(--ink);
+  margin-bottom: 20px;
 }
+
+.ledger__stats > * {
+  padding: 13px 14px;
+  border-right: var(--bw-hair) solid var(--ink-20);
+}
+
+.ledger__stats > *:last-child { border-right: 0; }
+
+.ledger__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.ledger__list {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+}
+
+.ledger__list li {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 11px 0;
+  border-bottom: var(--bw-hair) solid var(--ink-12);
+}
+
+.ledger__list li:last-child { border-bottom: 0; }
+
+.ledger__list-name {
+  font-family: var(--font-display);
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.ledger__note {
+  margin: auto 0 0;
+  padding-top: 14px;
+  border-top: var(--bw-hair) solid var(--ink-12);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-60);
+}
+
+.ledger__time {
+  font-family: var(--font-mono);
+  font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger__tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 9px 10px;
+  border-bottom: var(--bw-hair) solid rgba(239, 236, 227, 0.16);
+}
+
+.ledger__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: transparent;
+  border: var(--bw-hair) solid transparent;
+  border-radius: var(--sk-sm);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(239, 236, 227, 0.5);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.ledger__tab:hover { color: var(--paper); }
+
+.ledger__tab--on {
+  color: var(--ink);
+  background: var(--acid);
+  border-color: var(--acid);
+}
+
+.ledger__copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  padding: 5px 10px;
+  background: transparent;
+  border: var(--bw-hair) solid rgba(239, 236, 227, 0.22);
+  border-radius: var(--sk-sm);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(239, 236, 227, 0.62);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.ledger__copy:hover { color: var(--acid); border-color: var(--acid); }
+
+.ledger__term .term__body {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  max-height: none;
+}
+
+.ledger__output {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 16px;
+  border-top: var(--bw-hair) solid rgba(239, 236, 227, 0.16);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: #9ecfa0;
+}
+
+.ledger__creds-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+
+.ledger__creds-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--accent-deep);
+}
+
+.ledger__creds-list svg { flex-shrink: 0; margin-top: 2px; }
+
+.ledger__creds-label {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+@media (max-width: 1000px) {
+  .ledger__flagship, .ledger__term { grid-column: span 12; }
+  .ledger__kemhan { grid-column: span 6; }
+  .ledger__creds { grid-column: span 6; }
+  .ledger__clock { grid-column: span 12; }
+}
+
+@media (max-width: 680px) {
+  .ledger > * { grid-column: span 12 !important; }
+  .ledger__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ledger__stats > *:nth-child(2) { border-right: 0; }
+  .ledger__stats > *:nth-child(-n+2) { border-bottom: var(--bw-hair) solid var(--ink-20); }
+}
+
+.band-bleed--deep { background: var(--paper-deep); }
+.band-bleed--ink {
+  background: var(--ink);
+  color: var(--paper);
+  border-top: var(--bw) solid var(--ink);
+}
+.band-bleed--ink .section__title,
+.band-bleed--ink h1, .band-bleed--ink h2, .band-bleed--ink h3 { color: var(--paper); }
+.band-bleed--ink .section__head::before { background: var(--paper); }
+/* Scoped to the head: a bare .mono deep inside a light panel must not
+   inherit paper and vanish. */
+.band-bleed--ink .section__head .section__meta,
+.band-bleed--ink .section__head .section__sub,
+.band-bleed--ink .section__head .section__num,
+.band-bleed--ink .section__head .mono { color: var(--paper); }
+
+/* ── Flow helpers ────────────────────────────────────────────── */
+.row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.row--tight { gap: 6px; }
+.row--between { justify-content: space-between; }
+.row--start { align-items: flex-start; }
+.col { display: flex; flex-direction: column; }
+.col--gap { gap: 12px; }
+.stack { display: flex; flex-direction: column; gap: var(--gap); }
+.wrap-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* ── Responsive grids ────────────────────────────────────────── */
+.g2, .g3, .g4, .g-hero, .g-bento, .g-split {
+  display: grid;
+  gap: var(--bw);
+}
+
+.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.g-split { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+
+/* Hero: intro column + profile column */
+.g-hero {
+  grid-template-columns: minmax(0, 1.28fr) minmax(0, 1fr);
+  gap: var(--gap);
+}
+
+/* Bento hub: 12-col sheet */
+.g-bento { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+.g-bento > * { grid-column: span 12; }
+
+.span-3 { grid-column: span 3; }
+.span-4 { grid-column: span 4; }
+.span-5 { grid-column: span 5; }
+.span-6 { grid-column: span 6; }
+.span-7 { grid-column: span 7; }
+.span-8 { grid-column: span 8; }
+
+@media (max-width: 1080px) {
+  .g-bento > .span-3 { grid-column: span 6; }
+  .g-bento > .span-4,
+  .g-bento > .span-5 { grid-column: span 6; }
+  .g-bento > .span-7,
+  .g-bento > .span-8 { grid-column: span 12; }
+  .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 860px) {
+  .g-hero, .g-split { grid-template-columns: minmax(0, 1fr); }
+  .g3 { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 620px) {
+  .g2, .g4 { grid-template-columns: minmax(0, 1fr); }
+  .g-bento > * { grid-column: span 12; }
+}
+
+/* ── Hero band ───────────────────────────────────────────────── */
+/* The section is a full-bleed flame block; .hero-band keeps its own
+   top clearance for the fixed masthead, so the band padding is off. */
+.hero-wrap { padding: 0; }
+
+.hero-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1.28fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 60px);
+  align-items: start;
+  padding-top: clamp(112px, 13vw, 156px);
+  padding-bottom: clamp(56px, 8vw, 104px);
+}
+
+.hero-band .hero { padding-top: clamp(18px, 3vw, 34px); }
+
+@media (max-width: 900px) {
+  .hero-band { grid-template-columns: minmax(0, 1fr); gap: 34px; }
+  .hero-band .hero { padding-top: 0; }
+}
+
+/* ── Topbar: docked masthead ─────────────────────────────────── */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--surface);
+  border-bottom: var(--bw-bold) solid var(--ink);
+  transition: box-shadow 0.25s var(--ease-out), background 0.25s ease;
+}
+
+/* The masthead closes with a drawn stroke, not a printer's rule: an ink
+   band laid across the border, a hair off level, hanging below it. The
+   border underneath stays solid; the stroke's own overlap is wide enough
+   that the displacement map can never dip far enough to uncover it. */
+.topbar::after {
+  content: "";
+  position: absolute;
+  left: -2%;
+  bottom: -15px;
+  width: 104%;
+  height: 22px;
+  background: var(--ink);
+  filter: var(--ink-line);
+  transform: rotate(-0.16deg);
+  pointer-events: none;
+}
+
+.topbar--tight { box-shadow: var(--plate-2); }
+
+.topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  max-width: var(--sheet-max);
+  margin: 0 auto;
+  padding: 10px var(--gutter);
+}
+
+.nav__role {
+  padding: 3px 9px;
+  border: var(--bw-hair) solid var(--ink-20);
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  transform: rotate(-1.6deg);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+  white-space: nowrap;
+}
+
+.nav__item { display: inline-flex; align-items: center; gap: 7px; }
+
+.nav__item-num {
+  font-size: 10px;
+  opacity: 0.5;
+  letter-spacing: 0;
+}
+
+/* ── Mobile drawer ───────────────────────────────────────────── */
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  padding: 14px var(--gutter) calc(20px + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+}
+
+.drawer__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: var(--bw) solid var(--ink);
+}
+
+.drawer__list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.drawer__item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 4px;
+  background: transparent;
+  border: 0;
+  border-bottom: var(--bw-hair) solid var(--ink-12);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.drawer__item svg { margin-left: auto; color: var(--ink-40); }
+.drawer__item--active { color: var(--accent-deep); }
+.drawer__item--active svg { color: var(--accent-deep); }
+
+.drawer__num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-40);
+  letter-spacing: 0.06em;
+}
+
+.drawer__foot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding-top: 18px;
+}
+
+/* ── Media frame: image held as a printed photo plate ────────── */
+.frame {
+  position: relative;
+  overflow: hidden;
+  border: var(--bw) solid var(--ink);
+  border-width: var(--bw-edge-a);
+  border-radius: var(--sk-box);
+  background: var(--surface-2);
+}
+
+/* The photo gets the same second pass of the pen the panels get, and the
+   image itself is never displaced — a wobbling screenshot reads as a bad
+   filter, a wobbling frame reads as a drawing. */
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 6px 4px 5px 8px;
+  border: var(--bw-hair) solid var(--trace);
+  border-radius: var(--sk-sm);
+  pointer-events: none;
+  filter: var(--ink-frame);
+}
+
+.frame--duotone img { filter: grayscale(1) contrast(1.06); }
+.frame--duotone:hover img { filter: grayscale(0) contrast(1); }
+.frame img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ── Hero: nameplate on paper + spec card plate ──────────────── */
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(18px, 2.6vw, 26px);
+  padding: clamp(104px, 13vw, 150px) 0 clamp(28px, 4vw, 44px);
+}
+
+.hero__name { margin: 0; }
+.hero__name > * { display: block; }
+
+.hero__lede { margin: 0; max-width: 54ch; }
+.hero__cta { gap: 12px; }
+
+.hero__scroll { margin-left: 4px; }
+
+.hero__stack {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding-top: clamp(18px, 3vw, 28px);
+  border-top: var(--bw-hair) solid var(--ink-12);
+}
+
+/* The spec card is a sheet stuck onto the band, not a column of the
+   grid: it leans, its plate sits off-register, and no edge of it is
+   parallel with the gutter. */
+.spec {
+  position: relative;
+  transform: rotate(-0.7deg);
+}
+
+/* Acid plate punched through the band: the hero has to out-shout the
+   saturated block it sits on. */
+.spec::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translate(16px, 11px) rotate(-0.8deg);
+  background: var(--acid);
+  border: var(--bw-bold) solid var(--ink);
+  border-width: var(--bw-edge-b);
+  border-radius: var(--sk-box);
+  z-index: 0;
+}
+
+.spec__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2.4vw, 22px);
+  height: 100%;
+  padding: clamp(20px, 2.8vw, 30px);
+  background: var(--surface);
+  border: var(--bw-bold) solid var(--ink);
+  border-width: var(--bw-edge-a);
+  border-radius: var(--sk-box);
+}
+
+.spec__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.spec__portrait {
+  position: relative;
+  width: 92px;
+  height: 116px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: var(--bw) solid var(--ink);
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-md);
+  box-shadow: var(--plate-1);
+  background: var(--tint-sand);
+  transform: rotate(1.4deg);
+}
+
+.spec__portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: grayscale(1) contrast(1.08);
+  transition: filter 0.4s var(--ease-out);
+}
+
+.spec:hover .spec__portrait img { filter: grayscale(0) contrast(1); }
+
+.spec__id { gap: 7px; min-width: 0; }
+
+.spec__loc {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--ink-60);
+}
+
+.spec__stats { flex-shrink: 0; }
+
+.spec__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 12px 13px;
+}
+
+.spec__bio {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.68;
+  color: var(--ink-80);
+  padding-top: 2px;
+  border-top: var(--bw-hair) solid var(--ink-12);
+  padding-top: 14px;
+}
+
+.spec__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 13px;
+  border-top: var(--bw) solid var(--ink);
+}
+
+@media (max-width: 620px) {
+  .hero { padding-top: 92px; }
+  .spec { transform: rotate(-0.45deg); }
+  .spec::before { transform: translate(8px, 6px) rotate(-0.6deg); }
+}
+
+/* ── Scroll progress HUD ─────────────────────────────────────── */
+.hud {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1200;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.hud__meter {
+  width: 172px;
+  padding: 9px 11px 10px;
+  background: var(--surface);
+  border: var(--bw) solid var(--ink);
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-md);
+  box-shadow: var(--plate-1);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  transform: rotate(-0.5deg);
+}
+
+.hud__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.hud__label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--ink-60);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hud__num {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+.hud__track {
+  height: 6px;
+  background: var(--paper-deep);
+  border: var(--bw-hair) solid var(--ink-20);
+  overflow: hidden;
+}
+
+.hud__fill {
+  height: 100%;
+  background: var(--signal);
+  transition: width 0.12s linear;
+}
+
+.hud__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  background: var(--surface);
+  border: var(--bw) solid var(--ink);
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  box-shadow: var(--plate-1);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  cursor: pointer;
+  transform: rotate(1.1deg);
+  transition: transform 0.14s var(--ease-out), box-shadow 0.14s var(--ease-out);
+}
+
+.hud__pill:hover { transform: translate(-2px, -2px) rotate(0deg); box-shadow: var(--plate-2); }
+.hud__pill:active { transform: translate(2px, 2px) rotate(0deg); box-shadow: 0 0 0 var(--ink); }
+
+@media (max-width: 640px) {
+  .hud { right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+  .hud__meter { display: none; }
+}
+
+/* ── Print ───────────────────────────────────────────────────── */
+@media print {
+  .topbar, .hud, .marquee, .page::after { display: none !important; }
+  .page { background: #fff; }
+}
+
+/* ── Icon button ─────────────────────────────────────────────── */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: var(--surface);
+  border: var(--bw) solid var(--ink);
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  box-shadow: var(--plate-1);
+  color: var(--ink);
+  cursor: pointer;
+  transform: rotate(-1.4deg);
+  transition: transform 0.14s var(--ease-out), box-shadow 0.14s var(--ease-out);
+}
+
+.icon-btn:hover { transform: translate(-2px, -2px) rotate(0deg); box-shadow: var(--plate-2); }
+.icon-btn:active { transform: translate(2px, 2px) rotate(0deg); box-shadow: 0 0 0 var(--ink); }
+.icon-btn--on { background: var(--acid); }
+
+/* ── Breakpoint toggles ──────────────────────────────────────── */
+/* Declared last on purpose: these must win over .nav-desktop's
+   own layout classes (.row, .icon-btn, .nav__list) above.
+   1200px is the narrowest width where brand + 6 numbered links +
+   both action buttons fit without pushing .nav__actions off-screen. */
+.nav-desktop { display: none; }
+.nav-mobile { display: inline-flex; }
+
+@media (min-width: 1200px) {
+  .nav-desktop { display: flex; }
+  .nav-mobile { display: none; }
+}
+
+/* ── Hand-drawn dividers ───────────────────────────────────────
+   Hairline borders were the last lines on this page a browser could
+   draw straight. Each one is now a stroke laid on a free pseudo, over
+   the same ground the border used to hold, bent by the same map as the
+   rules and seams above it. */
+.ledger__list li,
+.ledger__note,
+.ledger__tabs,
+.ledger__output,
+.spec__bio,
+.hero__stack {
+  position: relative;
+  border-top: 0;
+  border-bottom: 0;
+}
+
+.ledger__list li::after,
+.ledger__note::before,
+.ledger__tabs::after,
+.ledger__output::before,
+.spec__bio::before,
+.hero__stack::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  right: -5px;
+  height: var(--bw-hair);
+  background: var(--ink-12);
+  pointer-events: none;
+  filter: var(--ink-line-b);
+}
+
+.ledger__list li::after,
+.ledger__tabs::after { bottom: 0; }
+
+.ledger__note::before,
+.ledger__output::before,
+.spec__bio::before,
+.hero__stack::before { top: 0; }
+
+.ledger__list li:last-child::after { display: none; }
+
+/* The terminal is ink on paper reversed: its rules are paper. */
+.ledger__tabs::after,
+.ledger__output::before { background: rgba(239, 236, 227, 0.16); }
+
+/* A hairline is not enough under a hero on a saturated block, so the
+   stack rule there was already a heavy ink border. It stays heavy. */
+.band-bleed[data-hue] .hero__stack { border-top: 0; }
+
+.band-bleed[data-hue] .hero__stack::before {
+  height: var(--bw);
+  background: var(--ink);
+  filter: var(--ink-line);
+}
+
+/* The progress bar and the icon buttons carry no type, so both can take
+   the fine brush directly. */
+.hud__track { filter: var(--ink-line); }
+.icon-btn { filter: var(--ink-chip); }

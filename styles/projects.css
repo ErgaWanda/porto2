@@ -1,0 +1,736 @@
+/* ============================================================
+   03 · PROJECTS — section-scoped rules
+   Built only from theme.css tokens. Prefix: proj-
+   ============================================================ */
+
+/* ── Toolbar — the single plate in this section ────────────── */
+.proj-toolbar {
+  gap: 12px;
+  width: 100%;
+}
+
+.proj-toolbar__row {
+  gap: 7px;
+}
+
+button.proj-filter {
+  cursor: pointer;
+  transition: background var(--dur) var(--ease-out),
+              border-color var(--dur) var(--ease-out),
+              color var(--dur) var(--ease-out);
+}
+
+button.proj-filter:not(.chip--ink):hover {
+  background: var(--surface-2);
+  border-color: var(--ink-40);
+}
+
+.proj-filter__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  padding: 0 5px;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.chip--ink .proj-filter__count {
+  background: var(--acid);
+}
+
+/* ── Collapsed-rule bento grid of project cells ────────────── */
+.proj-grid {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.proj-grid > .proj-cell {
+  grid-column: span 6;
+}
+
+.proj-grid > .proj-cell--s3 {
+  grid-column: span 3;
+}
+
+.proj-grid > .proj-cell--s4 {
+  grid-column: span 4;
+}
+
+.proj-grid > .proj-cell--s6 {
+  grid-column: span 6;
+}
+
+.proj-grid > .proj-cell--s8 {
+  grid-column: span 8;
+}
+
+.proj-grid > .proj-cell--s12 {
+  grid-column: span 12;
+}
+
+.proj-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: clamp(16px, 1.9vw, 24px);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--dur) var(--ease-out);
+}
+
+.proj-grid > .proj-cell:hover {
+  background: var(--surface-2);
+}
+
+/* ── Media: printed plate, sharp corners, duotone still ───── */
+.proj-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  max-height: 300px;
+}
+
+.proj-media--wide {
+  aspect-ratio: 16 / 9;
+  max-height: 340px;
+}
+
+.proj-grid > .proj-cell:hover .proj-media img {
+  filter: grayscale(0) contrast(1);
+}
+
+.proj-shots {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  background: var(--surface);
+  color: var(--ink);
+  border-top: var(--bw) solid var(--ink);
+  border-left: var(--bw) solid var(--ink);
+}
+
+/* ── Cell copy ─────────────────────────────────────────────── */
+.proj-title {
+  margin: 0;
+}
+
+.proj-sub {
+  margin: 0;
+  max-width: 62ch;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-mono);
+  line-height: 1.65;
+  color: var(--accent-deep);
+}
+
+.proj-desc {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.62;
+  color: var(--ink-80);
+}
+
+.proj-spotlight {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  background: var(--accent-tint);
+  border-left: var(--bw-bold) solid var(--accent);
+}
+
+.proj-spotlight__text {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+/* ── Tech tags: muted tints replace the old saturated pastels ─ */
+.proj-tags {
+  margin-top: 2px;
+}
+
+.tag.proj-tag--sky { background: var(--tint-sky); }
+.tag.proj-tag--moss { background: var(--tint-moss); }
+.tag.proj-tag--clay { background: var(--tint-clay); }
+.tag.proj-tag--sand { background: var(--tint-sand); }
+.tag.proj-tag--stone { background: var(--tint-stone); }
+
+.tag.proj-tag--more {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+  font-weight: 700;
+}
+
+/* ── Cell foot ─────────────────────────────────────────────── */
+.proj-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: var(--bw) solid var(--ink);
+}
+
+.proj-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+}
+
+.proj-go svg {
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.proj-grid > .proj-cell:hover .proj-go svg {
+  transform: translate(2px, -2px);
+}
+
+/* ============================================================
+   2. EXPANDED SLABS — the brutal default view
+   ------------------------------------------------------------
+   Three stacked parts per project: a solid-hue nameplate band,
+   the media | copy split, then a contact sheet of every screen.
+   Each slab opts into its own hue via data-hue, so --accent (and
+   the washes derived from it) re-scope for the block below it.
+   ============================================================ */
+
+.pslab-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(38px, 5.5vw, 74px);
+}
+
+.pslab-row { min-width: 0; }
+
+.pslab {
+  --sbw: var(--bw-brut);
+  background: var(--surface);
+  border: var(--sbw) solid var(--ink);
+  box-shadow: 14px 14px 0 var(--accent);
+}
+
+/* ── Nameplate band ──────────────────────────────────────────
+   The slab wears its hue here instead of sprinkling it: the whole
+   identity of a project is one ink-bordered colour rail. */
+.pslab__band {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 26px);
+  padding: clamp(14px, 1.8vw, 20px) clamp(16px, 2.4vw, 28px);
+  background: var(--accent);
+  border-bottom: var(--sbw) solid var(--ink);
+}
+
+.pslab__num {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: clamp(52px, 6.2vw, 86px);
+  font-weight: 800;
+  line-height: 0.76;
+  color: transparent;
+  -webkit-text-stroke: var(--bw-bold) var(--ink);
+}
+
+.pslab__band-id {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.pslab__kind {
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+.pslab__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.1vw, 2.5rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.pslab__stamp {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 8px 12px;
+  background: var(--ink);
+  color: var(--paper);
+  border: var(--bw-bold) solid var(--ink);
+  box-shadow: 4px 4px 0 var(--acid);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* The flagship gets the inverse rail: ink plate, acid stamp. */
+.pslab--lead .pslab__band { background: var(--ink); }
+.pslab--lead .pslab__num { -webkit-text-stroke-color: var(--paper); }
+.pslab--lead .pslab__kind,
+.pslab--lead .pslab__title { color: var(--paper); }
+
+.pslab--lead .pslab__stamp {
+  background: var(--acid);
+  color: var(--ink);
+  border-color: var(--paper);
+  box-shadow: 4px 4px 0 var(--paper);
+}
+
+/* ── Media banner ────────────────────────────────────────────
+   The stills are wildly different shapes (0.44 → 2.84 aspect), so
+   the frame never tries to fit one: it crops to a fixed cinematic
+   rail, top-aligned so a page always shows its header. The whole
+   screen is one click away in the contact sheet below. */
+.pslab__media {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  max-height: 460px;
+  background: var(--accent-tint);
+  border-bottom: var(--sbw) solid var(--ink);
+}
+
+.pslab__media img {
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.pslab:hover .pslab__media img {
+  transform: scale(1.02);
+}
+
+/* Rotated sticker: the loudest device in the language, rationed
+   to one per slab. */
+.pslab__sticker {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  padding: 7px 13px;
+  background: var(--acid);
+  color: var(--ink);
+  border: var(--bw-bold) solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
+  transform: rotate(-3deg);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── Narrative | evidence ──────────────────────────────────── */
+.pslab__cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+  border-bottom: var(--sbw) solid var(--ink);
+}
+
+.pslab__body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 0;
+  padding: clamp(20px, 3vw, 36px);
+}
+
+.pslab__aside {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: clamp(20px, 2.6vw, 32px);
+  background: var(--accent-tint);
+  border-left: var(--sbw) solid var(--ink);
+}
+
+.pslab__aside-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  text-transform: uppercase;
+}
+
+.pslab__sub {
+  margin: 0;
+  padding-left: 12px;
+  border-left: var(--bw-bold) solid var(--accent);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  line-height: 1.6;
+  color: var(--accent-deep);
+}
+
+.pslab__lede {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.pslab__long {
+  margin: 0;
+  padding-top: 15px;
+  border-top: var(--bw) solid var(--ink);
+  font-size: 14.5px;
+  line-height: 1.72;
+  color: var(--ink-80);
+}
+
+/* ── Highlights: numbered, hairline-separated, hue-stamped ── */
+.pslab__highs {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--bw-hair) solid var(--ink-20);
+}
+
+.pslab__highs li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: var(--bw-hair) solid var(--ink-20);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-80);
+}
+
+.pslab__highs-num {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  background: var(--accent);
+  color: var(--ink);
+  border: var(--bw) solid var(--ink);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+/* Chips get the heavier border so the row reads as a spec strip. */
+.pslab__tags {
+  margin-top: 2px;
+  padding-top: 15px;
+  border-top: var(--bw-hair) solid var(--ink-20);
+}
+
+.pslab__tags .tag {
+  border: var(--bw) solid var(--ink);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.pslab__cta {
+  margin-top: auto;
+  padding-top: 17px;
+  border-top: var(--bw) solid var(--ink);
+  flex-wrap: wrap;
+}
+
+.pslab__cta .btn { flex-shrink: 0; }
+
+/* ── Contact sheet: every screen of the project, no click needed ── */
+.pslab__shots {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.6vw, 18px);
+  padding: clamp(12px, 1.5vw, 16px) clamp(14px, 1.9vw, 22px);
+  background: var(--surface-2);
+  border-top: var(--sbw) solid var(--ink);
+}
+
+.pslab__shots-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.pslab__shots-track {
+  display: flex;
+  flex: 1;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 4px;
+  scrollbar-width: thin;
+}
+
+.pslab__shot {
+  position: relative;
+  flex: 0 0 auto;
+  display: block;
+  width: 176px;
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--accent-tint);
+  border: var(--bw) solid var(--ink);
+  transition: transform var(--dur) var(--ease-out),
+              box-shadow var(--dur) var(--ease-out);
+}
+
+.pslab__shot:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.pslab__shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pslab__shot-num {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 2px 7px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 1000px) {
+  .proj-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  }
+
+  .proj-grid > .proj-cell,
+  .proj-grid > .proj-cell--s3,
+  .proj-grid > .proj-cell--s4,
+  .proj-grid > .proj-cell--s6,
+  .proj-grid > .proj-cell--s8,
+  .proj-grid > .proj-cell--s12 {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 900px) {
+  .pslab { box-shadow: 9px 9px 0 var(--accent); }
+
+  .pslab__band { flex-wrap: wrap; }
+
+  .pslab__num { font-size: clamp(40px, 11vw, 56px); }
+
+  .pslab__title { font-size: clamp(1.35rem, 6.4vw, 2rem); }
+
+  .pslab__stamp { margin-left: 0; }
+
+  .pslab__media { aspect-ratio: 16 / 9; }
+
+  .pslab__cols { grid-template-columns: minmax(0, 1fr); }
+
+  .pslab__aside {
+    border-left: 0;
+    border-top: var(--sbw) solid var(--ink);
+  }
+}
+
+@media (max-width: 640px) {
+  .proj-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pslab__shots {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pslab__shot { width: 152px; }
+}
+
+/* ============================================================
+   HAND-CUT PASS — the slab is pressed, not drawn.
+   Uneven per-side borders, bowed corners, mis-registered
+   plates and a stamp that never sat straight. Tokens only.
+   ============================================================ */
+
+.pslab {
+  overflow: hidden;
+  border-width: var(--bw-edge-b);
+  border-radius: var(--sk-box);
+  box-shadow: 18px 14px 0 var(--accent);
+  transform: rotate(-0.35deg);
+}
+
+.pslab-row:nth-child(even) .pslab {
+  box-shadow: 13px 19px 0 var(--accent);
+  transform: rotate(0.3deg);
+}
+
+.pslab__num { transform: rotate(-3deg); }
+
+.pslab__stamp {
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  box-shadow: 7px 5px 0 var(--acid);
+  transform: rotate(-1.6deg);
+}
+
+.pslab--lead .pslab__stamp {
+  box-shadow: 7px 5px 0 var(--paper);
+}
+
+.pslab__sticker {
+  border-width: 7px 4px 8px 5px;
+  border-radius: var(--sk-sm);
+  box-shadow: 8px 6px 0 var(--ink);
+  transform: rotate(-3.6deg) skew(-1.2deg);
+}
+
+.pslab__highs-num {
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+  transform: rotate(-2.2deg);
+}
+
+.pslab__highs li:nth-child(even) .pslab__highs-num {
+  transform: rotate(2deg);
+}
+
+.pslab__shot {
+  border-width: var(--bw-edge-sm);
+  border-radius: var(--sk-sm);
+}
+
+.pslab__shots-track .pslab__shot:nth-child(odd) { transform: rotate(-1.1deg); }
+.pslab__shots-track .pslab__shot:nth-child(even) { transform: rotate(0.9deg); }
+
+.pslab__shot:hover,
+.pslab__shot:focus-visible {
+  transform: translate(-3px, -3px) rotate(0deg);
+  box-shadow: 7px 5px 0 var(--ink);
+}
+
+.proj-filter__count { border-radius: var(--sk-sm); }
+
+.proj-shots { border-radius: var(--sk-sm) 0 0 0; }
+
+.proj-spotlight {
+  border-radius: var(--sk-sm) 0 0 var(--sk-sm);
+  transform: rotate(-0.4deg);
+}
+
+@media (max-width: 900px) {
+  .pslab,
+  .pslab-row:nth-child(even) .pslab {
+    border-radius: var(--sk-md);
+    box-shadow: 12px 9px 0 var(--accent);
+    transform: rotate(-0.18deg);
+  }
+}
+
+/* ============================================================
+   SECOND PASS — the pen goes round twice over the nameplate
+   rail, and every flat fill keeps the tooth of the marker.
+   No filter is ever laid on a glyph; only on strokes.
+   ============================================================ */
+
+.pslab { background-image: var(--hatch); }
+
+.pslab-row:nth-child(even) .pslab { --hatch: var(--hatch-b); }
+
+.pslab__band {
+  position: relative;
+  background-image: var(--hatch);
+}
+
+.pslab--lead .pslab__band {
+  background-image: var(--hatch-inv);
+  --trace: rgba(239, 236, 227, 0.26);
+}
+
+/* The rail gets the same hand-traced inner line the panels carry. It is
+   inset past the type's own padding, so it rules the rail rather than
+   crossing the title. */
+.pslab__band::after {
+  content: "";
+  position: absolute;
+  inset: 6px 9px 7px 5px;
+  border: var(--bw-hair) solid var(--trace);
+  border-radius: var(--sk-sm);
+  pointer-events: none;
+  filter: var(--ink-frame);
+}
+
+.pslab__stamp { background-image: var(--hatch-inv); }
+.pslab--lead .pslab__stamp { background-image: var(--hatch); }
+.pslab__sticker,
+.pslab__highs-num { background-image: var(--hatch); }
+.pslab__shots { background-image: var(--hatch); }
+
+/* The internal dividers were the last lines a ruler could have drawn:
+   3px and 5px borders running perfectly level through the body of a slab.
+   Each one is now a stroke laid over where the border used to be, bent by
+   the same map as every other rule on the page. */
+.pslab__highs li,
+.pslab__tags,
+.pslab__cta {
+  position: relative;
+  border-bottom: 0;
+  border-top: 0;
+}
+
+.pslab__highs li::after,
+.pslab__tags::before,
+.pslab__cta::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: -3px;
+  height: var(--bw-hair);
+  background: var(--ink-20);
+  pointer-events: none;
+  filter: var(--ink-line-b);
+}
+
+.pslab__highs li::after { bottom: 0; }
+.pslab__tags::before { top: 0; }
+.pslab__cta::before {
+  top: 0;
+  height: var(--bw);
+  background: var(--ink);
+  filter: var(--ink-line);
+}

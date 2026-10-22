@@ -1,33 +1,377 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
-import { FiArrowUpRight, FiLayers, FiExternalLink, FiCode, FiEye } from "react-icons/fi";
+import { useInView } from "react-intersection-observer";
+import {
+  FiArrowUpRight,
+  FiEye,
+  FiFileText,
+  FiGithub,
+  FiGrid,
+  FiList,
+} from "react-icons/fi";
+import { playPop } from "@/components/ui/SoundFXToggle";
+import { SectionHead } from "./SectionHead";
+import { Reveal } from "./Reveal";
 import { projects } from "@/data/projects";
-import { GlassCard } from "./GlassCard";
+import type { Project } from "@/components/ui/ProjectModal";
+import "../../styles/projects.css";
 
 interface ProjectsSectionProps {
   onSelectProject: (project: (typeof projects)[0]) => void;
 }
 
+/* Animated counter for the category chips */
+const AnimatedCounter: React.FC<{ value: number; inView: boolean }> = ({ value, inView }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    let startTimestamp: number | null = null;
+    const startValue = 0;
+    const duration = 600;
+
+    const step = (timestamp: number) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const elapsed = timestamp - startTimestamp;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(startValue + (value - startValue) * ease));
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    const animFrame = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(animFrame);
+  }, [value, inView]);
+
+  return <span>{count}</span>;
+};
+
+/* Tech tint map: saturated pastels become the muted theme tints,
+   expressed as classes instead of inline colour objects. */
+const getTechClass = (tech: string): string => {
+  const t = tech.toLowerCase();
+  if (t.includes("c#") || t.includes(".net") || t.includes("sql server")) {
+    return "proj-tag--sand";
+  }
+  if (
+    t.includes("golang") ||
+    t.includes("echo") ||
+    t.includes("redis") ||
+    t.includes("docker") ||
+    t.includes("nginx") ||
+    t.includes("postgres")
+  ) {
+    return "proj-tag--sky";
+  }
+  if (
+    t.includes("python") ||
+    t.includes("bert") ||
+    t.includes("nlp") ||
+    t.includes("ml") ||
+    t.includes("ai") ||
+    t.includes("xgboost") ||
+    t.includes("scikit")
+  ) {
+    return "proj-tag--clay";
+  }
+  if (
+    t.includes("vue") ||
+    t.includes("react") ||
+    t.includes("typescript") ||
+    t.includes("tailwind") ||
+    t.includes("framer")
+  ) {
+    return "proj-tag--moss";
+  }
+  return "proj-tag--stone";
+};
+
+/* Column spans on the 12-track bento. Every row sums to 12 so the
+   collapsed hairline rule never opens an ink hole. */
+const LAYOUTS: Record<number, number[]> = {
+  1: [12],
+  2: [8, 4],
+  3: [6, 3, 3],
+  4: [8, 4, 4, 8],
+  5: [8, 4, 4, 4, 4],
+  6: [8, 4, 4, 8, 6, 6],
+};
+
+const spansFor = (count: number): number[] => {
+  if (LAYOUTS[count]) return LAYOUTS[count];
+  if (count <= 0) return [];
+  const out: number[] = [];
+  for (let i = 0; i < count; i += 2) out.push(8, 4);
+  out.length = count;
+  if (count % 2 === 1) out[count - 1] = 12;
+  return out;
+};
+
+interface ProjectCardItemProps {
+  project: (typeof projects)[0];
+  onSelect: () => void;
+  getTechClass: (tech: string) => string;
+  bentoSpan?: number;
+  isWideCard?: boolean;
+}
+
+const ProjectCardItem: React.FC<ProjectCardItemProps> = ({
+  project: p,
+  onSelect,
+  getTechClass: techClass,
+  bentoSpan = 6,
+  isWideCard = false,
+}) => {
+  const isLive = p.status.toLowerCase() === "live";
+
+  const cardProps = {
+    role: "button" as const,
+    tabIndex: 0,
+    "aria-label": p.title,
+    onClick: onSelect,
+    onKeyDown: (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onSelect();
+      }
+    },
+  };
+
+  const head = (
+    <div className="cell__head">
+      <div className="row row--tight">
+        <span className="chip">{p.type}</span>
+        {isLive ? (
+          <span className="chip">
+            <span className="chip__dot chip__dot--live" aria-hidden="true" />
+            Live
+          </span>
+        ) : (
+          <span className="chip">Arsip</span>
+        )}
+      </div>
+      <span className="mono">{p.year}</span>
+    </div>
+  );
+
+  const media = (
+    <span className="mono proj-shots">
+      <FiEye size={12} />
+      {p.screenshots.length} screenshots
+    </span>
+  );
+
+  const body = (
+    <>
+      <h3 className="display-m proj-title">{p.title}</h3>
+
+      {p.subtitle && <p className="proj-sub">{p.subtitle}</p>}
+
+      <p className="proj-desc">{p.desc}</p>
+
+      {isWideCard && p.highlights && p.highlights.length > 0 && (
+        <div className="proj-spotlight">
+          <span className="mono">Sorotan</span>
+          <span className="proj-spotlight__text">{p.highlights[0]}</span>
+        </div>
+      )}
+
+      <div className="wrap-tags proj-tags">
+        {p.stack.slice(0, 5).map((tech) => (
+          <span key={tech} className={`tag ${techClass(tech)}`}>
+            {tech}
+          </span>
+        ))}
+        {p.stack.length > 5 && <span className="tag proj-tag--more">+{p.stack.length - 5}</span>}
+      </div>
+    </>
+  );
+
+  const foot = (
+    <div className="proj-foot">
+      <span className="mono mono--ink proj-go">
+        Inspect project details
+        <FiArrowUpRight size={13} />
+      </span>
+      <span className="mono">Spec #{String(p.id).padStart(2, "0")}</span>
+    </div>
+  );
+
+  return (
+    <article className={`proj-cell proj-cell--s${bentoSpan}`} {...cardProps}>
+      {head}
+
+      <div className={`frame frame--duotone proj-media${isWideCard ? " proj-media--wide" : ""}`}>
+        <Image src={p.img} alt={p.title} fill unoptimized sizes="(max-width: 1000px) 100vw, 33vw" />
+        {media}
+      </div>
+
+      {body}
+      {foot}
+    </article>
+  );
+};
+
+/* One hue per slab: the spectrum is what makes a wall of case
+   studies read as a system instead of noise. */
+const SLAB_HUES = ["flame", "cobalt", "teal", "grape", "sun", "rose", "moss"] as const;
+const SLAB_STATUS: Record<Project["status"], string> = {
+  live: "Produksi",
+  archived: "Arsip",
+  wip: "Dalam pengerjaan",
+};
+
+const ProjectSlab: React.FC<{
+  project: Project;
+  index: number;
+  onOpenGallery: () => void;
+}> = ({ project: p, index, onOpenGallery }) => {
+  const hue = SLAB_HUES[index % SLAB_HUES.length];
+  const shots = p.screenshots?.length ?? 0;
+  const live = p.url && p.url !== "#";
+
+  return (
+    <article
+      className={`pslab${index === 0 ? " pslab--lead" : ""}`}
+      data-hue={hue}
+    >
+      <header className="pslab__band">
+        <span className="pslab__num" aria-hidden="true">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <div className="pslab__band-id">
+          <span className="mono pslab__kind">{p.type}</span>
+          <h3 className="pslab__title"><span className="hl">{p.title}</span></h3>
+        </div>
+        <span className="pslab__stamp">
+          {SLAB_STATUS[p.status]} / {p.year}
+        </span>
+      </header>
+
+      <div className="pslab__media">
+        <Image
+          src={p.img}
+          alt={`Tampilan ${p.title}`}
+          fill
+          unoptimized
+          sizes="100vw"
+        />
+        <span className="pslab__sticker">{p.badge ?? SLAB_STATUS[p.status]}</span>
+      </div>
+
+      <div className="pslab__cols">
+        <div className="pslab__body">
+          {p.subtitle && <p className="pslab__sub">{p.subtitle}</p>}
+
+          <p className="pslab__lede">{p.desc}</p>
+          <p className="pslab__long">{p.longDesc}</p>
+
+          <div className="wrap-tags pslab__tags">
+            {p.stack.map((tech) => (
+              <span key={tech} className={`tag ${getTechClass(tech)}`}>
+                {tech}
+              </span>
+            ))}
+          </div>
+
+          <div className="row row--tight pslab__cta">
+            {live && (
+              <a className="btn btn--primary btn--sm" href={p.url} target="_blank" rel="noopener noreferrer">
+                Kunjungi situs
+                <FiArrowUpRight size={13} className="btn__icon" />
+              </a>
+            )}
+            {p.github && (
+              <a className="btn btn--sm" href={p.github} target="_blank" rel="noopener noreferrer">
+                <FiGithub size={13} className="btn__icon" />
+                Kode sumber
+              </a>
+            )}
+            {shots > 0 && (
+              <button type="button" className="btn btn--ink btn--sm" onClick={onOpenGallery}>
+                <FiEye size={13} className="btn__icon" />
+                Buka detail
+              </button>
+            )}
+          </div>
+        </div>
+
+        {p.highlights?.length > 0 && (
+          <aside className="pslab__aside">
+            <span className="mono pslab__aside-label">
+              <FiList size={12} aria-hidden="true" />
+              Yang dikerjakan
+            </span>
+            <ul className="pslab__highs">
+              {p.highlights.map((h, i) => (
+                <li key={h}>
+                  <span className="pslab__highs-num">{String(i + 1).padStart(2, "0")}</span>
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ul>
+          </aside>
+        )}
+      </div>
+
+      {shots > 1 && (
+        <div className="pslab__shots">
+          <span className="mono pslab__shots-label">
+            <FiEye size={12} aria-hidden="true" />
+            {shots} halaman
+          </span>
+          <div className="pslab__shots-track">
+            {p.screenshots.map((s, i) => (
+              <button
+                key={s}
+                type="button"
+                className="pslab__shot"
+                onClick={onOpenGallery}
+                title={p.screenshotLabels?.[i]}
+                aria-label={p.screenshotLabels?.[i] ?? `Buka tangkapan layar ${i + 1}`}
+              >
+                <Image src={s} alt="" width={288} height={180} unoptimized sizes="176px" />
+                <span className="pslab__shot-num" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </article>
+  );
+};
+
 export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onSelectProject }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
+  const [viewMode, setViewMode] = useState<"open" | "grid">("open");
+
+  const { ref: headerRef, inView: headerInView } = useInView({
+    threshold: 0.15,
+    triggerOnce: true,
+  });
 
   const categories = [
-    { id: "ALL", label: "Semua Proyek", count: projects.length },
+    { id: "ALL", label: "SEMUA PROYEK", count: projects.length },
     {
       id: "Web Platform",
-      label: "Web Platform",
+      label: "WEB & ENTERPRISE",
       count: projects.filter((p) => p.type === "Web Platform").length,
     },
     {
       id: "AI & ML",
-      label: "AI & ML",
+      label: "AI & MACHINE LEARNING",
       count: projects.filter((p) => p.type.includes("AI") || p.type.includes("NLP")).length,
     },
     {
       id: "Data Science",
-      label: "Data Science",
+      label: "DATA SCIENCE",
       count: projects.filter((p) => p.type === "Data Science").length,
     },
   ];
@@ -41,514 +385,106 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onSelectProjec
     return projects;
   }, [selectedCategory]);
 
-  const getTechStyle = (tech: string) => {
-    const t = tech.toLowerCase();
-    if (t.includes("c#") || t.includes(".net") || t.includes("sql server")) {
-      return { bg: "rgba(34, 197, 94, 0.16)", border: "rgba(34, 197, 94, 0.38)", text: "#86efac" };
-    }
-    if (
-      t.includes("golang") ||
-      t.includes("echo") ||
-      t.includes("redis") ||
-      t.includes("docker") ||
-      t.includes("nginx") ||
-      t.includes("postgres")
-    ) {
-      return { bg: "rgba(14, 165, 233, 0.16)", border: "rgba(14, 165, 233, 0.38)", text: "#7dd3fc" };
-    }
-    if (
-      t.includes("python") ||
-      t.includes("bert") ||
-      t.includes("nlp") ||
-      t.includes("ml") ||
-      t.includes("ai") ||
-      t.includes("xgboost") ||
-      t.includes("scikit")
-    ) {
-      return { bg: "rgba(245, 158, 11, 0.16)", border: "rgba(245, 158, 11, 0.38)", text: "#fde047" };
-    }
-    if (
-      t.includes("vue") ||
-      t.includes("react") ||
-      t.includes("typescript") ||
-      t.includes("tailwind") ||
-      t.includes("framer")
-    ) {
-      return { bg: "rgba(168, 85, 247, 0.16)", border: "rgba(168, 85, 247, 0.38)", text: "#d8b4fe" };
-    }
-    return { bg: "rgba(255, 255, 255, 0.1)", border: "rgba(255, 255, 255, 0.22)", text: "#ffffff" };
-  };
+  const spans = useMemo(() => spansFor(filteredProjects.length), [filteredProjects.length]);
+
+  const toolbar = (
+    <div className="panel panel--pad-sm panel--plate col proj-toolbar">
+      <div className="row row--tight proj-toolbar__row" role="tablist" aria-label="Mode Tampilan Portofolio">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={viewMode === "open"}
+          className={`chip proj-filter${viewMode === "open" ? " chip--ink" : ""}`}
+          onClick={() => {
+            playPop();
+            setViewMode("open");
+          }}
+        >
+          <FiFileText size={12} />
+          Semua terbuka
+        </button>
+
+        <button
+          type="button"
+          role="tab"
+          aria-selected={viewMode === "grid"}
+          className={`chip proj-filter${viewMode === "grid" ? " chip--ink" : ""}`}
+          onClick={() => {
+            playPop();
+            setViewMode("grid");
+          }}
+        >
+          <FiGrid size={12} />
+          Bento grid
+        </button>
+      </div>
+
+      <hr className="rule" />
+
+      <div className="row row--tight proj-toolbar__row" role="tablist" aria-label="Filter Kategori Portofolio">
+        {categories.map((cat) => {
+          const isSelected = selectedCategory === cat.id;
+          return (
+            <button
+              type="button"
+              key={cat.id}
+              role="tab"
+              aria-selected={isSelected}
+              className={`chip proj-filter${isSelected ? " chip--ink" : ""}`}
+              onClick={() => {
+                playPop();
+                setSelectedCategory(cat.id);
+              }}
+            >
+              <span>{cat.label}</span>
+              <span className="proj-filter__count">
+                <AnimatedCounter value={cat.count} inView={headerInView} />
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
 
   return (
-    <section id="projects" style={{ padding: "80px 0 60px 0", position: "relative", zIndex: 10 }}>
-      <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 24px" }}>
-        {/* Section Header */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-end",
-            flexWrap: "wrap",
-            gap: "24px",
-            marginBottom: "40px",
-          }}
-        >
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
-              <span
-                style={{
-                  background: "rgba(34, 197, 94, 0.18)",
-                  border: "1px solid rgba(34, 197, 94, 0.4)",
-                  color: "#4ade80",
-                  fontFamily: "var(--font-family-mono)",
-                  fontSize: "11px",
-                  fontWeight: 700,
-                  padding: "4px 12px",
-                  borderRadius: "9999px",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  letterSpacing: "0.04em",
-                }}
-              >
-                <FiCode size={12} />
-                PROYEK &amp; REKAYASA SISTEM
-              </span>
-            </div>
-            <h2
-              style={{
-                fontFamily: "var(--font-family-display)",
-                fontSize: "clamp(2rem, 4vw, 3rem)",
-                fontWeight: 800,
-                color: "#ffffff",
-                letterSpacing: "-0.03em",
-                lineHeight: 1.15,
-                margin: 0,
-              }}
-            >
-              Featured Engineering Works
-            </h2>
-            <p
-              style={{
-                fontFamily: "var(--font-family-body)",
-                fontSize: "14.5px",
-                color: "rgba(255, 255, 255, 0.72)",
-                marginTop: "8px",
-                marginBottom: 0,
-                maxWidth: "600px",
-              }}
-            >
-              Kumpulan sistem produksi nyata, arsitektur backend enterprise, riset Machine Learning, dan platform berskala nasional.
-            </p>
-          </div>
+    <section id="projects" className="band-bleed">
+      <div className="sheet">
+        <div ref={headerRef}>
+          <SectionHead
+            index="03"
+            title="Proyek pilihan & rekayasa sistem"
+            subtitle="Kumpulan sistem yang saya bangun sendiri dari nol: backend konkurensi Golang + Redis, antarmuka React & Vue.js, sistem internal Laravel, hingga model machine learning yang diuji pada data nyata."
+            meta="Portofolio // Selected works"
+            actions={toolbar}
+          />
+        </div>
 
-          {/* Modern Category Filter Pills */}
-          <div
-            className="no-scrollbar"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              background: "rgba(8, 22, 14, 0.8)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              border: "1px solid rgba(255, 255, 255, 0.2)",
-              padding: "5px",
-              borderRadius: "9999px",
-              overflowX: "auto",
-              WebkitOverflowScrolling: "touch",
-              maxWidth: "100%",
-              boxShadow: "0 8px 24px rgba(0, 0, 0, 0.35)",
-            }}
-          >
-            {categories.map((cat) => {
-              const active = selectedCategory === cat.id;
+        {viewMode === "grid" ? (
+          <Reveal className="bento proj-grid">
+            {filteredProjects.map((p, idx) => {
+              const span = spans[idx] ?? 6;
               return (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={active ? "liquid-glass-active" : "liquid-glass-inactive"}
-                  style={{
-                    borderRadius: "9999px",
-                    padding: "8px 16px",
-                    fontFamily: "var(--font-family-body)",
-                    fontSize: "13px",
-                    fontWeight: active ? 700 : 500,
-                    cursor: "pointer",
-                    transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-                    whiteSpace: "nowrap",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "8px",
-                  }}
-                >
-                  <span>{cat.label}</span>
-                  <span
-                    style={{
-                      background: active
-                        ? "rgba(255, 255, 255, 0.25)"
-                        : "rgba(255, 255, 255, 0.1)",
-                      color: active ? "#ffffff" : "rgba(255, 255, 255, 0.6)",
-                      fontSize: "10.5px",
-                      fontFamily: "var(--font-family-mono)",
-                      fontWeight: 700,
-                      padding: "1px 6px",
-                      borderRadius: "9999px",
-                    }}
-                  >
-                    {cat.count}
-                  </span>
-                </button>
+                <ProjectCardItem
+                  key={p.id}
+                  project={p}
+                  onSelect={() => onSelectProject(p)}
+                  getTechClass={getTechClass}
+                  bentoSpan={span}
+                  isWideCard={span >= 8}
+                />
               );
             })}
+          </Reveal>
+        ) : (
+          <div className="pslab-list">
+            {filteredProjects.map((p, idx) => (
+              <Reveal key={p.id} className="pslab-row">
+                <ProjectSlab project={p} index={idx} onOpenGallery={() => onSelectProject(p)} />
+              </Reveal>
+            ))}
           </div>
-        </div>
-
-        {/* Projects Grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 310px), 1fr))",
-            gap: "24px",
-          }}
-        >
-          {filteredProjects.map((p) => {
-            const isLive = p.status.toLowerCase() === "live";
-            return (
-              <div
-                key={p.id}
-                onClick={() => onSelectProject(p)}
-                style={{
-                  position: "relative",
-                  borderRadius: "24px",
-                  background: "rgba(10, 26, 17, 0.76)",
-                  backdropFilter: "blur(24px) saturate(140%)",
-                  WebkitBackdropFilter: "blur(24px) saturate(140%)",
-                  border: "1px solid rgba(255, 255, 255, 0.18)",
-                  borderTop: "1.5px solid rgba(255, 255, 255, 0.45)",
-                  boxShadow:
-                    "0 18px 45px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25)",
-                  overflow: "hidden",
-                  display: "flex",
-                  flexDirection: "column",
-                  cursor: "pointer",
-                  transition:
-                    "transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease",
-                }}
-                className="project-card-interactive group"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-6px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 26px 65px rgba(0, 0, 0, 0.55), 0 0 30px rgba(34, 197, 94, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.45)";
-                  e.currentTarget.style.borderColor = "rgba(74, 222, 128, 0.55)";
-                  e.currentTarget.style.background = "rgba(12, 32, 21, 0.88)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 18px 45px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25)";
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.18)";
-                  e.currentTarget.style.background = "rgba(10, 26, 17, 0.76)";
-                }}
-              >
-                {/* Project Image Banner Container */}
-                <div
-                  style={{
-                    position: "relative",
-                    width: "100%",
-                    height: "230px",
-                    overflow: "hidden",
-                    background: "#06120b",
-                  }}
-                >
-                  <Image
-                    src={p.img}
-                    alt={p.title}
-                    fill
-                    style={{
-                      objectFit: "cover",
-                      transition: "transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)",
-                    }}
-                    unoptimized
-                  />
-                  {/* Frosted vignette overlay */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      background:
-                        "linear-gradient(to top, rgba(10, 26, 17, 0.98) 0%, rgba(10, 26, 17, 0.4) 55%, rgba(0,0,0,0.15) 100%)",
-                    }}
-                  />
-
-                  {/* Top Badges Row */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "14px",
-                      left: "14px",
-                      right: "14px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      zIndex: 2,
-                    }}
-                  >
-                    <span
-                      style={{
-                        background: "rgba(6, 18, 12, 0.82)",
-                        backdropFilter: "blur(14px)",
-                        WebkitBackdropFilter: "blur(14px)",
-                        border: "1px solid rgba(255, 255, 255, 0.22)",
-                        color: "#ffffff",
-                        fontFamily: "var(--font-family-mono)",
-                        fontSize: "10.5px",
-                        fontWeight: 700,
-                        padding: "4px 10px",
-                        borderRadius: "8px",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "6px",
-                      }}
-                    >
-                      <span>{p.type}</span>
-                      <span style={{ color: "rgba(255, 255, 255, 0.4)" }}>•</span>
-                      <span>{p.year}</span>
-                    </span>
-
-                    <span
-                      style={{
-                        background: isLive
-                          ? "rgba(34, 197, 94, 0.22)"
-                          : "rgba(255, 255, 255, 0.15)",
-                        border: isLive
-                          ? "1px solid rgba(34, 197, 94, 0.45)"
-                          : "1px solid rgba(255, 255, 255, 0.25)",
-                        color: isLive ? "#86efac" : "rgba(255, 255, 255, 0.85)",
-                        fontFamily: "var(--font-family-mono)",
-                        fontSize: "10px",
-                        fontWeight: 800,
-                        padding: "4px 10px",
-                        borderRadius: "9999px",
-                        letterSpacing: "0.04em",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "6px",
-                        backdropFilter: "blur(12px)",
-                      }}
-                    >
-                      {isLive && (
-                        <span
-                          style={{
-                            width: "6px",
-                            height: "6px",
-                            borderRadius: "50%",
-                            background: "#22c55e",
-                            boxShadow: "0 0 8px #22c55e",
-                          }}
-                        />
-                      )}
-                      {p.status.toUpperCase()}
-                    </span>
-                  </div>
-
-                  {/* Quick Preview Hover Indicator (Bottom-Right of Image) */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: "12px",
-                      right: "14px",
-                      zIndex: 2,
-                      background: "rgba(10, 28, 18, 0.75)",
-                      backdropFilter: "blur(12px)",
-                      border: "1px solid rgba(255, 255, 255, 0.25)",
-                      borderRadius: "9999px",
-                      padding: "4px 10px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      color: "#4ade80",
-                      fontSize: "11px",
-                      fontFamily: "var(--font-family-mono)",
-                      fontWeight: 600,
-                    }}
-                  >
-                    <FiEye size={12} />
-                    <span>{p.screenshots.length} Screenshots</span>
-                  </div>
-                </div>
-
-                {/* Project Card Content */}
-                <div
-                  style={{
-                    padding: "24px 26px 26px 26px",
-                    display: "flex",
-                    flexDirection: "column",
-                    flex: 1,
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <div>
-                    {/* Title + Action Arrow */}
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "flex-start",
-                        gap: "12px",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      <h3
-                        style={{
-                          fontFamily: "var(--font-family-display)",
-                          fontSize: "19px",
-                          fontWeight: 700,
-                          color: "#ffffff",
-                          letterSpacing: "-0.015em",
-                          lineHeight: 1.35,
-                          margin: 0,
-                        }}
-                      >
-                        {p.title}
-                      </h3>
-                      <div
-                        style={{
-                          width: "34px",
-                          height: "34px",
-                          borderRadius: "50%",
-                          background: "rgba(255, 255, 255, 0.1)",
-                          border: "1px solid rgba(255, 255, 255, 0.22)",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          color: "#4ade80",
-                          flexShrink: 0,
-                          transition: "all 0.2s ease",
-                        }}
-                      >
-                        <FiArrowUpRight size={17} />
-                      </div>
-                    </div>
-
-                    {/* Subtitle / Organisation */}
-                    {p.subtitle && (
-                      <p
-                        style={{
-                          fontFamily: "var(--font-family-mono)",
-                          fontSize: "11.5px",
-                          color: "#86efac",
-                          fontWeight: 600,
-                          margin: "0 0 12px 0",
-                          lineHeight: 1.4,
-                        }}
-                      >
-                        {p.subtitle}
-                      </p>
-                    )}
-
-                    {/* Short Description */}
-                    <p
-                      style={{
-                        fontFamily: "var(--font-family-body)",
-                        fontSize: "13.5px",
-                        color: "rgba(255, 255, 255, 0.78)",
-                        lineHeight: 1.6,
-                        margin: "0 0 20px 0",
-                      }}
-                    >
-                      {p.desc}
-                    </p>
-                  </div>
-
-                  <div>
-                    {/* Color-Coded Tech Pills */}
-                    <div
-                      style={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        gap: "6px",
-                        marginBottom: "18px",
-                      }}
-                    >
-                      {p.stack.slice(0, 5).map((tech) => {
-                        const style = getTechStyle(tech);
-                        return (
-                          <span
-                            key={tech}
-                            style={{
-                              fontFamily: "var(--font-family-mono)",
-                              fontSize: "10.5px",
-                              fontWeight: 600,
-                              color: style.text,
-                              background: style.bg,
-                              border: `1px solid ${style.border}`,
-                              padding: "3px 9px",
-                              borderRadius: "6px",
-                              letterSpacing: "0.01em",
-                            }}
-                          >
-                            {tech}
-                          </span>
-                        );
-                      })}
-                      {p.stack.length > 5 && (
-                        <span
-                          style={{
-                            fontFamily: "var(--font-family-mono)",
-                            fontSize: "10.5px",
-                            fontWeight: 700,
-                            color: "#4ade80",
-                            background: "rgba(34, 197, 94, 0.16)",
-                            border: "1px solid rgba(34, 197, 94, 0.35)",
-                            padding: "3px 8px",
-                            borderRadius: "6px",
-                          }}
-                        >
-                          +{p.stack.length - 5}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Footer Interactive Action Link */}
-                    <div
-                      style={{
-                        paddingTop: "14px",
-                        borderTop: "1px solid rgba(255, 255, 255, 0.1)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontFamily: "var(--font-family-body)",
-                          fontSize: "12.5px",
-                          fontWeight: 700,
-                          color: "#4ade80",
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: "6px",
-                        }}
-                      >
-                        Detail Proyek &amp; Arsitektur &rarr;
-                      </span>
-                      <span
-                        style={{
-                          fontFamily: "var(--font-family-mono)",
-                          fontSize: "11px",
-                          color: "rgba(255, 255, 255, 0.5)",
-                        }}
-                      >
-                        ID: #{String(p.id).padStart(2, "0")}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        )}
       </div>
     </section>
   );

@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import Lenis from "lenis";
+import "lenis/dist/lenis.css";
 import { Navbar } from "@/components/landing/Navbar";
 import { Hero } from "@/components/landing/Hero";
 import { HeroDescription } from "@/components/landing/HeroDescription";
-import { FeatureCard } from "@/components/landing/FeatureCard";
-import { FloatingLeaves } from "@/components/landing/FloatingLeaves";
 import { ProjectsSection } from "@/components/landing/ProjectsSection";
 import { ExperienceSection } from "@/components/landing/ExperienceSection";
 import { SkillsSection } from "@/components/landing/SkillsSection";
@@ -14,15 +14,18 @@ import { ContactSection } from "@/components/landing/ContactSection";
 import { Footer } from "@/components/landing/Footer";
 import { CvModal } from "@/components/landing/CvModal";
 import { ContactModal } from "@/components/landing/ContactModal";
-import { GlassCard } from "@/components/landing/GlassCard";
 import ProjectModal from "@/components/ui/ProjectModal";
 import GitHubActivity from "@/components/sections/GitHubActivity";
+import { TechStackMarquee } from "@/components/landing/TechStackMarquee";
+import { DeveloperBentoGrid } from "@/components/landing/DeveloperBentoGrid";
+import { TechArchitectureShowcase } from "@/components/landing/TechArchitectureShowcase";
+import { ScrollProgressHUD } from "@/components/ui/ScrollProgressHUD";
 import { projects } from "@/data/projects";
-import { NavItem, FeatureItem } from "@/components/landing/types";
+import { NavItem } from "@/components/landing/types";
 
 export default function Home() {
   // Navigation & Modal States
-  const [activeNav, setActiveNav] = useState<string>("features");
+  const [activeNav, setActiveNav] = useState<string>("architecture");
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const [cvModalOpen, setCvModalOpen] = useState(false);
@@ -40,54 +43,75 @@ export default function Home() {
     text: string;
   } | null>(null);
 
-  // Navigation Items (Portfolio Focused)
+  // Navigation Items
   const navItems: NavItem[] = useMemo(
     () => [
-      { id: "features", label: "Proyek", href: "#projects" },
-      { id: "product", label: "Pengalaman", href: "#experience" },
-      { id: "about", label: "Keahlian", href: "#skills" },
-      { id: "reviews", label: "GitHub", href: "#github" },
-      { id: "workflow", label: "Alur Kerja", href: "#workflow" },
+      { id: "architecture", label: "Arsitektur", href: "#architecture" },
+      { id: "projects", label: "Proyek", href: "#projects" },
+      { id: "experience", label: "Pengalaman", href: "#experience" },
+      { id: "skills", label: "Keahlian", href: "#skills" },
+      { id: "github", label: "GitHub", href: "#github" },
+      { id: "workflow", label: "Metodologi", href: "#workflow" },
     ],
     []
   );
 
-  // Bottom-Right Feature Cards Data (Engineering Competencies)
-  const heroFeatures: FeatureItem[] = useMemo(
-    () => [
-      {
-        id: "feat-backend",
-        title: "Backend Enterprise",
-        description: "C# .NET 9, Golang & SQL Tuning performa tinggi.",
-        icon: "chart",
-        metric: "7+ PROYEK",
-      },
-      {
-        id: "feat-architecture",
-        title: "Clean Architecture",
-        description: "ACID compliance, Docker & decoupled microservices.",
-        icon: "lock",
-        metric: "ENTERPRISE",
-      },
-    ],
-    []
-  );
+  // Lenis Smooth Scroll Reference
+  const lenisRef = useRef<Lenis | null>(null);
+
+  // Initialize Lenis Smooth Scrolling
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 1.5,
+    });
+    lenisRef.current = lenis;
+
+    let rafId: number;
+    function raf(time: number) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
+
+  // Lock/Unlock Lenis when modals are open
+  useEffect(() => {
+    if (contactModalOpen || cvModalOpen || selectedProject) {
+      lenisRef.current?.stop();
+    } else {
+      lenisRef.current?.start();
+    }
+  }, [contactModalOpen, cvModalOpen, selectedProject]);
 
   // Smooth scroll handler
   const scrollTo = useCallback((id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(el, { offset: -70, duration: 1.2 });
+      } else {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
     }
   }, []);
 
   const handleNavClick = (id: string) => {
     setActiveNav(id);
     const targetMap: Record<string, string> = {
-      features: "projects",
-      product: "experience",
-      about: "skills",
-      reviews: "github",
+      projects: "projects",
+      architecture: "architecture",
+      experience: "experience",
+      skills: "skills",
+      github: "github",
       workflow: "workflow",
     };
     const targetId = targetMap[id];
@@ -128,13 +152,13 @@ export default function Home() {
       const data = await response.json().catch(() => null);
       if (response.ok && data && (data.success === "true" || data.success === true)) {
         setContactForm({ name: "", email: "", subject: "", message: "" });
-        setFormStatus({ type: "success", text: "✓ Pesan berhasil terkirim ke email Erga!" });
+        setFormStatus({ type: "success", text: "✓ Pesan berhasil terkirim langsung ke email Erga!" });
         setTimeout(() => setFormStatus(null), 8000);
       } else {
         throw new Error("Gagal mengirim");
       }
     } catch {
-      setFormStatus({ type: "error", text: "Membuka draft email langsung ke ewandaafriza@gmail.com..." });
+      setFormStatus({ type: "error", text: "Membuka email langsung ke ewandaafriza@gmail.com..." });
       const mailto = `mailto:ewandaafriza@gmail.com?subject=${encodeURIComponent(
         contactForm.subject || "Portofolio Inquiries"
       )}&body=${encodeURIComponent(
@@ -148,20 +172,11 @@ export default function Home() {
   };
 
   return (
-    <div
-      style={{
-        position: "relative",
-        minHeight: "100vh",
-        width: "100%",
-        overflowX: "hidden",
-        backgroundColor: "#08140c",
-        color: "#ffffff",
-        fontFamily: "var(--font-family-body)",
-      }}
-    >
-      {/* ═══════════════════════════════════════════════════════
-          FLOATING STICKY GLASS NAVBAR (Follows across all sections)
-      ═══════════════════════════════════════════════════════ */}
+    <div className="page">
+      <a href="#main-content" className="skip-link">
+        Lewati ke konten utama
+      </a>
+
       <Navbar
         navItems={navItems}
         activeId={activeNav}
@@ -170,210 +185,49 @@ export default function Home() {
         onCvClick={() => setCvModalOpen(true)}
       />
 
-      {/* ═══════════════════════════════════════════════════════
-          FULL-SCREEN SUNLIT CLASSICAL GARDEN BACKGROUND
-      ═══════════════════════════════════════════════════════ */}
-      <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: 0,
-          pointerEvents: "none",
-          overflow: "hidden",
-        }}
-      >
-        {/* Background photo */}
-        <div
-          style={{
-            position: "absolute",
-            inset: "-10px",
-            backgroundImage: "url('/images/lush_garden_bg.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center 25%",
-            filter: "brightness(0.82) contrast(1.15) saturate(1.22)",
-            transform: "scale(1.02)",
-          }}
-        />
-
-        {/* Ambient atmospheric vignette with deep emerald tones */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: `
-              radial-gradient(ellipse at 65% 15%, rgba(255, 255, 230, 0.22) 0%, transparent 60%),
-              radial-gradient(circle at 50% 35%, rgba(6, 26, 16, 0.35) 0%, rgba(2, 10, 6, 0.65) 100%),
-              linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 0%, rgba(2, 14, 8, 0.55) 100%)
-            `,
-          }}
-        />
-      </div>
-
-      {/* ═══════════════════════════════════════════════════════
-          1. CENTRAL FLOATING GLASS VIEWPORT FRAME (HERO FOLD)
-          Enclosing Hero + Side-by-Side Feature Cards
-      ═══════════════════════════════════════════════════════ */}
-      <div className="glass-viewport-frame">
-        {/* Internal Creamy Frosted Garden Backdrop with Rich Contrast */}
-        <div
-          style={{
-            position: "absolute",
-            inset: "-20px",
-            backgroundImage: "url('/images/lush_garden_bg.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center 25%",
-            filter: "blur(24px) brightness(0.90) contrast(1.10) saturate(1.20)",
-            transform: "scale(1.04)",
-            zIndex: 0,
-            pointerEvents: "none",
-          }}
-        />
-
-        {/* Translucent Frosted Glass Tint with Luminous Sunlit Sheen */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: "linear-gradient(145deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.06) 45%, rgba(6, 26, 14, 0.32) 100%)",
-            zIndex: 1,
-            pointerEvents: "none",
-          }}
-        />
-
-        {/* Volumetric sunbeams shining down */}
-        <div className="volumetric-sunbeams" />
-
-        {/* Realistic Eucalyptus foliage overlapping headline and frame */}
-        <FloatingLeaves />
-
-        {/* Main Hero Fold Inside the Glass Window */}
-        <main
-          className="hero-viewport-main"
-          style={{
-            position: "relative",
-            zIndex: 10,
-            minHeight: "min(calc(100vh - 160px), 820px)",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-          }}
-        >
-          {/* 12-Column Hero Grid: Left Staggered Headline, Right Narrative + Dual Cards */}
-          <div
-            className="hero-grid-container"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(12, 1fr)",
-              gap: "36px",
-              alignItems: "flex-start",
-            }}
-          >
-            {/* Left Column: Oversized Staggered Headline, Dual CTAs, Architectural Bottom Box */}
-            <div
-              className="hero-col-left"
-              style={{
-                gridColumn: "span 7",
-              }}
-            >
+      <main id="main-content" tabIndex={-1}>
+        {/* ── 00 · Nameplate ─────────────────────────────────── */}
+        <section id="hero" data-hue="flame" className="band-bleed hero-wrap">
+          <div className="sheet">
+            <div className="hero-band">
               <Hero
-                headlineMain="Erga Wanda Afriza"
                 onPrimaryCta={() => scrollTo("projects")}
                 onSecondaryCta={() => setCvModalOpen(true)}
-                primaryLabel="Lihat Proyek"
+                primaryLabel="Jelajahi Proyek"
                 secondaryLabel="Unduh CV"
-                supportingText="• IT Developer @ RDS Group. Mengembangkan sistem enterprise andal C# .NET 9, arsitektur microservices, dan skalabilitas tinggi."
+                supportingText="IT Developer yang berspesialisasi membangun sistem backend scalable dan antarmuka frontend reaktif untuk produksi. Saat ini bergabung dengan RDS Group."
                 onScrollDown={() => scrollTo("projects")}
               />
-            </div>
 
-            {/* Right Column: Hero Narrative + TWO SIDE-BY-SIDE FEATURE CARDS */}
-            <div
-              className="hero-col-right"
-              style={{
-                gridColumn: "span 5",
-                display: "flex",
-                flexDirection: "column",
-                gap: "16px",
-                paddingTop: "4px",
-              }}
-            >
-              {/* Architectural Top-Left Bracket Narrative Box */}
               <HeroDescription
-                text="IT Developer di RDS Group (PT Reycom Document Solusi). Berfokus pada rekayasa backend enterprise C# .NET 9, arsitektur microservices, konkurensi Golang, database berkecepatan tinggi, serta integrasi AI & Machine Learning praktis."
-                roleBadge="IT DEVELOPER @ RDS GROUP"
+                text="IT Developer di RDS Group. Riwayat rekayasa sistem mencakup platform sertifikasi nasional LSP CoachPro dan 3 sistem internal kepegawaian Pusdatin Kementerian Pertahanan RI."
+                roleBadge="IT Developer"
                 location="Jakarta & Bekasi, Indonesia"
               />
-
-              {/* TWO FEATURE CARDS SIDE-BY-SIDE AT BOTTOM RIGHT */}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  gap: "18px",
-                  width: "100%",
-                  flexWrap: "wrap",
-                }}
-              >
-                {heroFeatures.map((feat) => (
-                  <FeatureCard
-                    key={feat.id}
-                    feature={feat}
-                    onClick={() => scrollTo("skills")}
-                  />
-                ))}
-              </div>
             </div>
-          </div>
-        </main>
-      </div>
-
-      {/* ═══════════════════════════════════════════════════════
-          INTERACTIVE SECTIONS: PROJECTS, EXPERIENCE, SKILLS
-      ═══════════════════════════════════════════════════════ */}
-      <div
-        className="main-sections-wrapper"
-        style={{ maxWidth: "1400px", margin: "40px auto 0 auto", padding: "0 24px" }}
-      >
-        {/* Projects Section (Features) */}
-        <ProjectsSection onSelectProject={(p) => setSelectedProject(p)} />
-
-        {/* Experience & Career Milestones Section (Product) */}
-        <ExperienceSection />
-
-        {/* Skills & Technical Competencies Section (About) */}
-        <SkillsSection />
-
-        {/* GitHub Activity Section (Reviews / Telemetry) */}
-        <section
-          id="github"
-          style={{
-            padding: "80px 0 60px 0",
-            position: "relative",
-            zIndex: 10,
-          }}
-        >
-          <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 24px" }}>
-            <GlassCard
-              style={{
-                padding: "36px 32px",
-                borderRadius: "28px",
-                background: "rgba(255, 255, 255, 0.08)",
-                backdropFilter: "blur(32px) saturate(140%)",
-                WebkitBackdropFilter: "blur(32px) saturate(140%)",
-                border: "1px solid rgba(255, 255, 255, 0.25)",
-                borderTop: "1.5px solid rgba(255, 255, 255, 0.55)",
-                boxShadow: "0 25px 70px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.4)",
-              }}
-            >
-              <GitHubActivity />
-            </GlassCard>
           </div>
         </section>
 
-        {/* Workflow & Engineering Philosophy (Workflow) */}
-        <WorkflowSection />
+        {/* ── 01 · Impact ledger ─────────────────────────────── */}
+        <DeveloperBentoGrid
+          onOpenCv={() => setCvModalOpen(true)}
+          onOpenContact={() => scrollTo("contact")}
+          onSelectProject={(projectId) => {
+            const p = projects.find((item) => item.id === projectId);
+            if (p) setSelectedProject(p);
+          }}
+        />
 
-        {/* Contact Section */}
+        <TechStackMarquee />
+
+        {/* Each section owns its own band + inner .sheet, so nothing
+            here may constrain the width. */}
+        <TechArchitectureShowcase />
+        <ProjectsSection onSelectProject={(p) => setSelectedProject(p)} />
+        <ExperienceSection />
+        <SkillsSection />
+        <GitHubActivity />
+        <WorkflowSection />
         <ContactSection
           contactForm={contactForm}
           setContactForm={setContactForm}
@@ -381,23 +235,17 @@ export default function Home() {
           sending={sending}
           formStatus={formStatus}
         />
+      </main>
 
-        {/* Semantic Footer */}
-        <Footer onCvClick={() => setCvModalOpen(true)} />
-      </div>
+      <Footer onCvClick={() => setCvModalOpen(true)} />
 
-      {/* ═══════════════════════════════════════════════════════
-          MODALS & DIALOGS (CV, DIRECT CONTACT, PROJECT DETAILS)
-      ═══════════════════════════════════════════════════════ */}
-
-      {/* CV PDF Viewer Modal */}
+      {/* ── Dialogs ──────────────────────────────────────────── */}
       <CvModal
         isOpen={cvModalOpen}
         onClose={() => setCvModalOpen(false)}
         cvUrl="/cv_erga.pdf"
       />
 
-      {/* Direct Contact Modal */}
       <ContactModal
         isOpen={contactModalOpen}
         onClose={() => setContactModalOpen(false)}
@@ -408,10 +256,14 @@ export default function Home() {
         formStatus={formStatus}
       />
 
-      {/* Deep-Dive Project Modal */}
       <ProjectModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}
+      />
+
+      <ScrollProgressHUD
+        onScrollToTop={() => scrollTo("hero")}
+        onSectionChange={setActiveNav}
       />
     </div>
   );

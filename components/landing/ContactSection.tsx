@@ -1,10 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { FiMail, FiMapPin, FiSend, FiCheck, FiMessageSquare, FiCopy } from "react-icons/fi";
-import { FaWhatsapp, FaGithub } from "react-icons/fa";
-import { GlassCard } from "./GlassCard";
-import { GlassButton } from "./GlassButton";
+import {
+  FiAlertCircle,
+  FiCheck,
+  FiCopy,
+  FiInfo,
+  FiMail,
+  FiMapPin,
+  FiSend,
+} from "react-icons/fi";
+import { FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
+import { SectionHead } from "./SectionHead";
+import { Reveal } from "./Reveal";
+import "../../styles/contact.css";
 
 interface ContactSectionProps {
   contactForm: { name: string; email: string; subject: string; message: string };
@@ -15,6 +24,42 @@ interface ContactSectionProps {
   sending: boolean;
   formStatus: { type: "success" | "activation" | "error"; text: string } | null;
 }
+
+const CHANNELS = [
+  {
+    id: "whatsapp",
+    label: "WhatsApp direct",
+    value: "+62 882 9106 7259",
+    href: "https://wa.me/6288291067259",
+    Icon: FaWhatsapp,
+  },
+  {
+    id: "github",
+    label: "GitHub profile",
+    value: "github.com/ErgaWanda",
+    href: "https://github.com/ErgaWanda",
+    Icon: FaGithub,
+  },
+  {
+    id: "linkedin",
+    label: "LinkedIn network",
+    value: "erga-wanda-afriza",
+    href: "https://linkedin.com/in/erga-wanda-afriza-147564211",
+    Icon: FaLinkedin,
+  },
+];
+
+const noticeClass = (type: "success" | "activation" | "error") => {
+  if (type === "error") return "notice notice--error contact__notice";
+  if (type === "activation") return "notice notice--info contact__notice";
+  return "notice contact__notice";
+};
+
+const NoticeIcon = ({ type }: { type: "success" | "activation" | "error" }) => {
+  if (type === "error") return <FiAlertCircle size={15} aria-hidden="true" />;
+  if (type === "activation") return <FiInfo size={15} aria-hidden="true" />;
+  return <FiCheck size={15} aria-hidden="true" />;
+};
 
 export const ContactSection: React.FC<ContactSectionProps> = ({
   contactForm,
@@ -34,632 +79,192 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
   };
 
   return (
-    <section id="contact" style={{ padding: "80px 0 100px 0", position: "relative", zIndex: 10 }}>
-      <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 24px" }}>
-        {/* Section Header */}
-        <div style={{ marginBottom: "40px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
-            <span
-              style={{
-                background: "rgba(34, 197, 94, 0.18)",
-                border: "1px solid rgba(34, 197, 94, 0.4)",
-                color: "#4ade80",
-                fontFamily: "var(--font-family-mono)",
-                fontSize: "11px",
-                fontWeight: 700,
-                padding: "4px 12px",
-                borderRadius: "9999px",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                letterSpacing: "0.04em",
-              }}
-            >
-              <FiMessageSquare size={12} />
-              PUSAT KOMUNIKASI &amp; DISKUSI
-            </span>
-          </div>
-          <h2
-            style={{
-              fontFamily: "var(--font-family-display)",
-              fontSize: "clamp(2rem, 4vw, 3rem)",
-              fontWeight: 800,
-              color: "#ffffff",
-              letterSpacing: "-0.03em",
-              lineHeight: 1.15,
-              margin: 0,
-            }}
-          >
-            Let&apos;s Build Something Resilient
-          </h2>
-          <p
-            style={{
-              fontFamily: "var(--font-family-body)",
-              fontSize: "14.5px",
-              color: "rgba(255, 255, 255, 0.72)",
-              marginTop: "8px",
-              marginBottom: 0,
-              maxWidth: "600px",
-            }}
-          >
-            Siap untuk berdiskusi mengenai proyek enterprise, arsitektur C# .NET/Golang, konsultasi AI, atau peluang kolaborasi strategis.
-          </p>
-        </div>
+    <section id="contact" data-hue="cobalt" className="band-bleed contact">
+      <div className="sheet">
+        <SectionHead
+          index="08"
+          title={
+            <>
+              &ldquo;Let&apos;s build robust &amp; scalable systems together.&rdquo;
+            </>
+          }
+          subtitle="Jalur komunikasi langsung dengan Erga. Terbuka untuk pengembangan backend Golang & Laravel, antarmuka reaktif React & Vue.js, atau proyek machine learning yang dioperasikan sampai produksi."
+          meta="Direct inquiries"
+        />
 
-        {/* 2-Column Responsive Grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))",
-            gap: "28px",
-          }}
-        >
-          {/* Left: Modern Direct Contact Form */}
-          <div
-            className="contact-card-glass"
-            style={{
-              borderRadius: "26px",
-              background: "rgba(10, 26, 17, 0.78)",
-              backdropFilter: "blur(28px) saturate(140%)",
-              WebkitBackdropFilter: "blur(28px) saturate(140%)",
-              border: "1px solid rgba(255, 255, 255, 0.18)",
-              borderTop: "1.5px solid rgba(255, 255, 255, 0.42)",
-              boxShadow:
-                "0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.25)",
-              padding: "36px",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
-              <span
-                style={{
-                  width: "8px",
-                  height: "8px",
-                  borderRadius: "50%",
-                  background: "#22c55e",
-                  boxShadow: "0 0 8px #22c55e",
-                }}
-              />
-              <h3
-                style={{
-                  fontFamily: "var(--font-family-display)",
-                  fontSize: "21px",
-                  fontWeight: 700,
-                  color: "#ffffff",
-                  letterSpacing: "-0.015em",
-                  margin: 0,
-                }}
-              >
-                Kirim Pesan Langsung
-              </h3>
+        <div className="contact__grid">
+          {/* ── Form plate ─────────────────────────────────── */}
+          <Reveal as="article" className="panel contact__form" delay={60}>
+            <div className="cell__head">
+              <h3 className="display-m">Kirim pesan langsung</h3>
+              <span className="chip">Hubungi saya</span>
             </div>
-            <p
-              style={{
-                fontFamily: "var(--font-family-body)",
-                fontSize: "13.5px",
-                color: "rgba(255, 255, 255, 0.75)",
-                lineHeight: 1.6,
-                marginBottom: "24px",
-              }}
-            >
-              Pesan akan otomatis terkirim langsung ke email pribadi saya dan segera saya balas.
+
+            <p className="contact__lede">
+              Pesan akan otomatis terkirim langsung ke email pribadi saya dan segera saya respons.
             </p>
 
-            <form onSubmit={handleContactSubmit} style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
-              <div>
-                <label
-                  style={{
-                    display: "block",
-                    fontFamily: "var(--font-family-mono)",
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    color: "rgba(255, 255, 255, 0.8)",
-                    marginBottom: "6px",
-                    letterSpacing: "0.03em",
-                  }}
-                >
-                  NAMA LENGKAP *
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Alex Pratama"
-                  value={contactForm.name}
-                  onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                  style={{
-                    width: "100%",
-                    background: "rgba(6, 18, 12, 0.7)",
-                    border: "1px solid rgba(255, 255, 255, 0.2)",
-                    borderRadius: "14px",
-                    padding: "13px 18px",
-                    color: "#ffffff",
-                    fontFamily: "var(--font-family-body)",
-                    fontSize: "14px",
-                    outline: "none",
-                    boxSizing: "border-box",
-                    transition: "all 0.2s ease",
-                  }}
-                  onFocus={(e) => {
-                    e.currentTarget.style.borderColor = "#22c55e";
-                    e.currentTarget.style.boxShadow = "0 0 15px rgba(34, 197, 94, 0.3)";
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                    e.currentTarget.style.boxShadow = "none";
-                  }}
-                />
+            <form className="contact__form-body" onSubmit={handleContactSubmit}>
+              <div className="contact__fields">
+                <div className="field">
+                  <label className="field__label" htmlFor="cs-name">
+                    Nama lengkap *
+                  </label>
+                  <input
+                    id="cs-name"
+                    className="field__input"
+                    type="text"
+                    required
+                    placeholder="e.g. Alex Pratama"
+                    value={contactForm.name}
+                    onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                  />
+                </div>
+
+                <div className="field">
+                  <label className="field__label" htmlFor="cs-email">
+                    Alamat email *
+                  </label>
+                  <input
+                    id="cs-email"
+                    className="field__input"
+                    type="email"
+                    required
+                    placeholder="name@company.com"
+                    value={contactForm.email}
+                    onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                  />
+                </div>
+
+                <div className="field contact__field--full">
+                  <label className="field__label" htmlFor="cs-subject">
+                    Subjek *
+                  </label>
+                  <input
+                    id="cs-subject"
+                    className="field__input"
+                    type="text"
+                    required
+                    placeholder="Diskusi Proyek Backend / Web App / ML"
+                    value={contactForm.subject}
+                    onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
+                  />
+                </div>
+
+                <div className="field contact__field--full">
+                  <label className="field__label" htmlFor="cs-message">
+                    Pesan detail *
+                  </label>
+                  <textarea
+                    id="cs-message"
+                    className="field__textarea"
+                    required
+                    rows={4}
+                    placeholder="Tuliskan spesifikasi sistem, pertanyaan arsitektur, atau ide yang ingin dikembangkan..."
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                  />
+                </div>
               </div>
 
-              <div>
-                <label
-                  style={{
-                    display: "block",
-                    fontFamily: "var(--font-family-mono)",
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    color: "rgba(255, 255, 255, 0.8)",
-                    marginBottom: "6px",
-                    letterSpacing: "0.03em",
-                  }}
-                >
-                  ALAMAT EMAIL *
-                </label>
-                <input
-                  type="email"
-                  required
-                  placeholder="name@company.com"
-                  value={contactForm.email}
-                  onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                  style={{
-                    width: "100%",
-                    background: "rgba(6, 18, 12, 0.7)",
-                    border: "1px solid rgba(255, 255, 255, 0.2)",
-                    borderRadius: "14px",
-                    padding: "13px 18px",
-                    color: "#ffffff",
-                    fontFamily: "var(--font-family-body)",
-                    fontSize: "14px",
-                    outline: "none",
-                    boxSizing: "border-box",
-                    transition: "all 0.2s ease",
-                  }}
-                  onFocus={(e) => {
-                    e.currentTarget.style.borderColor = "#22c55e";
-                    e.currentTarget.style.boxShadow = "0 0 15px rgba(34, 197, 94, 0.3)";
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                    e.currentTarget.style.boxShadow = "none";
-                  }}
-                />
-              </div>
-
-              <div>
-                <label
-                  style={{
-                    display: "block",
-                    fontFamily: "var(--font-family-mono)",
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    color: "rgba(255, 255, 255, 0.8)",
-                    marginBottom: "6px",
-                    letterSpacing: "0.03em",
-                  }}
-                >
-                  SUBJEK *
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Diskusi Proyek C# .NET / AI"
-                  value={contactForm.subject}
-                  onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
-                  style={{
-                    width: "100%",
-                    background: "rgba(6, 18, 12, 0.7)",
-                    border: "1px solid rgba(255, 255, 255, 0.2)",
-                    borderRadius: "14px",
-                    padding: "13px 18px",
-                    color: "#ffffff",
-                    fontFamily: "var(--font-family-body)",
-                    fontSize: "14px",
-                    outline: "none",
-                    boxSizing: "border-box",
-                    transition: "all 0.2s ease",
-                  }}
-                  onFocus={(e) => {
-                    e.currentTarget.style.borderColor = "#22c55e";
-                    e.currentTarget.style.boxShadow = "0 0 15px rgba(34, 197, 94, 0.3)";
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                    e.currentTarget.style.boxShadow = "none";
-                  }}
-                />
-              </div>
-
-              <div>
-                <label
-                  style={{
-                    display: "block",
-                    fontFamily: "var(--font-family-mono)",
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    color: "rgba(255, 255, 255, 0.8)",
-                    marginBottom: "6px",
-                    letterSpacing: "0.03em",
-                  }}
-                >
-                  PESAN DETAIL *
-                </label>
-                <textarea
-                  required
-                  rows={4}
-                  placeholder="Tuliskan spesifikasi sistem, pertanyaan arsitektur, atau ide yang ingin dikembangkan..."
-                  value={contactForm.message}
-                  onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                  style={{
-                    width: "100%",
-                    background: "rgba(6, 18, 12, 0.7)",
-                    border: "1px solid rgba(255, 255, 255, 0.2)",
-                    borderRadius: "14px",
-                    padding: "13px 18px",
-                    color: "#ffffff",
-                    fontFamily: "var(--font-family-body)",
-                    fontSize: "14px",
-                    outline: "none",
-                    resize: "none",
-                    boxSizing: "border-box",
-                    transition: "all 0.2s ease",
-                  }}
-                  onFocus={(e) => {
-                    e.currentTarget.style.borderColor = "#22c55e";
-                    e.currentTarget.style.boxShadow = "0 0 15px rgba(34, 197, 94, 0.3)";
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                    e.currentTarget.style.boxShadow = "none";
-                  }}
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={sending}
-                className="btn-primary-green"
-                style={{
-                  width: "100%",
-                  justifyContent: "center",
-                  marginTop: "6px",
-                  padding: "14px",
-                  fontSize: "14.5px",
-                  fontWeight: 700,
-                  cursor: sending ? "not-allowed" : "pointer",
-                  opacity: sending ? 0.7 : 1,
-                }}
-              >
-                <FiSend size={15} />
-                <span>{sending ? "Mengirimkan Pesan..." : "Kirim Pesan Sekarang"}</span>
+              <button type="submit" className="btn btn--primary contact__submit" disabled={sending}>
+                <FiSend size={15} className="btn__icon" />
+                <span>{sending ? "Mengirim pesan..." : "Kirim pesan sekarang"}</span>
               </button>
 
               {formStatus && (
                 <div
-                  style={{
-                    padding: "12px 16px",
-                    borderRadius: "12px",
-                    background:
-                      formStatus.type === "success"
-                        ? "rgba(34, 197, 94, 0.2)"
-                        : "rgba(239, 68, 68, 0.2)",
-                    border: `1px solid ${
-                      formStatus.type === "success" ? "#22c55e" : "#ef4444"
-                    }`,
-                    color: formStatus.type === "success" ? "#4ade80" : "#fca5a5",
-                    fontFamily: "var(--font-family-body)",
-                    fontSize: "13px",
-                    textAlign: "center",
-                  }}
+                  className={noticeClass(formStatus.type)}
+                  role="status"
+                  aria-live="polite"
                 >
-                  {formStatus.text}
+                  <NoticeIcon type={formStatus.type} />
+                  <span>{formStatus.text}</span>
                 </div>
               )}
             </form>
-          </div>
+          </Reveal>
 
-          {/* Right: Direct Interactive Channels */}
-          <div
-            className="contact-card-glass"
-            style={{
-              borderRadius: "26px",
-              background: "rgba(10, 26, 17, 0.78)",
-              backdropFilter: "blur(28px) saturate(140%)",
-              WebkitBackdropFilter: "blur(28px) saturate(140%)",
-              border: "1px solid rgba(255, 255, 255, 0.18)",
-              borderTop: "1.5px solid rgba(255, 255, 255, 0.42)",
-              boxShadow:
-                "0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.25)",
-              padding: "36px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-            }}
-          >
-            <div>
-              <h3
-                style={{
-                  fontFamily: "var(--font-family-display)",
-                  fontSize: "21px",
-                  fontWeight: 700,
-                  color: "#ffffff",
-                  letterSpacing: "-0.015em",
-                  marginBottom: "8px",
-                }}
-              >
-                Saluran Komunikasi Langsung
-              </h3>
-              <p
-                style={{
-                  fontFamily: "var(--font-family-body)",
-                  fontSize: "13.5px",
-                  color: "rgba(255, 255, 255, 0.75)",
-                  lineHeight: 1.6,
-                  marginBottom: "24px",
-                }}
-              >
-                Pilih saluran favorit Anda untuk respon cepat melalui WhatsApp, Email, atau eksplorasi kode di GitHub:
+          {/* ── Direct channels: collapsed-rule grid ───────── */}
+          <div className="col contact__side">
+            <Reveal delay={120}>
+              <div className="cell__head">
+                <h3 className="display-m">Saluran komunikasi langsung</h3>
+                <span className="mono">Respons cepat</span>
+              </div>
+              <p className="contact__lede">
+                Pilih jalur komunikasi langsung melalui Email, WhatsApp, atau repositori GitHub:
               </p>
+            </Reveal>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                {/* Official Email */}
-                <div
-                  style={{
-                    position: "relative",
-                    padding: "16px 20px",
-                    borderRadius: "16px",
-                    background: "rgba(255, 255, 255, 0.06)",
-                    border: "1px solid rgba(255, 255, 255, 0.18)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    transition: "all 0.2s ease",
-                  }}
-                  className="group hover:border-emerald-500/50"
+            <Reveal className="bento contact__channels" delay={180}>
+              <div className="contact__cell">
+                <a className="contact__cell-link" href="mailto:ewandaafriza@gmail.com">
+                  <span className="contact__icon">
+                    <FiMail size={19} aria-hidden="true" />
+                  </span>
+                  <span className="contact__cell-body">
+                    <span className="mono">Email resmi</span>
+                    <span className="contact__value">ewandaafriza@gmail.com</span>
+                  </span>
+                </a>
+                <button
+                  type="button"
+                  className="btn btn--sm contact__copy"
+                  onClick={copyEmail}
+                  title="Salin Alamat Email"
+                  aria-label="Salin alamat email ewandaafriza@gmail.com"
                 >
-                  <a
-                    href="mailto:ewandaafriza@gmail.com"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "16px",
-                      textDecoration: "none",
-                      flex: 1,
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "44px",
-                        height: "44px",
-                        borderRadius: "12px",
-                        background: "rgba(34, 197, 94, 0.2)",
-                        border: "1px solid rgba(34, 197, 94, 0.4)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "#4ade80",
-                      }}
-                    >
-                      <FiMail size={19} />
-                    </div>
-                    <div>
-                      <div
-                        style={{
-                          fontFamily: "var(--font-family-mono)",
-                          fontSize: "10.5px",
-                          color: "#86efac",
-                          fontWeight: 700,
-                        }}
-                      >
-                        EMAIL RESMI
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: "var(--font-family-body)",
-                          fontSize: "14.5px",
-                          fontWeight: 700,
-                          color: "#ffffff",
-                        }}
-                      >
-                        ewandaafriza@gmail.com
-                      </div>
-                    </div>
-                  </a>
+                  {copiedEmail ? <FiCheck size={14} /> : <FiCopy size={14} />}
+                  <span>{copiedEmail ? "Tersalin" : "Salin"}</span>
+                </button>
+              </div>
 
-                  <button
-                    onClick={copyEmail}
-                    title="Salin Alamat Email"
-                    style={{
-                      background: "rgba(255, 255, 255, 0.1)",
-                      border: "1px solid rgba(255, 255, 255, 0.2)",
-                      borderRadius: "8px",
-                      padding: "8px",
-                      color: copiedEmail ? "#4ade80" : "#ffffff",
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "4px",
-                      fontSize: "11px",
-                      fontFamily: "var(--font-family-mono)",
-                    }}
-                  >
-                    {copiedEmail ? <FiCheck size={14} /> : <FiCopy size={14} />}
-                    <span>{copiedEmail ? "Tersalin" : "Salin"}</span>
-                  </button>
-                </div>
-
-                {/* WhatsApp Direct */}
+              {CHANNELS.map((c) => (
                 <a
-                  href="https://wa.me/6288291067259"
+                  key={c.id}
+                  className="contact__cell"
+                  href={c.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{
-                    padding: "16px 20px",
-                    borderRadius: "16px",
-                    background: "rgba(255, 255, 255, 0.06)",
-                    border: "1px solid rgba(255, 255, 255, 0.18)",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "16px",
-                    textDecoration: "none",
-                    transition: "all 0.2s ease",
-                  }}
+                  aria-label={`${c.label}: ${c.value}`}
                 >
-                  <div
-                    style={{
-                      width: "44px",
-                      height: "44px",
-                      borderRadius: "12px",
-                      background: "rgba(34, 197, 94, 0.2)",
-                      border: "1px solid rgba(34, 197, 94, 0.4)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "#4ade80",
-                    }}
-                  >
-                    <FaWhatsapp size={20} />
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        fontFamily: "var(--font-family-mono)",
-                        fontSize: "10.5px",
-                        color: "#86efac",
-                        fontWeight: 700,
-                      }}
-                    >
-                      WHATSAPP DIRECT
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: "var(--font-family-body)",
-                        fontSize: "14.5px",
-                        fontWeight: 700,
-                        color: "#ffffff",
-                      }}
-                    >
-                      +62 882 9106 7259
-                    </div>
-                  </div>
+                  <span className="contact__icon">
+                    <c.Icon size={19} aria-hidden="true" />
+                  </span>
+                  <span className="contact__cell-body">
+                    <span className="mono">{c.label}</span>
+                    <span className="contact__value">{c.value}</span>
+                  </span>
                 </a>
+              ))}
 
-                {/* GitHub Profile */}
-                <a
-                  href="https://github.com/ErgaWanda"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    padding: "16px 20px",
-                    borderRadius: "16px",
-                    background: "rgba(255, 255, 255, 0.06)",
-                    border: "1px solid rgba(255, 255, 255, 0.18)",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "16px",
-                    textDecoration: "none",
-                    transition: "all 0.2s ease",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "44px",
-                      height: "44px",
-                      borderRadius: "12px",
-                      background: "rgba(255, 255, 255, 0.12)",
-                      border: "1px solid rgba(255, 255, 255, 0.22)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "#ffffff",
-                    }}
-                  >
-                    <FaGithub size={20} />
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        fontFamily: "var(--font-family-mono)",
-                        fontSize: "10.5px",
-                        color: "rgba(255, 255, 255, 0.65)",
-                        fontWeight: 700,
-                      }}
-                    >
-                      GITHUB PROFILE
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: "var(--font-family-body)",
-                        fontSize: "14.5px",
-                        fontWeight: 700,
-                        color: "#ffffff",
-                      }}
-                    >
-                      github.com/ErgaWanda
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-
-            {/* Availability Pill & Location Card */}
-            <div style={{ marginTop: "28px", display: "flex", flexDirection: "column", gap: "10px" }}>
-              <div
-                style={{
-                  padding: "12px 18px",
-                  borderRadius: "14px",
-                  background: "rgba(34, 197, 94, 0.15)",
-                  border: "1px solid rgba(34, 197, 94, 0.35)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                }}
-              >
-                <span
-                  style={{
-                    width: "8px",
-                    height: "8px",
-                    borderRadius: "50%",
-                    background: "#22c55e",
-                    boxShadow: "0 0 8px #22c55e",
-                  }}
-                />
-                <span
-                  style={{
-                    fontFamily: "var(--font-family-body)",
-                    fontSize: "13px",
-                    fontWeight: 600,
-                    color: "#86efac",
-                  }}
-                >
-                  Tersedia untuk Project Baru &amp; Peluang Engineering
-                </span>
-              </div>
-
-              <div
-                style={{
-                  padding: "12px 18px",
-                  borderRadius: "14px",
-                  background: "rgba(255, 255, 255, 0.06)",
-                  border: "1px solid rgba(255, 255, 255, 0.16)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                }}
-              >
-                <FiMapPin size={16} style={{ color: "#4ade80", flexShrink: 0 }} />
-                <div style={{ fontFamily: "var(--font-family-body)", fontSize: "12.5px", color: "rgba(255, 255, 255, 0.85)" }}>
-                  Bekasi &amp; Jakarta, Indonesia • On-site &amp; Remote Ready
+              <div className="contact__cell contact__cell--meta">
+                <div className="cell__head contact__meta-head">
+                  <span className="chip">
+                    <span className="chip__dot chip__dot--live" aria-hidden="true" />
+                    Tersedia
+                  </span>
+                  <span className="mono">Status &amp; basis</span>
                 </div>
+
+                <div className="contact__facts">
+                  <div className="stat">
+                    <span className="stat__num">6</span>
+                    <span className="stat__label">Proyek portofolio</span>
+                  </div>
+                  <div className="stat">
+                    <span className="stat__num">Segera</span>
+                    <span className="stat__label">Respons pesan</span>
+                  </div>
+                </div>
+
+                <p className="contact__place">
+                  <FiMapPin size={15} aria-hidden="true" />
+                  <span>Jakarta &amp; Bekasi Area, Indonesia • Remote &amp; On-site Ready</span>
+                </p>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </div>
