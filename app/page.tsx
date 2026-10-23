@@ -140,16 +140,40 @@ export default function Home() {
     setSending(true);
     setFormStatus(null);
     try {
+      // 1. Coba kirim via route internal /api/contact (Resend dengan template Neubrutalism)
+      const resendResponse = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(contactForm),
+      });
+      const resendData = await resendResponse.json().catch(() => null);
+
+      if (resendResponse.ok && resendData?.success) {
+        setContactForm({ name: "", email: "", subject: "", message: "" });
+        setFormStatus({ type: "success", text: "✓ Pesan berhasil terkirim langsung ke email Erga!" });
+        setTimeout(() => setFormStatus(null), 8000);
+        return;
+      }
+
+      // 2. Fallback ke FormSubmit (jika RESEND_API_KEY belum dipasang di environment)
       const response = await fetch("https://formsubmit.co/ajax/ewandaafriza@gmail.com", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          name: contactForm.name,
-          email: contactForm.email,
-          subject: contactForm.subject || "Pesan dari Portofolio Digital",
-          message: contactForm.message,
-          _template: "table",
+          _subject: `[Portofolio] ${contactForm.subject || "Pesan Baru"} - dari ${contactForm.name}`,
+          _replyto: contactForm.email,
+          _template: "box",
           _captcha: "false",
+
+          "Nama Pengirim": contactForm.name,
+          "Alamat Email": contactForm.email,
+          "Subjek": contactForm.subject || "Diskusi Proyek",
+          "Isi Pesan": contactForm.message,
+
+
+
+
+
         }),
       });
       const data = await response.json().catch(() => null);

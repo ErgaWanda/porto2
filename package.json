@@ -23,6 +23,7 @@
     "react-intersection-observer": "^10.1.0",
     "react-parallax-tilt": "^1.7.333",
     "react-simple-typewriter": "^5.0.1",
+    "resend": "^6.34.1",
     "split-type": "^0.3.4"
   },
   "devDependencies": {
