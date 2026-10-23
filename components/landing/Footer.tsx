@@ -11,8 +11,9 @@ interface FooterProps {
 }
 
 const FOOTER_LINKS = [
-  { label: "Proyek", id: "projects" },
+  { label: "Telemetri", id: "ledger" },
   { label: "Arsitektur", id: "architecture" },
+  { label: "Proyek", id: "projects" },
   { label: "Pengalaman", id: "experience" },
   { label: "Keahlian", id: "skills" },
   { label: "GitHub", id: "github" },

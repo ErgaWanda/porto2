@@ -9,7 +9,7 @@ import { SoundFXToggle, playPop } from "./SoundFXToggle";
 // whose offsetTop is above the trigger line, so an out-of-order entry wins wrongly.
 const SECTIONS = [
   { id: "hero", label: "Beranda" },
-  { id: "ledger", label: "Ikhtisar" },
+  { id: "ledger", label: "Telemetri" },
   { id: "architecture", label: "Arsitektur" },
   { id: "projects", label: "Proyek" },
   { id: "experience", label: "Pengalaman" },
@@ -28,17 +28,11 @@ export const ScrollProgressHUD: React.FC<ScrollProgressHUDProps> = ({
   onScrollToTop,
   onSectionChange,
 }) => {
-  const [progress, setProgress] = useState(0);
-  const [section, setSection] = useState(SECTIONS[0]);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
-      const doc = document.documentElement;
-      const total = doc.scrollHeight - window.innerHeight;
       const y = window.scrollY;
-
-      setProgress(total > 0 ? Math.min(Math.round((y / total) * 100), 100) : 0);
       setIsVisible(y > 140);
 
       const trigger = y + 280;
@@ -47,7 +41,6 @@ export const ScrollProgressHUD: React.FC<ScrollProgressHUDProps> = ({
         const el = document.getElementById(s.id);
         if (el && el.offsetTop <= trigger) current = s;
       }
-      setSection(current);
       onSectionChange?.(current.id);
     };
 
@@ -73,23 +66,6 @@ export const ScrollProgressHUD: React.FC<ScrollProgressHUDProps> = ({
           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
         >
           <SoundFXToggle />
-
-          <div className="hud__meter">
-            <div className="hud__row">
-              <span className="hud__label">{section.label}</span>
-              <span className="hud__num">{progress}%</span>
-            </div>
-            <div
-              className="hud__track"
-              role="progressbar"
-              aria-label="Posisi baca"
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-valuenow={progress}
-            >
-              <div className="hud__fill" style={{ width: `${progress}%` }} />
-            </div>
-          </div>
 
           <button type="button" className="icon-btn" onClick={handleTop} aria-label="Kembali ke atas">
             <FiArrowUp size={16} />

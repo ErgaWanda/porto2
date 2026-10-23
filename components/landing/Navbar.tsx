@@ -73,7 +73,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className={`nav__item${active === item.id ? " nav__item--active" : ""}`}
                 aria-current={active === item.id ? "true" : undefined}
               >
-                <span className="nav__item-num">{String(i + 1).padStart(2, "0")}</span>
+                <span className="nav__item-num">{item.num ?? String(i + 1).padStart(2, "0")}</span>
                 {item.label}
               </button>
             ))}
@@ -123,7 +123,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onClick={() => pick(item.id)}
                   className={`drawer__item${active === item.id ? " drawer__item--active" : ""}`}
                 >
-                  <span className="drawer__num">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="drawer__num">{item.num ?? String(i + 1).padStart(2, "0")}</span>
                   <span>{item.label}</span>
                   <FiArrowUpRight size={15} />
                 </button>

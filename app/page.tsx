@@ -25,7 +25,7 @@ import { NavItem } from "@/components/landing/types";
 
 export default function Home() {
   // Navigation & Modal States
-  const [activeNav, setActiveNav] = useState<string>("architecture");
+  const [activeNav, setActiveNav] = useState<string>("ledger");
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const [cvModalOpen, setCvModalOpen] = useState(false);
@@ -46,12 +46,13 @@ export default function Home() {
   // Navigation Items
   const navItems: NavItem[] = useMemo(
     () => [
-      { id: "architecture", label: "Arsitektur", href: "#architecture" },
-      { id: "projects", label: "Proyek", href: "#projects" },
-      { id: "experience", label: "Pengalaman", href: "#experience" },
-      { id: "skills", label: "Keahlian", href: "#skills" },
-      { id: "github", label: "GitHub", href: "#github" },
-      { id: "workflow", label: "Metodologi", href: "#workflow" },
+      { id: "ledger", num: "01", label: "Telemetri", href: "#ledger" },
+      { id: "architecture", num: "02", label: "Arsitektur", href: "#architecture" },
+      { id: "projects", num: "03", label: "Proyek", href: "#projects" },
+      { id: "experience", num: "04", label: "Pengalaman", href: "#experience" },
+      { id: "skills", num: "05", label: "Keahlian", href: "#skills" },
+      { id: "github", num: "06", label: "GitHub", href: "#github" },
+      { id: "workflow", num: "07", label: "Metodologi", href: "#workflow" },
     ],
     []
   );
@@ -107,6 +108,7 @@ export default function Home() {
   const handleNavClick = (id: string) => {
     setActiveNav(id);
     const targetMap: Record<string, string> = {
+      ledger: "ledger",
       projects: "projects",
       architecture: "architecture",
       experience: "experience",
