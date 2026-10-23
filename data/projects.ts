@@ -211,37 +211,4 @@ export const projects: Project[] = [
       "Dashboard interaktif Vue.js dengan ekspor laporan eksekutif PDF & CSV untuk manajemen",
     ],
   },
-  {
-    id: 6,
-    title: "Ministry of Defense Internal Systems (3 Modules)",
-    subtitle: "Sistem Informasi Internal Pusdatin, Kementerian Pertahanan Republik Indonesia",
-    badge: "KEMENHAN RI",
-    desc: "Perancangan dan pembangunan 3 sistem manajemen internal (Portal Data Karyawan, Kalender Kegiatan Terpadu, & Sistem Laporan Harian) selama magang di Pusdatin Kemenhan RI.",
-    longDesc:
-      "Merancang dan membangun 3 aplikasi sistem informasi manajemen internal untuk Pusat Data dan Informasi (Pusdatin) Kementerian Pertahanan Republik Indonesia selama masa magang 6 bulan (Juni 2024 - Desember 2024). Sistem mencakup: (1) Employee Information Portal untuk digitalisasi data kepegawaian antar departemen menggantikan arsip manual berbasis kertas, (2) Departmental Activity Calendar System dengan sinkronisasi real-time untuk meminimalkan konflik jadwal acara dinas, dan (3) Daily Employee Activity Report System untuk otomasi pelaporan harian karyawan serta meningkatkan akurasi dan kecepatan evaluasi atasan.",
-    stack: ["Laravel", "Vue.js", "MySQL", "RESTful API", "MVC Pattern"],
-    img: "/images/project_1.png",
-    screenshots: [
-      "/images/project_1.png",
-      "/images/project_2.png",
-      "/images/project_3.png",
-    ],
-    screenshotLabels: [
-      "Employee Information Portal: Digitalisasi Pengelolaan Data Pegawai Lintas Departemen",
-      "Departmental Activity Calendar: Sinkronisasi Real-Time Jadwal Kegiatan & Rapat Dinas",
-      "Daily Employee Activity Report: Otomasi Pelaporan Aktivitas Harian & Evaluasi Kinerja",
-    ],
-    url: "#",
-    github: "https://github.com/ErgaWanda",
-    type: "Web Platform",
-    year: "2024",
-    status: "archived",
-    highlights: [
-      "Merancang dan meluncurkan 3 sistem internal manajemen dalam periode magang 6 bulan di Pusdatin Kemenhan",
-      "Employee Information Portal: mendigitalkan catatan pegawai lintas departemen dan mempercepat pencarian data",
-      "Departmental Activity Calendar System: sinkronisasi real-time jadwal kegiatan dinas dan reduksi konflik jadwal",
-      "Daily Employee Activity Report System: otomasi pelaporan harian menggantikan berkas manual berbasis kertas",
-      "Arsitektur MVC yang rapi dengan backend Laravel, antarmuka reaktif Vue.js, dan database relasional MySQL",
-    ],
-  },
 ];

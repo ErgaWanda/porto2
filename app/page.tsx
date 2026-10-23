@@ -99,6 +99,7 @@ export default function Home() {
     if (el) {
       if (lenisRef.current) {
         lenisRef.current.scrollTo(el, { offset: -70, duration: 1.2 });
+
       } else {
         el.scrollIntoView({ behavior: "smooth" });
       }
@@ -156,6 +157,12 @@ export default function Home() {
         setContactForm({ name: "", email: "", subject: "", message: "" });
         setFormStatus({ type: "success", text: "✓ Pesan berhasil terkirim langsung ke email Erga!" });
         setTimeout(() => setFormStatus(null), 8000);
+      } else if (data?.message && typeof data.message === "string" && data.message.toLowerCase().includes("activat")) {
+        setFormStatus({
+          type: "activation",
+          text: "Konfirmasi aktivasi diperlukan: periksa inbox atau spam ewandaafriza@gmail.com dan klik 'Activate Form' dari FormSubmit agar formulir aktif.",
+        });
+
       } else {
         throw new Error("Gagal mengirim");
       }
