@@ -579,6 +579,15 @@ button.proj-filter:not(.chip--ink):hover {
   }
 
   .pslab__shot { width: 152px; }
+
+  /* Same rule as the dialog gallery: a strip that stops on a cut tile looks
+     stuck, so snap it and fade the trailing edge. */
+  .pslab__shots-track {
+    scroll-snap-type: x mandatory;
+    -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, #000 88%, transparent);
+  }
+  .pslab__shot { scroll-snap-align: start; }
 }
 
 /* ============================================================

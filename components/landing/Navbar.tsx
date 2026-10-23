@@ -50,7 +50,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               e.preventDefault();
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
-            aria-label="Erga Wanda Afriza — ke atas"
+            aria-label="Erga Wanda Afriza: kembali ke atas"
           >
             <Image
               src="/images/erga_photo.jpeg"
@@ -88,12 +88,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               <FiArrowUpRight size={13} className="btn__icon" />
             </button>
             <button
-              className="nav-mobile icon-btn"
+              className="nav-mobile btn btn--ghost btn--sm nav__menu-btn"
               onClick={() => setOpen(true)}
-              aria-label="Buka menu"
+              aria-label="Buka navigasi menu"
               aria-expanded={open}
             >
-              <FiMenu size={17} />
+              <FiMenu size={15} />
+              <span>Menu</span>
             </button>
           </div>
         </div>

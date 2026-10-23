@@ -1,3 +1,16 @@
 [build]
   command = "npm run build"
-  publish = ".next"
+  # next.config.ts sets output: "export", so `next build` writes a static
+  # site to out/ — publishing .next would deploy a directory Netlify cannot
+  # serve as a website.
+  publish = "out"
+
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/cv_erga.pdf"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"

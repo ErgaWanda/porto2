@@ -89,7 +89,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
             </>
           }
           subtitle="Jalur komunikasi langsung dengan Erga. Terbuka untuk pengembangan backend Golang & Laravel, antarmuka reaktif React & Vue.js, atau proyek machine learning yang dioperasikan sampai produksi."
-          meta="Direct inquiries"
+          meta="Saluran Komunikasi Langsung"
         />
 
         <div className="contact__grid">
@@ -242,10 +242,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               <div className="contact__cell contact__cell--meta">
                 <div className="cell__head contact__meta-head">
                   <span className="chip">
-                    <span className="chip__dot chip__dot--live" aria-hidden="true" />
+                    <span className="chip__dot" aria-hidden="true" />
                     Tersedia
                   </span>
-                  <span className="mono">Status &amp; basis</span>
+                  <span className="mono">Status &amp; Lokasi</span>
                 </div>
 
                 <div className="contact__facts">

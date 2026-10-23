@@ -195,7 +195,7 @@ const ProjectCardItem: React.FC<ProjectCardItemProps> = ({
   const foot = (
     <div className="proj-foot">
       <span className="mono mono--ink proj-go">
-        Inspect project details
+        Lihat detail spesifikasi
         <FiArrowUpRight size={13} />
       </span>
       <span className="mono">Spec #{String(p.id).padStart(2, "0")}</span>
@@ -218,8 +218,12 @@ const ProjectCardItem: React.FC<ProjectCardItemProps> = ({
 };
 
 /* One hue per slab: the spectrum is what makes a wall of case
-   studies read as a system instead of noise. */
-const SLAB_HUES = ["flame", "cobalt", "teal", "grape", "sun", "rose", "moss"] as const;
+   studies read as a system instead of noise. The order is deliberate:
+   #projects carries no data-hue, so its section head inherits the root
+   flame accent, and the bands either side of it are both teal. Slab 01
+   therefore must not be flame, and the last slab must not be teal, or the
+   rhythm reads as a repeat instead of a rotation. */
+const SLAB_HUES = ["cobalt", "grape", "flame", "teal", "rose", "moss", "sun"] as const;
 const SLAB_STATUS: Record<Project["status"], string> = {
   live: "Produksi",
   archived: "Arsip",
@@ -455,7 +459,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onSelectProjec
             index="03"
             title="Proyek pilihan & rekayasa sistem"
             subtitle="Kumpulan sistem yang saya bangun sendiri dari nol: backend konkurensi Golang + Redis, antarmuka React & Vue.js, sistem internal Laravel, hingga model machine learning yang diuji pada data nyata."
-            meta="Portofolio // Selected works"
+            meta="Portofolio Proyek Terpilih"
             actions={toolbar}
           />
         </div>

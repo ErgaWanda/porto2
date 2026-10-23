@@ -20,8 +20,8 @@ export const WorkflowSection: React.FC = () => {
   const steps = [
     {
       num: "01",
-      title: "01 // Analisis Kebutuhan",
-      badge: "REQUIREMENT ENGINEERING",
+      title: "Analisis Kebutuhan",
+      badge: "Rekayasa Kebutuhan",
       desc: "Memahami tujuan bisnis, dekonstruksi spesifikasi sistem, dan kalkulasi beban data sebelum mulai coding.",
       deliverable: "PRD & Analisis Kebutuhan",
       accent: "var(--tint-sand)",
@@ -29,17 +29,18 @@ export const WorkflowSection: React.FC = () => {
     },
     {
       num: "02",
-      title: "02 // Desain Arsitektur",
-      badge: "SYSTEM ARCHITECTURE",
+      title: "Desain Arsitektur & Skema Database",
+      badge: "Arsitektur Sistem",
       desc: "Merancang skema database relasional, kontrak RESTful API, dan arsitektur MVC yang terstruktur sebelum tulis kode.",
       deliverable: "ERD & Kontrak API",
       accent: "var(--tint-sky)",
+      highlight: true,
       icon: <FiLayers size={20} />,
     },
     {
       num: "03",
-      title: "03 // Desain Antarmuka",
-      badge: "UI/UX & PROTOTYPING",
+      title: "Desain Antarmuka Reaktif",
+      badge: "Prototipe UI",
       desc: "Mendesain antarmuka responsif dengan umpan balik interaktif yang konsisten di perangkat mobile maupun desktop.",
       deliverable: "Komponen Reaktif & UI Flow",
       accent: "var(--tint-clay)",
@@ -47,8 +48,8 @@ export const WorkflowSection: React.FC = () => {
     },
     {
       num: "04",
-      title: "04 // Implementasi Kode",
-      badge: "CLEAN CODE & TESTING",
+      title: "Implementasi Kode & Pengujian",
+      badge: "Arsitektur Bersih & Uji",
       desc: "Eksekusi backend Golang (Echo) dan Laravel bersama caching Redis, RESTful API, serta struktur kode yang rapi.",
       deliverable: "Clean Architecture & Unit Tests",
       accent: "var(--tint-moss)",
@@ -56,8 +57,8 @@ export const WorkflowSection: React.FC = () => {
     },
     {
       num: "05",
-      title: "05 // Pengujian & Rilis",
-      badge: "DEPLOYMENT & UPTIME",
+      title: "Pengujian & Rilis Produksi",
+      badge: "Deployment & Uptime",
       desc: "Deployment containerized dengan Docker dan reverse proxy Nginx di VPS, dipelihara mandiri untuk menjaga stabilitas produksi.",
       deliverable: "Dockerized & Live Production",
       accent: "var(--tint-stone)",
@@ -75,7 +76,7 @@ export const WorkflowSection: React.FC = () => {
           actions={
             <span className="chip">
               <FiGitBranch size={11} />
-              Metodologi // workflow
+              Metodologi &amp; Standar Rekayasa
             </span>
           }
         />
@@ -85,7 +86,7 @@ export const WorkflowSection: React.FC = () => {
           <span className="workflow__line" aria-hidden="true" />
 
           {steps.map((step, i) => (
-            <Reveal key={step.num} as="article" delay={i * 90} className="workflow__step">
+            <Reveal key={step.num} as="article" delay={i * 90} className={`workflow__step${step.highlight ? " workflow__step--highlight" : ""}`}>
               <span className="mono mono--ink workflow__num">{step.num}</span>
 
               <div className="workflow__body">
@@ -120,19 +121,19 @@ export const WorkflowSection: React.FC = () => {
           </span>
 
           <div className="workflow__creed-text">
-            <span className="chip">Prinsip &amp; filosofi rekayasa sistem</span>
+            <span className="chip">Prinsip Rekayasa Sistem</span>
             <p className="lede workflow__quote">
-              &ldquo;Kode yang baik bukan sekadar berjalan tanpa error, melainkan arsitektur yang
+              Kode yang handal bukan sekadar berjalan tanpa error, melainkan arsitektur yang
               dirancang untuk skalabilitas tinggi, efisiensi konkurensi, dan keandalan sistem jangka
-              panjang.&rdquo;
+              panjang.
             </p>
           </div>
 
           <div className="workflow__author">
             <span className="chip__dot" aria-hidden="true" />
             <div className="col">
-              <span className="workflow__author-name">Erga Wanda Afriza</span>
-              <span className="mono">IT Developer — RDS Group</span>
+              <span className="workflow__author-name">Standar Rekayasa</span>
+              <span className="mono">IT Developer · RDS Group</span>
             </div>
           </div>
         </Reveal>

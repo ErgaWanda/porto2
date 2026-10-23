@@ -41,7 +41,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
       meta={FIELD}
     >
       <p className="modal__intro">
-        Punya peran atau proyek yang cocok? Tulis singkat saja — saya balas paling lama satu hari kerja.
+        Punya peran atau proyek yang cocok? Tulis singkat saja, saya balas paling lama satu hari kerja.
       </p>
 
       <form onSubmit={handleContactSubmit} className="modal__form">

@@ -37,7 +37,7 @@ const ARCHITECTURE_TABS: ArchitectureTab[] = [
   {
     id: "golang",
     label: "GOLANG & REDIS CONCURRENCY",
-    badge: "LIVE PRODUCTION // COACHPRO",
+    badge: "PRODUKSI · COACHPRO",
     seal: "Berjalan di produksi",
     icon: <SiGo size={13} />,
     title: "Backend konkurensi tinggi untuk asesmen serentak",
@@ -117,13 +117,13 @@ func (h *AssessmentHandler) SubmitAssessment(c echo.Context) error {
   {
     id: "laravel",
     label: "LARAVEL MVC INTERNAL SYSTEMS",
-    badge: "KEMENHAN RI // 3 SYSTEMS",
+    badge: "KEMENHAN RI · 3 SISTEM",
     seal: "Diterapkan lintas departemen",
     icon: <SiLaravel size={13} />,
     title: "Tiga sistem kepegawaian dalam satu pola MVC",
     subtitle: "Laravel • Vue.js • MySQL • RESTful API • MVC Pattern",
     description:
-      "Tiga sistem manajemen internal yang saya rancang dan bangun selama 6 bulan magang di Pusdatin Kementerian Pertahanan RI: portal data pegawai, kalender kegiatan terpadu, dan sistem laporan harian — semuanya menggantikan proses manual berbasis kertas.",
+      "Tiga sistem manajemen internal yang saya rancang dan bangun selama 6 bulan magang di Pusdatin Kementerian Pertahanan RI: portal data pegawai, kalender kegiatan terpadu, dan sistem laporan harian, semuanya menggantikan proses manual berbasis kertas.",
     metrics: [
       { label: "Internal Systems", value: "3", unit: "Modul kepegawaian" },
       { label: "Internship", value: "6 bln", unit: "Jun – Des 2024" },
@@ -181,7 +181,7 @@ class ActivityController extends Controller
   {
     id: "ai",
     label: "NLP & MACHINE LEARNING",
-    badge: "RESEARCH & PREDICTIVE ML",
+    badge: "RISET & MODEL PREDIKTIF",
     seal: "Skripsi & riset independen",
     icon: <SiPython size={13} />,
     title: "Klasifikasi sentimen dan benchmark model prediktif",
@@ -316,7 +316,7 @@ export const TechArchitectureShowcase: React.FC = () => {
           index="02"
           title="Arsitektur sistem & rekayasa kode"
           subtitle="Blueprint teknis dari sistem yang benar-benar saya bangun: backend konkurensi Golang + Redis untuk platform sertifikasi nasional, tiga sistem internal Laravel di Pusdatin Kemenhan, dan pipeline NLP serta machine learning berbasis Python."
-          meta="System architecture // production blueprints"
+          meta="Arsitektur Sistem & Blueprint Produksi"
         />
 
         {/* ── Blueprint selector ─────────────────────────── */}

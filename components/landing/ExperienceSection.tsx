@@ -27,9 +27,9 @@ const EXPERIENCES: Experience[] = [
     role: "IT Developer",
     company: "RDS Group",
     companyShort: "RDS",
-    period: "Juli 2026 – Sekarang",
+    period: "Juli 2026 - Sekarang",
     isCurrent: true,
-    badge: "PERAN SAAT INI // RDS GROUP",
+    badge: "Peran Saat Ini · RDS Group",
     location: "Indonesia",
     desc: "Peran profesional saat ini sebagai IT Developer di RDS Group, bertanggung jawab pada pengembangan dan pemeliharaan aplikasi serta infrastruktur TI perusahaan.",
     stack: [],
@@ -40,9 +40,9 @@ const EXPERIENCES: Experience[] = [
     role: "Full Stack Developer",
     company: "LSP CoachPro Indonesia (Maganghub Kemnaker)",
     companyShort: "LSP",
-    period: "Desember 2025 – Juni 2026",
+    period: "Desember 2025 - Juni 2026",
     isCurrent: false,
-    badge: "SOLE FULL STACK DEVELOPER // PRODUCTION CORE",
+    badge: "Full Stack Developer · Core Produksi",
     location: "Jakarta, Indonesia",
     desc: "Bertanggung jawab penuh merancang, membangun, dan men-deploy platform sertifikasi manajemen dari awal (from scratch), mendigitalkan seluruh alur asesmen untuk program pelatihan pemerintah nasional.",
     stack: ["Golang (Echo)", "Vue.js", "PostgreSQL", "Redis", "Docker", "Nginx", "Tailwind CSS", "VPS"],
@@ -58,9 +58,9 @@ const EXPERIENCES: Experience[] = [
     role: "Software Engineer Intern",
     company: "Pusdatin, Kementerian Pertahanan Republik Indonesia",
     companyShort: "KEMENHAN",
-    period: "Juni 2024 – Desember 2024",
+    period: "Juni 2024 - Desember 2024",
     isCurrent: false,
-    badge: "MINISTRY OF DEFENSE // 3 SYSTEMS",
+    badge: "Pusdatin Kemhan · 3 Sistem",
     location: "Jakarta Pusat, Indonesia",
     desc: "Merancang dan membangun 3 sistem manajemen internal (Portal Data Karyawan, Kalender Kegiatan Terpadu, dan Sistem Laporan Harian) dalam periode magang 6 bulan.",
     stack: ["Laravel", "Vue.js", "MySQL", "RESTful API", "MVC Pattern"],
@@ -75,9 +75,9 @@ const EXPERIENCES: Experience[] = [
     role: "S1 Teknologi Informasi (IPK 3.23 / 4.00)",
     company: "Universitas Darma Persada",
     companyShort: "UNSADA",
-    period: "2021 – 2025",
+    period: "2021 - 2025",
     isCurrent: false,
-    badge: "S1 TI // IPK 3.23 // S.KOM",
+    badge: "S1 TI · IPK 3.23 · S.Kom",
     location: "Jakarta Timur, Indonesia",
     desc: "Menyelesaikan pendidikan Sarjana Teknologi Informasi dengan IPK 3.23 / 4.00. Penelitian skripsi membangun pipeline analisis sentimen opini publik terhadap kampus, dari web scraping hingga dashboard visualisasi.",
     stack: ["Python", "Naive Bayes", "NLP", "Machine Learning", "BERT", "Vue.js"],
@@ -91,7 +91,7 @@ const EXPERIENCES: Experience[] = [
 /** "A // B" badge copy reads better as two chips than one long one. */
 function badgeFlags(badge: string): string[] {
   return badge
-    .split("//")
+    .split(/[/·]/)
     .map((part) => part.trim())
     .filter(Boolean);
 }
@@ -182,7 +182,7 @@ export const ExperienceSection: React.FC = () => {
           index="04"
           title="Pengalaman kerja & rekam jejak"
           subtitle="Rekam jejak profesional sejak 2024: sistem backend scalable, platform sertifikasi nasional berkonkurensi tinggi, dan digitalisasi sistem kementerian."
-          meta="Pengalaman kerja // career milestones"
+          meta="Pengalaman Kerja & Rekam Jejak"
         />
 
         <Reveal className="tline">

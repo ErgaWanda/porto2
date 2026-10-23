@@ -73,7 +73,7 @@ export const Footer: React.FC<FooterProps> = ({ onCvClick }) => {
               ewanda<span className="footer__mark">.</span>
             </span>
             <h2 className="display-xl footer__name">Erga Wanda Afriza</h2>
-            <p className="footer__role">IT Developer — RDS Group</p>
+            <p className="footer__role">IT Developer · RDS Group</p>
           </div>
 
           <div className="col footer__facts">
@@ -140,7 +140,7 @@ export const Footer: React.FC<FooterProps> = ({ onCvClick }) => {
           <p className="mono footer__copy">
             <span>&copy; {currentYear} Erga Wanda Afriza</span>
             <span aria-hidden="true">•</span>
-            <span className="footer__strong">Digital Engineering Portfolio</span>
+            <span className="footer__strong">Portofolio Rekayasa Sistem Digital</span>
           </p>
 
           <button

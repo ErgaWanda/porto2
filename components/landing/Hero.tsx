@@ -24,8 +24,7 @@ export const Hero: React.FC<HeroProps> = ({
     <header className="hero">
       <Reveal as="div">
         <span className="eyebrow">
-          <span className="chip__dot chip__dot--live" aria-hidden="true" />
-          Aktif sebagai IT Developer di RDS Group
+          Rekayasa Perangkat Lunak &amp; Sistem Terdistribusi
         </span>
       </Reveal>
 

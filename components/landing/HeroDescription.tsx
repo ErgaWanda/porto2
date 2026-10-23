@@ -53,7 +53,7 @@ export const HeroDescription: React.FC<HeroDescriptionProps> = ({
         <p className="spec__bio">{text}</p>
 
         <div className="spec__foot">
-          <span className="mono">IPK 3.23 — S.Kom</span>
+          <span className="mono">IPK 3.23 · S.Kom</span>
           <span className="mono">Universitas Darma Persada</span>
         </div>
       </div>

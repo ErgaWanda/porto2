@@ -26,9 +26,9 @@ type SkillGroup = {
 const SKILL_GROUPS: SkillGroup[] = [
   {
     num: "01",
-    pillar: "BACKEND & FRAMEWORKS",
+    pillar: "BACKEND & FRAMEWORK",
     title: "Backend Engineering",
-    level: "HIGH CONCURRENCY",
+    level: "KONKURENSI TINGGI",
     rank: 5,
     icon: <FiServer size={22} />,
     span: 4,
@@ -37,9 +37,9 @@ const SKILL_GROUPS: SkillGroup[] = [
   },
   {
     num: "02",
-    pillar: "FRONTEND & UI/UX",
+    pillar: "FRONTEND & ANTARMUKA",
     title: "Frontend Engineering",
-    level: "REACTIVE & MODULAR",
+    level: "REAKTIF & MODULAR",
     rank: 5,
     icon: <FiLayout size={22} />,
     span: 4,
@@ -48,9 +48,9 @@ const SKILL_GROUPS: SkillGroup[] = [
   },
   {
     num: "03",
-    pillar: "DATABASES & CACHING",
+    pillar: "BASIS DATA & CACHE",
     title: "Basis Data & In-Memory Cache",
-    level: "LOW LATENCY",
+    level: "LATENSI RENDAH",
     rank: 4,
     icon: <FiDatabase size={22} />,
     span: 4,
@@ -61,7 +61,7 @@ const SKILL_GROUPS: SkillGroup[] = [
     num: "04",
     pillar: "AI & MACHINE LEARNING",
     title: "AI & Machine Learning",
-    level: "NLP & PREDICTIVE ML",
+    level: "NLP & MODEL PREDIKTIF",
     rank: 4,
     tone: "stone",
     icon: <FiCpu size={22} />,
@@ -71,9 +71,9 @@ const SKILL_GROUPS: SkillGroup[] = [
   },
   {
     num: "05",
-    pillar: "DEVOPS & ARCHITECTURE",
+    pillar: "DEVOPS & INFRASTRUKTUR",
     title: "DevOps & Deployment",
-    level: "CONTAINERIZED & VPS",
+    level: "KONTAINER & VPS",
     rank: 4,
     tone: "moss",
     icon: <FiCloud size={22} />,
@@ -145,7 +145,7 @@ export const SkillsSection: React.FC = () => {
           index="05"
           title="Keahlian & penguasaan teknologi"
           subtitle="Matriks keterampilan yang dipetakan langsung dari CV: bahasa pemrograman, framework backend, database relasional & in-memory cache, antarmuka reaktif, machine learning, hingga deployment mandiri."
-          meta="Technical capabilities // core stack"
+          meta="Kapabilitas Teknis & Framework Utama"
         />
 
         <Reveal className="bento skills">

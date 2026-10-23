@@ -26,7 +26,10 @@
   gap: var(--wf-gap);
   padding: var(--wf-pad);
   min-width: 0;
+
 }
+
+.bento > .workflow__step--highlight { background: var(--surface-2); box-shadow: inset 4px 0 0 0 var(--accent); }
 
 /* Connecting hairline down the number rail (drawn on reveal) */
 .bento > .workflow__line {
@@ -71,6 +74,7 @@
   align-items: flex-start;
   gap: 10px;
   min-width: 0;
+
 }
 
 .workflow__title { margin: 0; max-width: 34ch; }

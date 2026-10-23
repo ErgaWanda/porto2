@@ -778,9 +778,9 @@ p { text-wrap: pretty; }
 }
 
 .chip__dot--live {
-  background: var(--moss);
-  box-shadow: 0 0 0 0 rgba(26, 24, 21, 0.5);
-  animation: pulseDot 2.4s var(--ease-out) infinite;
+  background: #1e6b36;
+  box-shadow: none;
+  animation: none;
 }
 
 .tag {
@@ -1052,7 +1052,8 @@ p { text-wrap: pretty; }
 /* Focus presses the field flat, matching the button interaction. */
 .field__input:focus,
 .field__textarea:focus {
-  outline: none;
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
   background: #fff;
   transform: translate(4px, 4px) rotate(0deg);
   box-shadow: 0 0 0 var(--ink);
@@ -1176,6 +1177,7 @@ p { text-wrap: pretty; }
 }
 
 .dialog__close:hover { background: var(--signal); color: var(--ink); transform: rotate(0deg); }
+.dialog__close:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 
 .dialog__foot--inline {
   display: flex;
@@ -1605,11 +1607,41 @@ p { text-wrap: pretty; }
   body { font-size: 15px; }
   .panel { padding: 18px 16px; }
   .nav { padding: 8px 8px 8px 14px; }
-  .dialog { max-height: 92vh; }
+  /* vh is the LARGE viewport, so 92vh is taller than what a phone actually
+     shows once its own browser chrome is counted — the footer buttons and the
+     close plate slid under the URL bar. dvh tracks the visible box. */
+  .scrim {
+    padding: 10px;
+    /* A backdrop-filter on the fixed layer makes Safari composite the whole
+       subtree on the GPU, and inner scrollers under it stall. The scrim is
+       already 62% ink, so the blur costs contrast and buys nothing here. */
+    backdrop-filter: none;
+  }
+  .dialog {
+    max-height: 92vh;
+    max-height: 92dvh;
+  }
   .dialog__head { padding: 13px 14px; }
-  .dialog__body { padding: 16px 14px; }
+  .dialog__body {
+    padding: 16px 14px;
+    touch-action: pan-y;
+    min-height: 0;
+    -webkit-overflow-scrolling: touch;
+  }
   .dialog__foot { padding: 12px 14px; }
   .pmodal__cols { grid-template-columns: minmax(0, 1fr); }
+
+  /* A strip that ends on a half-cut tile reads as broken, not as scrollable.
+     Show one tile plus a deliberate sliver, snap to it, and fade the edge so
+     the overflow is obvious without a scrollbar. */
+  .pmodal__thumbs {
+    grid-auto-columns: minmax(62%, 1fr);
+    scroll-snap-type: x mandatory;
+    -webkit-mask-image: linear-gradient(90deg, #000 84%, transparent);
+    mask-image: linear-gradient(90deg, #000 84%, transparent);
+  }
+  .pmodal__thumb { scroll-snap-align: start; }
+
   .cv-frame { height: min(56vh, 520px); }
 
   /* Mis-registration is cheap on a wide sheet and expensive on a narrow

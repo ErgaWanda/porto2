@@ -11,7 +11,7 @@ type SectionHeadProps = {
   actions?: React.ReactNode;
 };
 
-/** Editorial section header — [num] Title …………… meta, over a heavy rule. */
+/** Editorial section header: [num] Title …………… meta, over a heavy rule. */
 export const SectionHead: React.FC<SectionHeadProps> = ({
   index,
   title,

@@ -72,7 +72,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
       <div className="pmodal">
         <div className="pmodal__lead">
           <span className="chip">
-            {project.status === "live" && <span className="chip__dot chip__dot--live" aria-hidden="true" />}
+            {project.status === "live" && <span className="chip__dot" aria-hidden="true" />}
             {status}
           </span>
           {project.subtitle && <p className="pmodal__subtitle">{project.subtitle}</p>}
@@ -81,7 +81,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         <figure className="pmodal__hero frame">
           <Image
             src={active}
-            alt={`${project.title} — ${project.screenshotLabels?.[shot] ?? "tampilan proyek"}`}
+            alt={`${project.title}: ${project.screenshotLabels?.[shot] ?? "tampilan proyek"}`}
             width={1200}
             height={750}
             unoptimized

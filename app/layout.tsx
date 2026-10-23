@@ -6,21 +6,21 @@ import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+
   variable: "--font-display",
   display: "swap",
 });
 
 const instrument = Instrument_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+
   variable: "--font-body",
   display: "swap",
 });
 
 const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+
   variable: "--font-mono",
   display: "swap",
 });
@@ -31,10 +31,19 @@ export const viewport: Viewport = {
   themeColor: "#1a1815",
 };
 
+/* Netlify injects URL / DEPLOY_PRIME_URL at build time. Without a base, the
+   absolute OG URLs degrade to relative paths and chat previews show no image. */
+const siteUrl =
+  process.env.URL ?? process.env.DEPLOY_PRIME_URL ?? "http://localhost:3000";
+
+const title = "Erga Wanda Afriza: IT Developer";
+const ogImage = "/images/og.png";
+
 export const metadata: Metadata = {
-  title: "Erga Wanda Afriza — IT Developer",
+  metadataBase: new URL(siteUrl),
+  title,
   description:
-    "Portofolio profesional Erga Wanda Afriza — IT Developer dengan spesialisasi sistem backend scalable dan frontend responsif (Golang, Laravel, React, Vue.js, C#/.NET, PostgreSQL, Redis, Docker, AI/ML).",
+    "Portofolio profesional Erga Wanda Afriza, IT Developer dengan spesialisasi sistem backend scalable dan frontend responsif (Golang, Laravel, React, Vue.js, C#/.NET, PostgreSQL, Redis, Docker, AI/ML).",
   keywords: [
     "Erga Wanda Afriza",
     "IT Developer",
@@ -62,10 +71,28 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Erga Wanda Afriza" }],
   openGraph: {
-    title: "Erga Wanda Afriza — IT Developer",
+    title,
     description:
-      "Portofolio digital Erga Wanda Afriza — IT Developer (Golang, Laravel, React, Vue.js, C#/.NET, Docker, Machine Learning).",
+      "Portofolio digital Erga Wanda Afriza, IT Developer (Golang, Laravel, React, Vue.js, C#/.NET, Docker, Machine Learning).",
     type: "website",
+    locale: "id_ID",
+    siteName: "Erga Wanda Afriza: Portofolio",
+    url: siteUrl,
+    images: [
+      {
+        url: ogImage,
+        width: 1200,
+        height: 630,
+        alt: "Erga Wanda Afriza: IT Developer di RDS Group",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description:
+      "IT Developer di RDS Group, backend Golang & Laravel, frontend React & Vue, AI/ML.",
+    images: [ogImage],
   },
 };
 

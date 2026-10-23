@@ -29,8 +29,8 @@ const KEMHAN_SYSTEMS = [
 ];
 
 const CREDS = [
-  { label: "S.Kom — IPK 3.23 / 4.00", org: "Universitas Darma Persada", Icon: FiAward },
-  { label: "Maganghub Kemnaker", org: "Full Stack Developer — LSP CoachPro", Icon: FiShield },
+  { label: "S.Kom · IPK 3.23 / 4.00", org: "Universitas Darma Persada", Icon: FiAward },
+  { label: "Maganghub Kemnaker", org: "Full Stack Developer · LSP CoachPro", Icon: FiShield },
   { label: "Riset NLP & Machine Learning", org: "Skripsi Naive Bayes · riset BERT", Icon: FiZap },
 ];
 
@@ -114,7 +114,7 @@ export const DeveloperBentoGrid: React.FC<DeveloperBentoGridProps> = ({
           index="01"
           title="Rekam jejak & telemetri"
           subtitle="Sistem yang berjalan di produksi, lengkap dengan angka operasional nyata dan potongan kode sumbernya."
-          meta="Data langsung"
+          meta="Data Operasional"
         />
 
         <Reveal className="bento ledger">
@@ -124,11 +124,11 @@ export const DeveloperBentoGrid: React.FC<DeveloperBentoGridProps> = ({
               <div className="row row--tight">
                 <span className="chip chip--ink">Unggulan</span>
                 <span className="chip">
-                  <span className="chip__dot chip__dot--live" aria-hidden="true" />
+                  <span className="chip__dot" aria-hidden="true" />
                   Produksi
                 </span>
               </div>
-              <span className="mono">2025 — 2026</span>
+              <span className="mono">2025 - 2026</span>
             </div>
 
             <h3 className="display-l ledger__title">
